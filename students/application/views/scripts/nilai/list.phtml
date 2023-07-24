@@ -1,0 +1,62 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-content border-top-danger">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">NIM</div>
+			<div class="col-sm-8">: <?php echo $this->nim;?></div>
+			<div class="col-sm-4">Nama Mahasiswa</div>
+			<div class="col-sm-8">: <?php echo $this->namamhs;?></div>
+		</div>
+	</div>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbkur" class="table table-bordered table-hover">
+			<?php foreach ($this->listPer as $dtPer){ ?>
+			<tr>
+				<th colspan="12"><strong>Periode Akademik <?php echo $dtPer;?></strong></th>
+			</tr>
+			<tr>
+				<th>No</th>
+				<th>Kode</th>
+				<th>Mata Kuliah</th>
+				<th>SKS Default</th>
+				<th>SKS Diambil</th>
+				<th>Nilai Huruf</th>
+				<th>Angka Mutu</th>
+				<th>Detil</th>
+				<th>Status</th>
+			</tr>
+			<?php $j=1;foreach ($this->listNilai as $dataNilai) { ?>
+			<?php if($dataNilai['kd_periode']==$dtPer){ ?>
+			<?php $arrIndeks=explode('/', $dataNilai['index']); ?>
+			<tr>
+				<td><?php echo $j;?></td>
+				<td><?php echo $dataNilai['kode_mk'];?></td>
+				<td><?php echo $dataNilai['nm_mk'];?></td>
+				<?php $sks=$dataNilai['sks_tm']+$dataNilai['sks_prak']+$dataNilai['sks_prak_lap']+$dataNilai['sks_sim']; ?>
+				<td align="center"><?php echo $sks;?></td>
+				<?php $sks_taken=$sks-$dataNilai['sks_deducted']; ?>
+				<td align="center"><?php echo $sks_taken;?></td>
+				<td align="center"><?php echo $arrIndeks[0];?></td>
+				<td align="center"><?php echo floatval($arrIndeks[1]);?></td>
+				<td align="center">
+					<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/nilai/detil?id=<?php echo $dataNilai['kd_kuliah'];?>')"><i class="fa fa-list"></i></button>
+				</td>
+				<?php 
+					if($dataNilai['status']==0){
+						$st="BELUM FIX";
+					}elseif ($dataNilai['status']==1){
+						$st="FIX";
+					}else{
+						$st="TUNDA";
+					}
+				?>
+				<td align="center"><?php echo $st;?></td>
+			</tr>
+			<?php $j++;}}} ?>
+		</table>
+	</div>
+</div>

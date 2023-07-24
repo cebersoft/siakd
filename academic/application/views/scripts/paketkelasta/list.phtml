@@ -1,0 +1,44 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Paket Kelas TA</h3>
+	</div>
+	<div class="box-body">
+		<div class="col-md-6">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Jenis Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->jns_kelas;?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+		</div>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbkls" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>NO</th>
+						<th>SMT</th>
+						<th>KODE MK</th>
+						<th>NAMA MK</th>
+						<th>NAMA DOSEN</th>
+						<th>NAMA KELAS</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listPaketTA as $dataPkt) { ?>
+					<tr>
+						<td><?php echo $i; ?></td>
+						<td><?php echo $dataPkt['smt_def'];?></td>
+						<td><?php echo $dataPkt['kode_mk']; ?></td>
+						<td><?php echo $dataPkt['nm_mk']; ?></td>
+						<td><?php echo $dataPkt['nm_dosen']; ?></td>
+						<td><?php echo $dataPkt['nm_kelas']; ?></td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,92 @@
+<STYLE type=text/css> 
+TD {
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; FONT-SIZE: 10px
+}
+TH {
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; FONT-SIZE: 10px
+}
+</STYLE>
+ 
+<STYLE type=text/css> 
+.style1 {
+	FONT-SIZE: 18px; FONT-WEIGHT: bold
+}
+.style2 {
+	FONT-SIZE: 10px
+}
+.style3 {
+	FONT-SIZE: 10px
+}
+.style6 {
+	font-size: 12;
+	font-weight: bolder;
+}
+.style7 {font-size: 9px}
+</STYLE>
+<?php echo $this->render('mhsbiaya/kop.phtml');?>
+<TABLE style="width: 100%;">
+  <TBODY>
+  <TR>
+    <TD colspan="4" align="center"><strong><a style="font-size: 16px;">BUKTI PEMBAYARAN</a></strong></TD>
+  </TR>
+  <TR>
+    <TD colspan="4" align="center">No. Bukti: <?php echo $this->id;?></TD>
+  </TR>
+  <TR>
+    <TD colspan="4">
+      <hr color="#000000">
+	</TD>
+  </TR>
+  <TR>
+    <TD>Telah Diterima dari, </TD>
+    <TD></TD>
+    <TD></TD>
+  </TR>
+  <TR>
+    <TD>Nama</TD>
+    <TD>:</TD>
+    <TD colSpan="4"><?php echo $this->nm;?></TD>
+  </TR>
+  <TR>
+    <TD width="20%">NIM </TD>
+    <TD>:</TD>
+    <TD colspan="4"><?php echo $this->nim;?></TD>
+    </TR>
+  <TR>
+    <TD>Prodi / Angkatan </TD>
+    <TD>:</TD>
+    <TD colSpan="4"><?php echo $this->nm_prd;?> / <?php echo $this->akt;?></TD>
+  </TR>
+  <TR>
+    <TD colSpan="6">
+      <HR color=#000000>
+    </TD>
+  </TR>
+</table>
+Untuk Pembayaran
+<table  style="width: 100%" border="1">
+	<thead align="center">
+		<tr>
+			<th>Term Pembayaran</th>
+			<th>Tanggal</th>
+			<th width="25%">Via</th>
+			<th width="10%">Jumlah</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><?php echo $this->term; ?></td>
+			<td align="center"><?php echo $this->tgl; ?></td>
+			<td align="center"><?php echo $this->via; ?></td>
+			<td align="right"><?php echo $this->nom; ?></td>
+		</tr>
+	</tbody>
+</table>
+<table style="width: 100%; border-bottom: double;" border="1">
+	<tr>
+		<td colspan="3" align="center"><strong>Terbilang : <i><?php echo $this->terbilang;?></i></strong></td>
+	</tr>
+	<tr>
+		<td align="center" colspan="3"><strong>Bandung, <?php echo $this->time_cetak;?></strong><br><br><br><br><br><br>Keuangan Mahasiswa</td>
+	</tr>
+</table>

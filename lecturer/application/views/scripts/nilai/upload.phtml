@@ -1,0 +1,62 @@
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Upload Nilai Mahasiswa</h3>
+</div>
+<div class="inqbox-content col-sm-12">
+	<div>
+		<h5 class="alert alert-info">
+			<i class="icon fa fa-info-circle"></i>
+			<ul>
+				<li>Klik pada tombol "Generate Template" untuk mendapatkan daftar nilai mahasiswa dalam bentuk file excel</li>
+				<li>Pada file excel yang sudah ter-download, edit nilai-nilai mahasiswa pada sel yang berwarna abu-abu saja. Adapaun NIM, angkatan dan nama mahasiswa tidak perlu diubah-ubah</li>
+				<li>Setelah pengeditan selesai, simpan perubahan file, klik tombol pilih file, kemudian cari file yang sudah diedit tadi, kemudian klik tombol upload</li>
+			</ul>
+		</h5>
+	</div>
+	<?php if($this->allowInput!=1){?>
+	<h5 class="alert alert-danger"><i class="icon fa fa-warning"></i>&nbsp;&nbsp;Anda tidak dapat mengentri/mengubah nilai di luar jadwal entri nilai. Silakan hubungi Administrator!</h5>
+	<?php }else{?>
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Nama Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->nm_kelas." (".$this->jns_kelas.")";?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn;?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+			<div>
+				<form class="form-horizontal" method="post" id="frm" enctype="multipart/form-data">
+					<div class="box-body">
+						<div class="form-group">
+							<label class="col-sm-4 control-label">Template Nilai</label>
+							<div class="col-sm-8">
+								<button type="button" onclick="nav('<?php echo $this->baseUrl;?>/nilai/export?id=<?php echo $this->kd_paket_kelas?>')" class="btn btn-success col-sm-6">Generate Template</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label">File Nilai</label>
+							<div class="col-sm-8">
+								<input type="file" id="fileToUpload" name="fileToUpload" accept="application/vnd.ms-excel" >
+							</div>
+						</div>
+						<div><?php echo $this->msg;?></div>
+						<div class="box-footer">
+							<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+							<button type="button" id="upload" class="btn btn-primary pull-right col-sm-2">Upload</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<?php } ?>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+$('#upload').on('click', function() {
+  ajaxUpload('fileToUpload','<?php echo $this->baseUrl;?>','/ajax/uplnlm');
+});
+</script>

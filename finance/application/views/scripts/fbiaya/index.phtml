@@ -1,0 +1,52 @@
+<div class="table-header">
+	Daftar Biaya Periodik Per Prodi dan Angkatan
+</div>
+<div class="box  box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbl" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th class="center" width="5%">NO</th>
+						<th class="center" width="20%">KODE PROGRAM STUDI</th>
+						<th class="center">PROGRAM STUDI</th>
+						<th class="center" width="15%">Angkatan</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listProdi as $dataProdi) { ?>
+					<tr>
+						<td><?php echo $i; ?></td>
+						<td><?php echo $dataProdi['kd_prodi'];?></td>
+						<td><?php echo $dataProdi['nm_prodi']; ?></td>
+						<form id="frm<?php echo $i;?>" method="post">
+							<td align="center">
+								<input type="hidden" id="prd<?php echo $i;?>" value="<?php echo $dataProdi['kd_prodi'];?>">
+								<select id="akt<?php echo $i;?>" class="form-control">
+									<?php foreach ($this->listAngkt as $dtAkt) { ?>
+									<option value="<?php echo $dtAkt['id_angkatan'];?>" ><?php echo $dtAkt['id_angkatan'];?></option>
+									<?php } ?>
+								</select>
+								<button id="sb" type="button" class="btn btn-primary btn-sm" sb value="<?php echo $i;?>"><i class="fa fa-eye"></i></button>
+							</td>
+						</form>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/tabel.js"></script>
+<script>
+	$(function(){tabel('tbl')});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("[sb]").on('click',(function() {
+	 x=$(this).val();
+	 ajaxSubmit("frm"+x,"<?php echo $this->baseUrl;?>","/ajax/showfbiaya?frm="+x,"/fbiaya/list","s");
+	  return false;
+	}));
+</script>

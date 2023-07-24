@@ -1,0 +1,113 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Kelas</h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Periode Akademik</label>
+				<div class="col-sm-4">
+					<input type="text"  class="form-control" value="<?php echo $this->kd_periode;?>" readonly>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Kurikulum</label>
+				<div class="col-sm-4">
+					<select class="form-control" id="kur">
+						<?php foreach ($this->listKurikulum as $dt) { ?>
+						<option value="<?php echo $dt['kd_kurikulum']?>"><?php echo $dt['nm_kurikulum']?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Kode Dosen</label>
+				<div class="col-sm-4">
+					<input type="hidden" id="per" value="<?php echo $this->kd_periode;?>">
+					<input type="hidden" id="jns" value="<?php echo $this->jns;?>">
+					<input type="text" id="id_ajar" style="display: none;">
+					<input type="text" class="form-control" id="kd_dsn" placeholder="klik untuk memilih dosen dan mata kuliah" onclick="hbox('<?php echo $this->baseUrl;?>','helper/ajar',new Array('id_ajar','kd_dsn','nm_dsn','kd_mk','nm_mk'),new Array('kur'))" readonly>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nama Dosen</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="nm_dsn" placeholder="terisi otomatis dari pilihan dosen-mata kuliah" readonly>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Kode Mata Kuliah</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="kd_mk" placeholder="terisi otomatis dari pilihan dosen-mata kuliah" readonly>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nama Mata Kuliah</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="nm_mk" placeholder="terisi otomatis dari pilihan dosen-mata kuliah" readonly>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Rencana Tatap Muka</label>
+				<div class="col-sm-4">
+					<input type="number" class="form-control" id="ttpmk" placeholder="rencana tatap muka" min="0" max="30" step="1">
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+				<button type="submit" class="btn btn-primary pull-right col-sm-2">Tambah</button>
+			</div>
+		</div>
+	</form>
+	<div class="box-body">
+		<div class="table-responsive">
+			<h5 class="callout callout-info"><i class="icon fa fa-info-circle"></i>&nbsp;&nbsp;Klik Pada kode Mata Kuliah Untuk mengatur parameter nilai Dosen yang bersangkutan</h5>
+			<table id="tbkls" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>NO</th>
+						<th>SMT</th>
+						<th>KODE MK</th>
+						<th>NAMA MK</th>
+						<th>NAMA DOSEN</th>
+						<th>RENCANA TM</th>
+						<th>KATEGORI</th>
+						<th>PAKET KELAS</th>
+						<th>AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listKelas as $dataKls) { ?>
+					<tr>
+						<td><?php echo $i; ?></td>
+						<td><?php echo $dataKls['smt_def'];?></td>
+						<td><a onclick="nav('<?php echo $this->baseUrl?>/kelas/detil?id=<?php echo $dataKls['kd_kelas']; ?>')" style="cursor: pointer;"><?php echo $dataKls['kode_mk']; ?></a></td>
+						<td><?php echo $dataKls['nm_mk']; ?></td>
+						<td><?php echo $dataKls['nm_dosen']; ?></td>
+						<td align="center"><?php echo $dataKls['tatap_muka'];?></td>
+						<td><?php echo $dataKls['jns_kelas']; ?></td>
+						<td align="center">
+							<button id="sb" type="button" class="btn btn-info btn-xs" onclick="nav('<?php echo $this->baseUrl?>/paketkelas/list?kd=<?php echo $dataKls['kd_kelas']; ?>')"><i class="fa fa-eye"></i></button>
+						</td>
+						<td align="center">
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus kelas ini? <strong><?php echo str_replace("'", "\'", $dataKls['nm_mk']."-".$dataKls['nm_dosen']);?></strong>','<?php echo $this->baseUrl;?>','/ajax2/delkls',new Array('<?php echo $dataKls['kd_kelas'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbkls',true,true,true,true,true,false);});</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax2/inskls","/kelas/list?new=","u");
+	  return false;
+	});
+</script>

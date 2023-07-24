@@ -1,0 +1,26 @@
+<div class="inqbox-content">
+	<table class="table table-bordered table-hover">
+		<tr align="center">
+			<td></td>
+			<td><strong>Ujian Tengah Semester</td>
+			<td><strong>Ujian Akhir Semester</strong></td>
+		</tr>
+		<tr align="center">
+			<td><strong>Kartu Ujian</strong></td>
+			<td>
+				<?php if($this->allowUts==1){ ?>
+				<a class="btn btn-primary" href="<?php echo $this->baseUrl;?>/ujian/kartu?tp=uts">Download</a>
+				<?php }else{ ?>
+				Belum memasuki kalender UTS
+				<?php } ?>
+			</td>
+			<td>
+				<?php if($this->allowUas==1){ ?>
+				<a class="btn btn-primary" href="<?php echo $this->baseUrl;?>/ujian/kartu?tp=uas">Download</a>
+				<?php }else{ ?>
+				Belum memasuki kalender UAS
+				<?php } ?>
+			</td>
+		</tr>
+	</table>
+</div>

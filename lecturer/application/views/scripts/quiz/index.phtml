@@ -1,0 +1,158 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data Quiz</h3>
+</div>
+<div class="inqbox-content">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Jenis Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->jns_kelas;?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn." (".$this->kd_dsn.")";?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+			<div class="col-sm-4">Nama Kelas/Kelompok</div>
+			<div class="col-sm-8">: <?php echo $this->nm;?></div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Minggu</label>
+					<div class="col-sm-10">
+						<input type="hidden" id="kd_paket_kelas" value="<?php echo $this->kd_paket_kelas;?>">
+						<input type="hidden" id="id_kel" value="<?php echo $this->id_kel;?>">
+						<select class="form-control" id="rps">
+							<?php foreach($this->listRps as $dtRps){ ?>
+							<option value="<?php echo $dtRps['id_rps_detil'];?>">(<?php echo $dtRps['minggu'];?>) <?php echo substr($dtRps['kemampuan_akhir'],0,40);?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Parameter Nilai</label>
+					<div class="col-sm-10">
+						<select class="form-control" id="prm">
+							<option value="P1">P1</option>
+							<option value="P2">P2</option>
+							<option value="P3">P3</option>
+							<option value="P4">P4</option>
+							<option value="UTS">UTS</option>
+							<option value="P5">P5</option>
+							<option value="P6">P6</option>
+							<option value="P7">P7</option>
+							<option value="P8">P8</option>
+							<option value="UAS">UAS</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Nama Quiz</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="nm" placeholder="nama quiz">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Tanggal Quiz</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="tgl" placeholder="tanggal quiz" readonly>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Waktu Mulai</label>
+					<div class="col-sm-10">
+						<div class="bootstrap-timepicker">
+							<input type="text" id="time1" class="form-control timepicker" placeholder="waktu mulai">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Waktu Selesai</label>
+					<div class="col-sm-10">
+						<div class="bootstrap-timepicker">
+							<input type="text" id="time2" class="form-control timepicker" placeholder="waktu selesai">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="box-footer col-sm-6">
+					<button type="submit" class="btn btn-primary pull-right col-sm-4" id="btnsbm">Tambah</button>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-4" id="btnres">Reset</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="table-responsive">
+		<table id="tbkls" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th width="5%">NO</th>
+					<th width="8%">MINGGU</th>
+					<th>QUIZ</th>
+					<th width="20%">KONTRIBUTOR</th>
+					<th width="12%">LOGIN QUIZ</th>
+					<th width="8%">SOAL</th>
+					<th width="8%">AKSI</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;foreach ($this->listQuiz0 as $dataQuiz0) { ?>
+				<tr>
+					<td><?php echo $i; ?></td>
+					<td><?php echo $dataQuiz0['minggu']; ?></td>
+					<td>
+						<strong>Tanggal Quiz </strong> : <?php echo $dataQuiz0['published_fmt']; ?><br>
+						<strong>Waktu Quiz </strong> : <?php echo $dataQuiz0['start_time'].' s/d '.$dataQuiz0['end_time']; ?><br>
+						<strong>Nama Quiz</strong> : <?php echo $dataQuiz0['nama_quiz']; ?><br>
+						<strong>Parameter</strong> : <?php echo $dataQuiz0['param_nilai']; ?>
+					</td>
+					<td align="center">
+						<?php echo $dataQuiz0['nm_dosen']." (".$dataQuiz0['created'].")"; ?>
+					</td>
+					<td align="center">
+						<button type="button" class="btn btn-primary btn-sm" onclick="nav('<?php echo $this->baseUrl;?>/quiz/detil?id=<?php echo $dataQuiz0['id_quiz0'];?>')"><?php echo $dataQuiz0['n_quiz_mhs']; ?></i></button>
+					</td>
+					<td align="center">
+						<button type="button" class="btn btn-primary btn-sm" onclick="nav('<?php echo $this->baseUrl;?>/quiz/index2?id=<?php echo $dataQuiz0['id_quiz0'];?>')"><?php echo $dataQuiz0['n_quiz1'];?></button>
+					</td>
+					<td align="center">
+						<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus data ini? ','<?php echo $this->baseUrl;?>','/ajax/delquiz0',new Array('<?php echo $dataQuiz0['id_quiz0'];?>'))"><i class="fa fa-remove"></i></button>
+					</td>
+				</tr>
+				<?php $i++; } ?>
+		</table>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/moment/moment.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<script>
+	$(function () {
+	  $('#tgl').datepicker({ format: 'dd MM yyyy', autoclose:true, todayHighlight:true});
+	  $(".timepicker").timepicker({
+	    showInputs: false,
+	    showMeridian:false,
+	    minuteStep:5
+	  });
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","","/ajax/insquiz0","/quiz/index?id=<?php echo $this->url;?>&new=","u");
+	  return false;
+	});
+</script>

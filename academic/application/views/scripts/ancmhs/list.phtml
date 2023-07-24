@@ -1,0 +1,59 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+    <div class="box-body">
+        <div class="table-responsive">
+            <table id="tbroom" class="table table-bordered table-hover">
+                <thead align="center">
+                    <tr>
+                        <th>JUDUL</th>
+                        <th width="18%">KATEGORI</th>
+                        <th width="8%">STATUS</th>
+                        <th width="15%">DATE EXPIRED</th>
+                        <th width="5%">LOG</th>
+                        <th width="5%">DETIL</th>
+                        <th width="10%">AKSI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i=1;foreach ($this->listAncmhs as $data) { ?>
+                    <tr>
+                        <td><?php echo $data['judul']; ?></td>
+                        <td><?php echo $data['announcement_kategori']; ?></td>
+                        <?php 
+                            if($data['status'] == 1){
+                                $color = 'bg-green';
+                                $text = 'Published';
+                            }else{
+                                $color = 'bg-red';
+                                $text = 'Draft';
+                            }
+                        ?>
+                        <td align="center"><span class="label <?php echo $color; ?>"><?php echo $text; ?></span></td>
+                        <td><?php echo $data['date_expired_fmt']; ?></td>
+                        <td align="center">
+                        <?php 
+                            $info="Created : ".$data['nm_user_created']." (".$data['date_created']." - ".$data['time_created'].")".
+                                  "<br> Edited : ".$data['nm_user_edited']." (".$data['date_edited']." - ".$data['time_edited'].")"
+                            ;
+                        ?>
+                            <a class="label label-primary" href="#" data-html="true" data-toggle="tooltip" title="<?php echo $info;?>"><i class="fa fa-info-circle"></i></a>
+                        </td>
+                        <td align="center">
+                            <button type="button" class="btn btn-info btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/ancmhs/detil?id=<?php echo $data['id_announcement_mhs'];?>')"><i class="fa fa-eye"></i></button>
+                        </td>
+                        <td align="center">
+                            <button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/ancmhs/edit?id=<?php echo $data['id_announcement_mhs'];?>')"><i class="fa fa-pencil"></i></button>
+                            <button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus pengumuman ini ? <strong><?php echo str_replace("'", "\'", $data['judul']);?></strong>','<?php echo $this->baseUrl;?>','/ancmhs/adel',new Array('<?php echo $data['id_announcement_mhs'];?>'))"><i class="fa fa-remove"></i></button>
+                        </td>
+                    </tr>
+                    <?php $i++; } ?>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbroom',true,true,true,true,true,false);});</script>
+<script>$(document).ready(function(){$('[data-toggle="tooltip"]').tooltip();});</script>

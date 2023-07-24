@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title><?php echo $this->title; ?></title>
+		<link rel="shortcut icon" href="<?php echo $this->baseUrl;?>/image/png?url=public/img/logo.png">
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/dist/css/AdminLTE.min.css">
+		<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/iCheck/square/blue.css">
+	</head>
+	<body class="" background="<?php echo $this->baseUrl;?>/image/png?url=public/img/bg1.png">
+		<div class="login-box">
+			<div class="login-logo">
+				<img alt="" src="<?php echo $this->baseUrl;?>/image/png?url=public/img/logo.png" width="90px">
+			</div>
+			<h4 align="center" class="">
+				<strong><?php echo strtoupper($this->nm_pt);?></strong>
+			</h4>
+			<div class="login-box-body">
+				<p class="login-box-msg">Sign in Sistem Informasi Akademik</p>
+				<form method="post">
+					<div class="form-group has-feedback">
+						<input type="text" class="form-control" placeholder="Username" name="txtUsername" autofocus="autofocus">
+						<span class="glyphicon glyphicon-user form-control-feedback"></span>
+					</div>
+					<div class="form-group has-feedback">
+						<input type="password" class="form-control" placeholder="Password" name="txtPass">
+						<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+					</div>
+					<div class="form-group has-feedback">
+						<select class="form-control" id="tpl" name="tpl" >
+							<option value="purple" selected="selected">Default Template</option>
+							<option value="blue">Azure</option>
+							<option value="blue-light">Azure (Light)</option>
+							<option value="black">Black & White</option>
+							<option value="black-light">Black & White (Light)</option>
+							<option value="green">Leaf</option>
+							<option value="green-light">Leaf (Light)</option>
+							<option value="purple">Violet</option>
+							<option value="purple-light">Violet (Light)</option>
+							<option value="red">Red</option>
+							<option value="red-light">Red (Light)</option>
+							<option value="yellow">Yellow</option>
+							<option value="yellow-light">Yellow (Light)</option>
+						</select>
+					</div>
+					<div class="row">
+						<div class="col-xs-8">
+							<div>
+								<label><?php echo $this->message; ?></label>
+							</div>
+						</div>
+						<div class="col-xs-4">
+							<button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+						</div>
+					</div>
+				</form>
+				<p class="text-muted">copyright &copy; 2016 <?php echo $this->nickname;?></p>
+			</div>
+		</div>
+	</body>
+</html>

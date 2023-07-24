@@ -1,0 +1,125 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/dist/css/AdminLTE.min.css">
+<div class="box box-info">
+	<div class="box-body">
+        	<ul class="timeline timeline-inverse">
+        		<li class="time-label">
+        			<span class="bg-green"><?php echo $this->date_crt;?></span>
+	        	</li>
+        		<li>
+        		<i class="fa fa-bullhorn bg-blue"></i>    
+        			<div class="timeline-item">
+        				<span class="time"><i class="fa fa-clock-o"></i><?php echo $this->time_crt;?></span>    
+	        			<h3 class="timeline-header"><a href="#"><?php echo $this->judul;?></a><small> (dibuat oleh : <?php echo $this->usr_crt;?>)</small></h3>
+        				<div class="timeline-body">
+        					<?php echo $this->konten;?>
+    					</div>
+    					<div class="timeline-footer">
+    						<a class="btn btn-primary btn-xs">Edit : <?php echo $this->usr_edt." ".$this->date_edt." ".$this->time_edt;?></a>
+	    					<a class="btn btn-danger btn-xs">Expired : <?php echo $this->date_exp;?></a>
+    					</div>
+    				</div>
+	    		</li>
+    		</ul>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Program Studi</label>
+				<div class="col-sm-10">
+					<input type="hidden" id="id" value="<?php echo $this->id;?>">
+					<select id="prd" class="form-control select2" name="prd" multiple="multiple" data-placeholder="pilih prodi" sel-2>
+						<?php foreach ($this->listProdi as $dataProdi) { ?>
+						<option value="<?php echo $dataProdi['kd_prodi']; ?>"><?php echo $dataProdi['kd_prodi']." : ".$dataProdi['nm_prodi']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Angkatan</label>
+				<div class="col-sm-10">
+					<select id="akt" class="form-control select2" name="akt" multiple="multiple" data-placeholder="pilih angkatan" sel-2>
+						<?php foreach ($this->listAkt as $dataAkt) { ?>
+						<option value="<?php echo $dataAkt['id_angkatan']; ?>"><?php echo $dataAkt['id_angkatan']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Dosen Wali</label>
+				<div class="col-sm-10">
+					<select id="dw" class="form-control select2" name="dw" multiple="multiple" data-placeholder="pilih dosen wali" sel-2>
+						<?php foreach ($this->listDw as $dataDw) { ?>
+						<option value="<?php echo $dataDw['kd_dosen']; ?>"><?php echo $dataDw['nm_dosen']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="box-footer col-sm-12">
+				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+				<button type="submit" class="btn btn-primary pull-right col-sm-2">Tambah</button>
+			</div>
+		</div>
+	</form>
+	<div class="box-body">
+		<div class="table-responsive col-sm-3">
+			<table id="tba" class="table table-bordered table-hover">
+				<tr>
+					<th>Angkatan</th>
+					<th width="40%">Aksi</th>
+				</tr>
+				<?php foreach ($this->listAncAkt as $dataAkt) { ?>
+				<tr>
+					<td><?php echo $dataAkt['id_angkatan'];?></td>
+					<td align="center">
+						<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus angkatan ini <strong><?php echo str_replace("'", "\'", $dataAkt['id_angkatan']);?></strong>','<?php echo $this->baseUrl;?>','/ancmhs/adel21',new Array('<?php echo $dataAkt['id_announcement_angkatan'];?>'))"><i class="fa fa-remove"></i></button>
+					</td>
+				</tr>
+				<?php } ?>
+			</table>
+		</div>
+		<div class="table-responsive col-sm-4">
+			<table id="tbb" class="table table-bordered table-hover">
+				<tr>
+					<th>Program Studi</th>
+					<th width="30%">Aksi</th>
+				</tr>
+				<?php foreach ($this->listAncPrd as $dataPrd) { ?>
+				<tr>
+					<td><?php echo $dataPrd['nm_prodi'];?></td>
+					<td align="center">
+						<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus prodi ini <strong><?php echo str_replace("'", "\'", $dataPrd['nm_prodi']);?></strong>','<?php echo $this->baseUrl;?>','/ancmhs/adel22',new Array('<?php echo $dataPrd['id_announcement_prodi'];?>'))"><i class="fa fa-remove"></i></button>
+					</td>
+				</tr>
+				<?php } ?>
+			</table>
+		</div>
+		<div class="table-responsive col-sm-5">
+			<table id="tbc" class="table table-bordered table-hover">
+				<tr>
+					<th>Dosen Wali</th>
+					<th width="20%">Aksi</th>
+				</tr>
+				<?php foreach ($this->listAncDw as $dataDw) { ?>
+				<tr>
+					<td><?php echo $dataDw['nm_dosen'];?></td>
+					<td align="center">
+						<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus dosen wali ini <strong><?php echo str_replace("'", "\'", $dataDw['nm_dosen']);?></strong>','<?php echo $this->baseUrl;?>','/ancmhs/adel23',new Array('<?php echo $dataDw['id_announcement_dw'];?>'))"><i class="fa fa-remove"></i></button>
+					</td>
+				</tr>
+				<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.full.min.js"></script>
+<script>
+	$("[sel-2]").select2();
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+    $("#frm").submit(function() {
+      ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ancmhs/ains2","/ancmhs/detil?id=<?php echo $this->id;?>&new=","u");
+      return false;
+    });
+</script>

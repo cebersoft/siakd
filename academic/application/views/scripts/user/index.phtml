@@ -1,0 +1,56 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box  box-info">
+	<div class="box-body">
+		<h5 class="callout callout-info">
+			<i class="icon fa fa-info"></i>
+			&nbsp;&nbsp;User dengan prioritas SUPERADMIN dapat memiliki otoritas membuatkan dan menghapus akses untuk setiap user baru 
+		</h5>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbuser" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th width="15%">USERNAME</th>
+						<th>NAMA USER</th>
+						<th width="18%">EMAIL</th>
+						<th width="10%">SUPERADMIN?</th>
+						<th width="10%">PASSWORD</th>
+						<th width="10%">AKSES</th>
+						<th width="10%">AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listUserAcc as $dataUser) { ?>
+					<?php 
+						if ($dataUser['superadmin']=='f'){
+							$superadmin="TIDAK";
+						}else{
+							$superadmin="YA";
+						} 
+					?>
+					<tr>
+						<td><?php echo $dataUser['username']; ?></td>
+						<td><?php echo $dataUser['nama']; ?></td>
+						<td><?php echo $dataUser['email']; ?></td>
+						<td align="center"><?php echo $superadmin;?></td>
+						<td align="center">
+							<button type="button" class="btn btn-info btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/user/password?id=<?php echo $dataUser['username'];?>')"><i class="fa fa-eye"></i></button>
+						</td>
+						<td align="center">
+							<button type="button" class="btn btn-info btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/userakses/index?id=<?php echo $dataUser['username'];?>')"><i class="fa fa-eye"></i></button>
+						</td>
+						<td align="center">
+							<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/user/edit?id=<?php echo $dataUser['username'];?>')"><i class="fa fa-pencil"></i></button>
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus user ini? <strong><?php echo str_replace("'", "\'", $dataUser['username']);?></strong>','<?php echo $this->baseUrl;?>','/ajax4/deluser',new Array('<?php echo $dataUser['username'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbuser',true,true,true,true,true,false);});</script>

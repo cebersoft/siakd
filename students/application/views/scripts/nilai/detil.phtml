@@ -1,0 +1,134 @@
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data Nilai</h3>
+</div>
+<div class="inqbox-content">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Nama Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->nm_kelas." (".$this->jns_kelas.")";?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn;?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+			<div class="col-sm-4">Nilai Mutu/Bobot</div>
+			<div class="col-sm-8">: <?php echo $this->index;?></div>
+			<div class="col-sm-12 label label-<?php echo $this->label;?>">STATUS: <?php echo $this->status;?></div>
+		</div>
+	</div>
+</div>
+<div class="inqbox-content col-sm-12">
+	<div class="col-sm-6">
+		<div class="table-responsive">
+			<h4>Komponen Nilai</h4>
+			<table id="tbprm" class="table table-bordered table-hover">
+				<tr>
+					<th width="35%">Nama Parameter</th>
+					<th width="30%">Persentase (%)</th>
+					<th width="35%">Nilai</th>
+				</tr>
+				<tr>
+					<td><?php echo $this->nm_p1;?></td>
+					<td align="right"><?php echo $this->p_p1;?>%</td>
+					<td align="right"><?php echo $this->p1;?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->nm_p2;?></td>
+					<td align="right"><?php echo $this->p_p2;?>%</td>
+					<td align="right"><?php echo $this->p2;?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->nm_p3;?></td>
+					<td align="right"><?php echo $this->p_p3;?>%</td>
+					<td align="right"><?php echo $this->p3;?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->nm_p4;?></td>
+					<td align="right"><?php echo $this->p_p4;?>%</td>
+					<td align="right"><?php echo $this->p4;?></td>
+				</tr>
+				<?php if(!$this->per_mulai){?>
+				<tr>
+					<td>UTS</td>
+					<td align="right"><?php echo $this->p_uts;?>%</td>
+					<td align="right"><?php echo $this->uts;?></td>
+				</tr>
+				<?php }?>
+				<tr>
+					<td><?php echo $this->nm_p5;?></td>
+					<td align="right"><?php echo $this->p_p5;?>%</td>
+					<td align="right"><?php echo $this->p5;?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->nm_p6;?></td>
+					<td align="right"><?php echo $this->p_p6;?>%</td>
+					<td align="right"><?php echo $this->p6;?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->nm_p7;?></td>
+					<td align="right"><?php echo $this->p_p7;?>%</td>
+					<td align="right"><?php echo $this->p7;?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->nm_p8;?></td>
+					<td align="right"><?php echo $this->p_p8;?>%</td>
+					<td align="right"><?php echo $this->p8;?></td>
+				</tr>
+				<?php if(!$this->per_mulai){?>
+				<tr>
+					<td>UAS</td>
+					<td align="right"><?php echo $this->p_uas;?>%</td>
+					<td align="right"><?php echo $this->uas;?></td>
+				</tr>
+				<?php }?>
+				<tr>
+					<td>Total</td>
+					<td align="right"><strong><?php echo $this->p_tot;?>%</strong></td>
+					<td align="center"><strong><?php echo $this->nilai_tot;?></strong></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div>
+			<h5 class="alert alert-info"><i class="icon fa fa-info"></i>&nbsp;&nbsp;Catatan Dosen : <?php echo $this->note;?></h5>
+			<?php if($this->per_mulai){?>
+			<div class="list-group">
+				<a class="list-group-item active">
+					<h4 class="list-group-item-heading">NO. REGISTRASI : <?php echo $this->noreg;?></h4>
+				</a>
+				<a class="list-group-item">
+					<h5 class="list-group-item-heading">PEMBIMBING : </h5>
+					<p class="list-group-item-text">
+						<?php echo $this->pemb1."<br>".$this->pemb2;?>
+					</p>
+				</a>
+				<a class="list-group-item">
+					<h4 class="list-group-item-heading">JUDUL : </h4>
+					<p class="list-group-item-text">
+						<?php echo $this->judul;?>
+					</p>
+				</a>
+			</div>
+			<?php }?>
+			<h4>Range Nilai</h4>
+			<table id="tbprm" class="table table-bordered table-hover">
+				<tr>
+					<th width="35%">Nilai</th>
+					<th width="30%">Huruf</th>
+					<th width="35%">Bobot</th>
+				</tr>
+				<?php foreach ($this->listAturan as $dtRange) { ?>
+				<tr align="center">
+					<td>&gt;= <?php echo $dtRange['nilai_min'];?></td>
+					<td><?php echo $dtRange['indeks'];?></td>
+					<td><?php echo $dtRange['bobot'];?></td>
+				</tr>
+				<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>

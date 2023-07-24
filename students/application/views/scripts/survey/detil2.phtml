@@ -1,0 +1,84 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	 <h5>Form Kuisioner</h5>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<div class="panel panel-primary">
+			<div class="panel-body">
+				<div class="col-sm-4">Dosen</div>
+				<div class="col-sm-8">: <?php echo $this->nm_dosen;?></div>
+				<div class="col-sm-4">Mata Kuliah</div>
+				<div class="col-sm-8">: <?php echo $this->nm_mk;?></div>
+				<div class="col-sm-4">Periode</div>
+				<div class="col-sm-8">: <?php echo $this->per;?></div>
+				<div class="col-sm-4">Program Studi</div>
+				<div class="col-sm-8">: <?php echo $this->prd;?></div>
+				<div class="col-sm-4">Kelas</div>
+				<div class="col-sm-8">: <?php echo $this->kls;?></div>
+			</div>
+		</div>
+		<form id="frm" method="post">
+		<input type="hidden" id="id_kul" value="<?php echo $this->id_kul;?>">
+		<input type="hidden" id="id_qui0" value="<?php echo $this->id_qui0;?>">
+		<table id="tbdwl" class="table table-bordered table-hover">
+			<thead align="center">
+			<tr>
+				<th width="5%">No</th>
+				<th width="60%">Pertanyaan</th>
+				<th>Jawaban</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php $n=1;foreach ($this->listQui1 as $dtQui1){?>
+			<tr>
+				<td><?php echo $n;?></td>
+				<td>
+					<strong><?php echo $dtQui1['nm_group'];?></strong><br>
+					<?php echo $dtQui1['question'];?>
+				</td>
+				<td>
+					<?php if($dtQui1['a_angka']=='t'){?>
+					<input type='radio'  class='v_<?php echo $dtQui1['id_qui1'];?>'  value='1' > [1] SANGAT TIDAK PUAS<br />
+					<input type='radio'  class='v_<?php echo $dtQui1['id_qui1'];?>'  value='2' > [2] TIDAK PUAS<br />
+					<input type='radio'  class='v_<?php echo $dtQui1['id_qui1'];?>'  value='3' > [3] CUKUP PUAS<br />
+					<input type='radio'  class='v_<?php echo $dtQui1['id_qui1'];?>'  value='4' > [4] PUAS<br />
+					<input type='radio'  class='v_<?php echo $dtQui1['id_qui1'];?>'  value='5' > [5] SANGAT PUAS
+					<input type="hidden" id="v_<?php echo $dtQui1['id_qui1'];?>">
+					<?php }else{?>
+					<textarea class="form-control" rows="10" id="v_<?php echo $dtQui1['id_qui1'];?>"></textarea>
+					<?php }?>
+				</td>
+			</tr>
+			<?php $n++;}?>
+			<tr>
+				<td colspan="3">
+					<div class="col-sm-12 col-sm-offset-2">
+				 		<button class="btn btn-primary" type="submit">KIRIM</button>
+				 	</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		</form>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  <?php foreach ($this->listQui1 as $dtQui1){?>
+	  <?php if($dtQui1['a_angka']=='t'){?>
+	  $("#v_<?php echo $dtQui1['id_qui1']?>").val($(".v_<?php echo $dtQui1['id_qui1'];?>:checked").val());
+	  <?php }?>
+	  <?php }?>
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/inssrv2","/survey/index?new=","u");
+	  return false;
+	});
+</script>

@@ -1,0 +1,108 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data Tugas</h3>
+</div>
+<div class="inqbox-content">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-2">Minggu</div>
+			<div class="col-sm-10">: <?php echo $this->minggu;?></div>
+			<div class="col-sm-2">Judul Tugas</div>
+			<div class="col-sm-10">: <?php echo $this->jdl;?></div>
+			<div class="col-sm-2">Instruksi Tugas</div>
+			<div class="col-sm-10">: <?php echo $this->knt;?></div>
+			<div class="col-sm-2">Diterbitkan</div>
+			<div class="col-sm-10">: <?php echo $this->tgl1;?></div>
+			<div class="col-sm-2">Deadline</div>
+			<div class="col-sm-10">: <?php echo $this->tgl2;?></div>
+			<div class="col-sm-2">Nama File</div>
+			<div class="col-sm-10">: <?php echo $this->file;?></div>
+			<div class="col-sm-2">Link</div>
+			<div class="col-sm-10">: <?php echo $this->link;?></div>
+			<div class="col-sm-2">Kontributor</div>
+			<div class="col-sm-10">: <?php echo $this->nm_dosen;?></div>
+			<div class="col-sm-2">Status Tugas</div>
+			<div class="col-sm-10">: <?php echo $this->status_tugas;?></div>
+		</div>
+	</div>
+	<?php if($this->allow=='f'){?>
+	<h5 class="alert alert-danger"><i class="icon fa fa-warning"></i>&nbsp;&nbsp;Anda tidak dapat mengerjakan tugas ini lagi, karena sudah terkirim / Sudah atau Belum Running</h5>
+	<?php }else{ ?>
+	<div class="panel-body">
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Respon</label>
+					<div class="col-sm-10">
+						<input type="hidden" id="id_tugas" value="<?php echo $this->id_tugas;?>">
+						<input type="hidden" id="kd_kuliah" value="<?php echo $this->kd_kuliah;?>">
+						<input type="text" class="form-control" id="rsp" placeholder="respon">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Link (Opsional)</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="link" placeholder="link">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">File Tugas (*.pdf, *.doc/x, *.xls/x, *.ppt/x) : Max : 20 Mb</label>
+					<div class="col-sm-10">
+						<input type="file" id="file2" name="file2" accept="application/pdf, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-powerpoint,  application/vnd.openxmlformats-officedocument.presentationml.presentation" required="required">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="box-footer col-sm-6">
+					<button type="submit" class="btn btn-primary pull-right col-sm-4" id="btnsbm">Kirim</button>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-4" id="btnres">Reset</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<?php } ?>
+	<div class="table-responsive">
+		<table id="tbkls" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th width="20%">RESPON</th>
+					<th>TUGAS DIKIRIM</th>
+					<th width="10%">NILAI</th>
+					<th width="10%">AKSI</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;$n=0;foreach ($this->listTugasMhs as $dataTugas) { ?>
+				<tr>
+					<td><?php echo $dataTugas['respon']; ?></td>
+					<td>
+						<strong>Nama File</strong> : <?php echo $dataTugas['nm_file']; ?><br>
+						<strong>Link</strong> : <a href="<?php echo $dataTugas['link']; ?>"><?php echo $dataTugas['link']; ?></a><br>
+						<strong>Terkirim</strong> : <?php echo $dataTugas['created']; ?>
+					</td>
+					<td align="center">
+						<?php echo number_format($dataTugas['nilai'],2,',','.'); ?>
+					</td>
+					<td align="center">
+						<?php 
+            					    $arrFile=explode(".",$dataTugas['nm_file']);
+        	    				    $ext=end($arrFile);
+	            				?>
+						<button type="button" class="btn btn-info btn-sm" onclick="nav('<?php echo $this->baseUrl;?>/image/anyfile?url=public/file/tugasmhs/<?php echo $dataTugas['id_tugas_mhs'].".".$ext?>&newname=<?php echo $dataTugas['nm_file'];?>')"><i class="fa fa-download"></i></button>
+					</td>
+				</tr>
+				<?php $i++; $n++;} ?>
+		</table>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form2.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmitUpload("frm",["file2"],"","/ajax/instugasmhs","/lms/tugasdetil?id=<?php echo $this->id_tugas;?>&kul=<?php echo $this->kd_kuliah;?>&a=<?php echo $this->a;?>&new=","u");
+	  return false;
+});
+</script>

@@ -1,0 +1,45 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Rencana Studi</h3>
+	</div>
+	<div class="box-body">
+		<div class="col-md-6">
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->per;?></div>
+			<div class="col-sm-4">NIM</div>
+			<div class="col-sm-8">: <?php echo $this->nim;?></div>
+			<div class="col-sm-4">Nama Mahasiswa</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mhs;?></div>
+			<div class="col-sm-4">Angkatan</div>
+			<div class="col-sm-8">: <?php echo $this->akt;?></div>
+			<div class="col-sm-4">Prodi</div>
+			<div class="col-sm-8">: <?php echo $this->prd;?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->kd_mk." - ".$this->nm_mk;?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn;?></div>
+			<div class="col-sm-4">SKS Default</div>
+			<div class="col-sm-8">: <?php echo $this->sks_def;?></div>
+			<form class="form-horizontal" method="post" id="frm">
+				<div class="form-group">
+					<input type="hidden" id="kd" value="<?php echo $this->kd;?>">
+					<label class="col-sm-4 control-label">SKS Diambil</label>
+					<div class="col-sm-8">
+						<input type="number" class="form-control" id="sks_take" placeholder="sks diambil" min="0" max="8" step="1" value="<?php echo $this->sks_taken;?>">
+					</div>
+				</div>
+				<div >
+					<button type="submit" class="btn btn-primary pull-right col-sm-2" id="btnsbm">Simpan</button>
+					<button type="reset" class="btn btn-default pull-left col-sm-2" id="btnres">Reset</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax3/updkrs","/krs/index?nim=<?php echo $this->nim;?>&per=<?php echo $this->per;?>&new=","u");
+	  return false;
+	});
+</script>

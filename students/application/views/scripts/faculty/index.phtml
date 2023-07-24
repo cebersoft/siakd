@@ -1,0 +1,52 @@
+<div class="row">
+	<?php foreach ($this->listDosen as $dtDosen) { ?>
+	<div class="col-lg-6">
+		<div class="contact-box">
+			<div class="col-sm-4">
+				<div class="text-center">
+					<img alt="image" class="media-object mw150" src="<?php echo $this->baseUrl;?>/image/jpg?url=public/file/dsn/foto/<?php echo $dtDosen['kd_dosen'];?>.jpg" onerror="this.src='<?php echo $this->baseUrl;?>/image/jpg?url=public/file/dsn/foto/default.jpg'" width="120px" height="160px">
+					<div class="m-t-xs font-bold">
+						<?php
+							if($dtDosen['id_jab']!=0){ 
+								echo $dtDosen['nm_jab'];
+							}else{
+								echo  "DOSEN";
+							}
+						?>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-8">
+				<h3><strong><?php echo $dtDosen['gelar_depan']." ".$dtDosen['nm_dosen']." ".$dtDosen['gelar_belakang'];?></strong></h3>
+				<p>NIDN/NUPN/NIDK : <?php echo $dtDosen['nidn'];?></p>
+				<address>
+					<i class="fa fa-map-marker"></i> : <?php echo $dtDosen['alamat'];?>
+				</address>
+				<abbr title="Phone"><i class="fa fa-phone"></i> : </abbr><?php echo $dtDosen['kontak'];?><br>
+				<abbr title="Email"><i class="fa fa-envelope"></i> : </abbr><?php echo $dtDosen['email_kampus'].", ".$dtDosen['email_lain'];?>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<?php }?>
+</div>
+<script>
+	$(document).ready(function () {
+		"use strict";
+		$('.contact-box').each(function () {
+			animationHover(this, 'pulse');
+		});         
+		function animationHover(element, animation) {
+			element = $(element);
+			element.hover(
+					function () {
+						element.addClass('animated ' + animation);
+					},
+					function () {
+						window.setTimeout(function () {
+							element.removeClass('animated ' + animation);
+						}, 2000);
+					});
+			}
+		});
+</script>

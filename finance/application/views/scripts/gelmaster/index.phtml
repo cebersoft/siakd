@@ -1,0 +1,36 @@
+<div class="table-header">
+	Daftar Gelombang Masuk Mahasiswa
+</div>
+<div>
+	<table id="tbl" class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<th class="center" width="15%">ID Gelombang</th>
+				<th class="center">Gelombang Masuk</th>
+				<th class="center" width="10%">Urutan</th>
+				<th class="center" width="15%">Aksi</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach ($this->listGelombang as $dtGel){?>
+			<tr>
+				<td><?php echo $dtGel['id_gelombang'];?></td>
+				<td><?php echo $dtGel['nm_gelombang'];?></td>
+				<td class="center"><?php echo $dtGel['urutan'];?></td>
+				<td class="center">
+					<div class="hidden-sm hidden-xs action-buttons">
+						<a class="green" onclick="nav('<?php echo $this->baseUrl;?>/gelmaster/edit?id=<?php echo $dtGel['id_gelombang'];?>')"><i class="ace-icon fa fa-pencil bigger-130"></i></a>
+						<a class="red" onclick="confirm('Apakah Anda yakin akan menghapus master gelombang masuk ini ? <strong><?php echo str_replace("'", "\'", $dtGel['nm_gelombang']);?></strong>','<?php echo $this->baseUrl;?>','/ajax/delgelmaster',new Array('<?php echo $dtGel['id_gelombang'];?>'))"><i class="ace-icon fa fa-trash-o bigger-130"></i></a>
+					</div>
+				</td>
+			</tr>
+			<?php }?>
+		</tbody>
+	</table>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/tabel.js"></script>
+<script>
+	$(function(){tabel('tbl')});
+</script>

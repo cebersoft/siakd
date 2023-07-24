@@ -1,0 +1,29 @@
+<?php echo $this->render('helper/function.phtml');?>
+<div class="box  box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbwil" class="table table-bordered table-hover" style="cursor: pointer;">
+				<thead align="center">
+					<tr>
+						<th>KODE</th>
+						<th>NAMA WILAYAH</th>
+						<th>KOTA/KAB</th>
+						<th>PROVINSI</th>
+						<th>NEGARA</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listWilayah as $dataWil) { ?>
+					<tr onclick="insVal('<?php echo $this->readyCaller;?>', new Array('<?php echo escQuoteJS($dataWil['id_wil']);?>','<?php echo escQuoteJS($dataWil['nm_wil']);?>'))">
+						<td><?php echo $dataWil['id_wil']; ?></td>
+						<td><?php echo $dataWil['kecamatan']; ?></td>
+						<td><?php echo $dataWil['kota']; ?></td>
+						<td><?php echo $dataWil['propinsi']; ?></td>
+						<td><?php echo $dataWil['negara']; ?></td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script>$(function () {tabel('tbwil',true,true,true,true,true,true);});</script>

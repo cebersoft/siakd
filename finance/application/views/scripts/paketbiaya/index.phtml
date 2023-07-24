@@ -1,0 +1,58 @@
+<div class="table-header">
+	Daftar Komponen Biaya
+</div>
+<div>
+	<table id="tbl" class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<th class="center" width="15%">ID Komponen</th>
+				<th class="center">Nama Paket Biaya</th>
+				<th class="center" width="10%">Status</th>
+				<th class="center" width="15%">Aksi</th>
+				<th class="center" width="15%">Ubah Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach ($this->listPaketBiaya as $dtPktBiaya){?>
+			<tr>
+				<td><?php echo $dtPktBiaya['id_paket'];?></td>
+				<td><?php echo $dtPktBiaya['nm_paket'];?></td>
+				<?php 
+					if($dtPktBiaya['status']=='t'){
+						$status="BERLAKU";
+					}else{
+						$status="TIDAK BERLAKU";
+					}
+				?>
+				<td class="center"><?php echo $status;?></td>
+				<td class="center">
+					<div class="hidden-sm hidden-xs action-buttons">
+						<a class="green" onclick="nav('<?php echo $this->baseUrl;?>/paketbiaya/edit?id=<?php echo $dtPktBiaya['id_paket'];?>')"><i class="ace-icon fa fa-pencil bigger-130"></i></a>
+						<a class="red" onclick="confirm('Apakah Anda yakin akan menghapus paket biaya ini ? <strong><?php echo str_replace("'", "\'", $dtPktBiaya['nm_paket']);?></strong>','<?php echo $this->baseUrl;?>','/ajax/delpktbiaya',new Array('<?php echo $dtPktBiaya['id_paket'];?>'))"><i class="ace-icon fa fa-trash-o bigger-130"></i></a>
+					</div>
+				</td>
+				<td class="center">
+					<div class="hidden-sm hidden-xs action-buttons">
+						<?php 
+							if($dtPktBiaya['status']=='t'){
+								$st='f';
+								$app='remove';
+							}else{
+								$st='t';
+								$app='check';
+							}
+						?>
+						<a class="red" onclick="confirm('Apakah Anda yakin akan mengubah status paket biaya ini ? <strong><?php echo str_replace("'", "\'", $dtPktBiaya['nm_paket']);?></strong>','<?php echo $this->baseUrl;?>','/ajax/updstatpktbiaya',new Array('<?php echo $st;?>','<?php echo $dtPktBiaya['id_paket'];?>'))"><i class="ace-icon fa fa-<?php echo $app;?> bigger-130"></i></a>
+					</div>
+				</td>
+			</tr>
+			<?php }?>
+		</tbody>
+	</table>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/tabel.js"></script>
+<script>
+	$(function(){tabel('tbl')});
+</script>

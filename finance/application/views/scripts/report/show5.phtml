@@ -1,0 +1,90 @@
+<div class="table-header">
+	Laporan Pemabayaran Mahasiswa
+</div>
+<div>
+	<table id="tbl" class="table table-striped table-bordered table-hover" width="<?php echo 1600+(count($this->listKomp)*50)?>px">
+		<thead>
+			<tr>
+				<th class="center" width="5px%" rowspan="3">NO</th>
+				<th class="center" width="50px" rowspan="3">NIM</th>
+				<th class="center" rowspan="3" width="100px">Nama</th>
+				<th class="center" width="80px" rowspan="3">Prodi/Angkatan</th>
+				<th class="center" width="80px" rowspan="3">Tanggal Pembayaran</th>
+				<th class="center" width="80px" rowspan="3">Pembayaran</th>
+				<th class="center" colspan="<?php echo count($this->listKomp)*2;?>">Komponen Biaya</th>
+			</tr>
+			<tr>
+				<?php if(count($this->listKomp)>0){?>
+				<?php foreach ($this->listKomp as $dtKomp){?>
+				<?php
+					$arrKomp=explode("||", $dtKomp);
+					$id_komp=$arrKomp[0];
+					$nm_komp=$arrKomp[1];
+				?>
+				<th class="center" width="100px">
+					<?php echo $nm_komp;?>
+				</th>
+				<?php }}else{?>
+				<th></th>
+				<?php }?>
+			</tr>
+			<tr>
+				<?php if(count($this->listKomp)>0){?>
+				<?php foreach ($this->listKomp as $dtKomp){?>
+				<th class="center" width="50px">Nominal Pembayaran</th>
+				<?php }}else{?>
+				<th></th>
+				<?php }?>
+			</tr>
+		</thead>
+		<tbody>
+			<?php $n=1;$i=1;foreach ($this->listByrHdr as $dtBayarHdr){?>
+			<?php 
+				$arrByrHdr=explode("||", $dtBayarHdr);
+				$notrans=$arrByrHdr[0];
+				$tgl=$arrByrHdr[1];
+				$nim=$arrByrHdr[2];
+				$nm=$arrByrHdr[3];
+				$akt=$arrByrHdr[4];
+				$prd=$arrByrHdr[5];
+				$pembayaran=$arrByrHdr[6];
+			?>
+			<tr>
+				<td><?php echo $n;?></td>
+				<td><?php echo $nim;?></td>
+				<td><?php echo $nm;?></td>
+				<td class="center"><?php echo $prd."/".$akt;?></td>
+				<td><?php echo $tgl;?></td>
+				<td><?php echo $pembayaran;?></td>
+				<?php 
+				$nomAlocate=0;
+				if(count($this->listKomp)>0){
+				foreach ($this->listKomp as $dtKomp){ ?>
+				<?php
+					$arrKomp=explode("||", $dtKomp);
+					$id_komp=$arrKomp[0];
+					$nomAlocate=0;
+					foreach ($this->listBayar as $dtBayarDtl){
+						if(($dtBayarDtl['id_komp_alocate']==$id_komp)and($notrans==$dtBayarDtl['no_trans'])){
+							$nomAlocate=number_format($dtBayarDtl['nominal_alocate'],2,',','.');
+						}
+					}
+				?>
+				<td align="right"><?php echo $nomAlocate;?></td>	
+				<?php }}else{?>
+				<td></td>
+				<?php }?>
+			</tr>
+			<?php $n++;$i++;}?>
+		</tbody>
+	</table>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#tbl').DataTable( {
+        "scrollX": true
+    } );
+} );
+</script>

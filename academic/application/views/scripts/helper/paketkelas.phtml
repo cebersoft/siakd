@@ -1,0 +1,31 @@
+<?php echo $this->render('helper/function.phtml');?>
+<div class="box  box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbpkls" class="table table-bordered table-hover" style="cursor: pointer;">
+				<thead align="center">
+					<tr>
+						<th>SEMESTER</th>
+						<th>KODE MK</th>
+						<th>NAMA MK</th>
+						<th>DOSEN</th>
+						<th>KELAS</th>
+						<th>JNS KELAS</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listPaketkelas as $dataPk) { ?>
+					<tr onclick="insVal('<?php echo $this->readyCaller;?>', new Array('<?php echo escQuoteJS($dataPk['kd_paket_kelas']);?>','<?php echo escQuoteJS($dataPk['nm_kelas']." (".$dataPk['jns_kelas'].")");?>','<?php echo escQuoteJS($dataPk['nm_dosen']." (".$dataPk['kd_dosen'].")");?>','<?php echo escQuoteJS($dataPk['kode_mk']." - ".$dataPk['nm_mk']);?>'))">
+						<td><?php echo $dataPk['smt_def']; ?></td>
+						<td><?php echo $dataPk['kode_mk']; ?></td>
+						<td><?php echo $dataPk['nm_mk']; ?></td>
+						<td><?php echo $dataPk['nm_dosen']; ?></td>
+						<td><?php echo $dataPk['nm_kelas']; ?></td>
+						<td><?php echo $dataPk['jns_kelas']; ?></td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script>$(function () {tabel('tbpkls',true,true,true,true,true,true);});</script>

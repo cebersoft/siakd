@@ -1,0 +1,115 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Ekuivalensi</h3>
+	</div>
+	<div class="box-body">
+		<div class="col-md-6">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Kurikulum Lama</div>
+			<div class="col-sm-8">: <?php echo $this->nm_kur_lm." (".$this->kd_kur_lm.")";?></div>
+			<div class="col-sm-4">Periode Berlaku</div>
+			<div class="col-sm-8">: <?php echo $this->per_lama;?></div>
+			<div class="col-sm-4">Kurikulum Baru</div>
+			<div class="col-sm-8">: <?php echo $this->nm_kur_br." (".$this->kd_kur_br.")";?></div>
+			<div class="col-sm-4">Periode Berlaku</div>
+			<div class="col-sm-8">: <?php echo $this->per_baru;?></div>
+		</div>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="col-md-6">
+				<input type="hidden" id="id_ekv" value="<?php echo $this->id_ekv;?>">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kode MK Lama</label>
+					<div class="col-sm-8">
+						<input type="hidden" id="id_kur_lm" value="<?php echo $this->id_kur_lm?>">
+						<input type="text" id="id_mk_kur_lm" style="display: none;">
+						<input type="text" class="form-control" id="kd_mk_lm" placeholder="klik untuk pilih mata kuliah dari kurikulum lama" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/matkulkurikulum',new Array('id_mk_kur_lm','kd_mk_lm','nm_mk_lm','sks_lm'),new Array('id_kur_lm'))">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Nama MK Lama</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="nm_mk_lm" placeholder="terisi otomatis dari pilihan mata kuliah" readonly>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">SKS</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="sks_lm" placeholder="terisi otomatis dari pilihan mata kuliah" readonly>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kode MK Baru</label>
+					<div class="col-sm-8">
+						<input type="hidden" id="id_kur_br" value="<?php echo $this->id_kur_br?>">
+						<input type="text" id="id_mk_kur_br" style="display: none;">
+						<input type="text" class="form-control" id="kd_mk_br" placeholder="klik untuk pilih mata kuliah dari kurikulum lama" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/matkulkurikulum',new Array('id_mk_kur_br','kd_mk_br','nm_mk_br','sks_br'),new Array('id_kur_br'))">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Nama MK Baru</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="nm_mk_br" placeholder="terisi otomatis dari pilihan mata kuliah" readonly>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">SKS</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="sks_br" placeholder="terisi otomatis dari pilihan mata kuliah" readonly>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box-body">
+			<div class="box-footer col-sm-6">
+				<button type="submit" class="btn btn-primary pull-right col-sm-4" id="btnsbm">Tambah</button>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="reset" class="btn btn-default pull-left col-sm-4" id="btnres">Reset</button>
+			</div>
+		</div>
+	</form>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbekv" class="table table-bordered table-hover">
+				<tr>
+					<th width="5%" rowspan="2">NO</th>
+					<th width="45%" colspan="3">KURIKULUM LAMA (<?php echo $this->nm_kur_lm ?>)</th>
+					<th width="45%" colspan="3">KURIKULUM BARU (<?php echo $this->nm_kur_br ?>)</th>
+					<th width="5%" rowspan="2">AKSI</th>
+				</tr>
+				<tr>
+					<th width="12%">KODE</th>
+					<th>MATA KULIAH</th>
+					<th width="5%">SKS</th>
+					<th width="12%">KODE</th>
+					<th>MATA KULIAH</th>
+					<th width="5%">SKS</th>
+				</tr>
+				<?php $i=1;foreach ($this->listDtlEkv as $baris):?>
+				<tr>
+					<td><?php echo $i; ?></td>
+					<td><?php echo $baris['kode_mk_lama'] ?></td>
+					<td><?php echo $baris['nm_mk_lama'] ?></td>
+					<td align="center"><?php echo ($baris['sks_tm_lama']+$baris['sks_prak_lama']+$baris['sks_prak_lap_lama']+$baris['sks_sim_lama']) ?></td>
+					<td><?php echo $baris['kode_mk_baru'] ?></td>
+					<td><?php echo $baris['nm_mk_baru'] ?></td>
+					<td align="center"><?php echo ($baris['sks_tm_baru']+$baris['sks_prak_baru']+$baris['sks_prak_lap_baru']+$baris['sks_sim_baru']) ?></td>
+					<td align="center"><button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus transformasi mata kuliah ini?','<?php echo $this->baseUrl;?>','/ajax/delekv1',new Array('<?php echo $baris['id_ekuivalensi'];?>','<?php echo $baris['id_mk_kurikulum_lama'];?>','<?php echo $baris['id_mk_kurikulum_baru'];?>'))"><i class="fa fa-remove"></i></button></td>
+				</tr>
+				<?php $i++;endforeach;?>	
+			</table>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/insekv1","/ekuivalensi/detil?id=<?php echo $this->id_ekv;?>&new=","u");
+	  return false;
+	});
+</script>

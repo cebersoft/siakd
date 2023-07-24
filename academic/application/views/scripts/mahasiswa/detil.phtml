@@ -1,0 +1,492 @@
+<div class="row">
+	<div class="col-md-3">
+		<!-- Profile Image -->
+		<div class="box box-primary">
+			<div class="box-body box-profile">
+				<img id="picmhs" class="profile-user-img img-responsive img-rounded" src="<?php echo $this->baseUrl;?>/image/jpg?url=public/file/mhs/foto/<?php echo $this->id_mhs;?>.jpg" alt="Foto Mahasiswa" onerror="this.src='<?php echo $this->baseUrl;?>/image/jpg?url=public/file/mhs/foto/default.jpg'" style="width:150px;height:200px">
+				<h3 class="profile-username text-center"><?php echo $this->nama_mhs; ?></h3>
+				<p class="text-muted text-center"><?php echo $this->nm_pt;?></p>
+				<ul class="list-group list-group-unbordered">
+					<li class="list-group-item">
+						<a class="fa fa-birthday-cake"></a><a class="pull-right"><?php echo $this->tempat_lahir.", ".$this->tanggal_lahir; ?></a>
+					</li>
+					<li class="list-group-item">
+						<a class="fa fa-map-marker"></a><a class="pull-right"><?php echo $this->kota_tinggal; ?></a>
+					</li>
+					<li class="list-group-item">
+						<a class="fa fa-venus-mars"></a><a class="pull-right"><?php echo $this->jk; ?></a>
+					</li>
+					<form method="post" id="frm" enctype="multipart/form-data">
+						<div class="box-body">
+							<div class="form-group">
+								<input type="file" id="fotomhs" name="fotomhs" accept="image/jpeg">
+							</div>
+							<button type="button" class="btn btn-primary btn-block" id="upload">Upload Foto Mahasiswa</button>
+						</div>
+					</form>
+				</ul>
+			</div>
+			<!-- /.box-body -->
+		</div>
+		<!-- /.box -->
+		<!-- About Me Box -->
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title"></h3>
+			</div>
+			<!-- /.box-header -->
+			<div class="box-body">
+				<strong><i class="fa fa-book margin-r-5"></i> Pendidikan Sebelumnya</strong>
+				<p class="text-muted">
+					<?php echo $this->asal_sekolah;?>
+					<br><?php echo "Prodi : ".$this->asal_prodi;?>
+				</p>
+				<hr>
+				<strong><i class="fa fa-map-marker margin-r-5"></i> Alamat</strong>
+				<p class="text-muted"><?php echo $this->alamat;?></p>
+				<hr>
+				<strong><i class="fa fa-file-text-o margin-r-5"></i> Catatan :</strong>
+				<p>Mahasiswa <?php echo $this->nm_pt;?></p>
+			</div>
+			<!-- /.box-body -->
+		</div>
+		<!-- /.box -->
+	</div>
+	<!-- /.col -->
+	<div class="col-md-9">
+		<div class="nav-tabs-custom">
+			<ul class="nav nav-tabs">
+				<li class="<?php echo $this->tab_hist;?>"><a href="#histori" data-toggle="tab">Histori Akademik</a></li>
+				<li><a href="#pribadi" data-toggle="tab">Profil</a></li>
+				<li><a href="#keluar" data-toggle="tab">Kelulusan/Keluar</a></li>
+				<?php if($this->jns_masuk==2){ ?>
+				<li class="<?php echo $this->tab_konv;?>"><a href="#pindahan" data-toggle="tab">Nilai Pindahan</a></li>
+				<?php } ?>
+				<li><a href="#syst" data-toggle="tab">System</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="<?php echo $this->tab_hist;?> tab-pane" id="histori">
+					<div class="box-body">
+						<table id="example1" class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>NIM</th>
+									<th>ANGKATAN</th>
+									<th>PROGRAM STUDI</th>
+									<th>TANGGAL MASUK</th>
+									<th>STATUS MASUK</th>
+									<th>STATUS</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php foreach ($this->mhs_pt as $dataMhs) { ?>
+								<tr>
+									<td><?php echo $dataMhs['nim']; ?></td>
+									<td><?php echo $dataMhs['id_angkatan']; ?></td>
+									<td><?php echo $dataMhs['nm_prodi']; ?></td>
+									<td><?php echo $dataMhs['tgl_masuk_fmt']; ?></td>
+									<td><?php echo $dataMhs['nm_stat_masuk']; ?></td>
+									<td><?php echo $dataMhs['status_mhs']; ?></td>
+								</tr>
+								<?php } ?>
+						</table>
+					</div>
+				</div>
+				<div class="tab-pane" id="pribadi">
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">Data Pribadi</h3>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body">
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th style="">Data</th>
+										<th>Keterangan</th>
+									</tr>
+								</thead>
+								<tr>
+									<th>Nama Lengkap</th>
+									<td><?php echo $this->nama_mhs?></td>
+								</tr>
+								<tr>
+									<th>Tempat, Tanggal Lahir</th>
+									<td><?php echo $this->tempat_lahir.", ".strtoupper($this->tanggal_lahir); ?></td>
+								</tr>
+								<tr>
+									<th>Jenis Kelamin</th>
+									<td><?php echo $this->jk; ?></td>
+								</tr>
+								<tr>
+									<th>Agama</th>
+									<td><?php echo $this->agama; ?></td>
+								</tr>
+								<tr>
+									<th>Kewarganegaraan</th>
+									<td><?php echo $this->kwn; ?></td>
+								</tr>
+								<tr>
+									<th>NIK</th>
+									<td><?php echo $this->nik; ?></td>
+								</tr>
+								<tr>
+									<th>NISN</th>
+									<td><?php echo $this->nisn; ?></td>
+								</tr>
+								<tr>
+									<th>NPWP</th>
+									<td><?php echo $this->npwp; ?></td>
+								</tr>
+								<tr>
+									<th>Alamat</th>
+									<td><?php echo $this->alamat.", ".$this->kota_tinggal;?></td>
+								</tr>
+								<tr>
+									<th>Kode Pos</th>
+									<td><?php echo $this->zip;?></td>
+								</tr>
+								<tr>
+									<th>Wilayah (Kec - Kota/Kab - Propinsi - Negara)</th>
+									<td><?php echo $this->nm_wil." - ".$this->kota_wil." - ".$this->prop_wil." - ".$this->neg_wil;?></td>
+								</tr>
+								<tr>
+									<th>Nama Ayah</th>
+									<td><?php echo $this->nama_ayah;?></td>
+								</tr>
+								<tr>
+									<th>Nama Ibu</th>
+									<td><?php echo $this->nama_ibu;?></td>
+								</tr>
+								<tr>
+									<th>Pekerjaan Ayah</th>
+									<td><?php echo $this->job_ayah;?></td>
+								</tr>
+								<tr>
+									<th>Pekerjaan Ibu</th>
+									<td><?php echo $this->job_ibu;?></td>
+								</tr>
+								<tr>
+									<th>Kontak</th>
+									<td><?php echo $this->kontak;?></td>
+								</tr>
+								<tr>
+									<th>Email Kampus</th>
+									<td><?php echo $this->email_k;?></td>
+								</tr>
+								<tr>
+									<th>Email Lain</th>
+									<td><?php echo $this->email_l;?></td>
+								</tr>
+								<tr>
+									<th>Alat Transport</th>
+									<td><?php echo $this->trans;?></td>
+								</tr>
+								<tr>
+									<th>Jenis Tinggal</th>
+									<td><?php echo $this->tinggal;?></td>
+								</tr>
+							</table>
+						</div>
+						<div class="box">
+							<div class="box-header with-border">
+								<h3 class="box-title">Perwalian</h3>
+							</div>
+							<table id="example1" class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th>NIM</th>
+										<th>ANGKATAN</th>
+										<th>PROGRAM STUDI</th>
+										<th>KODE DOSEN WALI</th>
+										<th>NAMA DOSEN WALI</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php foreach ($this->mhs_pt as $dataMhs) { ?>
+									<tr>
+										<td><?php echo $dataMhs['nim']; ?></td>
+										<td><?php echo $dataMhs['id_angkatan']; ?></td>
+										<td><?php echo $dataMhs['nm_prodi']; ?></td>
+										<td><?php echo $dataMhs['kd_dosen_wali']; ?></td>
+										<td><?php echo $dataMhs['nm_dosen_wali']; ?></td>
+									</tr>
+									<?php } ?>
+							</table>
+						</div>
+						<!-- /.box-body -->
+					</div>
+				</div>
+				<!-- /.tab-pane -->
+				<div class="tab-pane" id="keluar">
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">Kelulusan/Keluar</h3>
+						</div>
+						<div class="table-responsive">
+							<table id="example1" class="table table-bordered table-hover" style="width:1200px">
+								<thead>
+									<tr>
+										<th width="10%">NIM</th>
+										<th width="10%">JENIS KELUAR</th>
+										<th width="12%">TGL.KELUAR</th>
+										<th width="15%">NO.SERI IJAZAH</th>
+										<th width="15%">NO.SK YUDISIUM</th>
+										<th width="12%">TGL.SK</th>
+										<th width="5%">IPK</th>
+										<th>JUDUL TA</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php foreach ($this->mhs_pt as $dataMhs) { ?>
+									<tr>
+										<td><?php echo $dataMhs['nim']; ?></td>
+										<td><?php echo $dataMhs['ket_keluar']; ?></td>
+										<td><?php echo $dataMhs['tgl_keluar_fmt']; ?></td>
+										<td><?php echo $dataMhs['no_ijazah']; ?></td>
+										<td><?php echo $dataMhs['sk_yudisium']; ?></td>
+										<td><?php echo $dataMhs['tgl_sk_yudisium_fmt']; ?></td>
+										<td><?php echo $dataMhs['ipk']; ?></td>
+										<td><?php echo $dataMhs['judul_skripsi']; ?></td>
+									</tr>
+									<?php } ?>
+							</table>
+						</div>
+					</div>
+				</div>
+				<?php if($this->jns_masuk==2){ ?>
+				<div class="<?php echo $this->tab_konv;?> tab-pane" id="pindahan">
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">Data Nilai Konversi/Pindahan Mahasiswa</h3>
+						</div>
+						<form class="form-horizontal" method="post" id="frm_konv">
+							<div class="box-body">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="col-sm-4 control-label">NIM</label>
+										<div class="col-sm-8">
+											<input type="hidden" id="prd">
+											<select id="nim" class="form-control">
+												<?php foreach ($this->mhs_pt as $dataMhs) { ?>
+												<option value="<?php echo $dataMhs['nim']."###".$dataMhs['kd_prodi']; ?>"><?php echo $dataMhs['nim']; ?></option>
+												<?php } ?>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Kurikulum</label>
+										<div class="col-sm-8">
+											<input type="text" id="id_kur" style="display: none;">
+											<input type="text" class="form-control" id="nm_kur" placeholder="klik untuk pilih kurikulum" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/kurikulum',new Array('id_kur','nm_kur'),new Array('prd'))">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Kode MK</label>
+										<div class="col-sm-8">
+											<input type="text" id="id_mk_kur" style="display: none;">
+											<input type="text" class="form-control" id="kd_mk" placeholder="klik untuk pilih mata kuliah" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/matkulkurikulum',new Array('id_mk_kur','kd_mk','nm_mk','sks'),new Array('id_kur'))">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Nama MK</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="nm_mk" placeholder="terisi otomatis dari mata kuliah" readonly>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label">SKS Default</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="sks" placeholder="terisi otomatis dari mata kuliah" readonly>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="col-sm-4 control-label">SKS Diakui</label>
+										<div class="col-sm-8">
+											<input type="number" class="form-control" id="sks_new" placeholder="sks diakui" min="0" max="8" step="1">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Nilai Diakui</label>
+										<div class="col-sm-8">
+											<select class="form-control" id="indeks_new">
+												<option disabled selected value="">pilih nilai</option>
+												<?php foreach($this->listIndeks as $dtInd){ ?>
+												<option value="<?php echo $dtInd['id_indeks'];?>"><?php echo $dtInd['indeks']."(".$dtInd['bobot'].")";?></option>
+												<?php } ?>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Kode MK Asal</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="kd_mk_old" placeholder="kode mata kuliah asal" maxlength="35">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Nama MK Asal</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="nm_mk_old" placeholder="nama mata kuliah asal" maxlength="35">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label">SKS Asal</label>
+										<div class="col-sm-8">
+											<input type="number" class="form-control" id="sks_old" placeholder="sks asal" min="0" max="8" step="1">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Nilai Asal</label>
+										<div class="col-sm-8">
+											<select class="form-control" id="indeks_old">
+												<option disabled selected value="">pilih nilai</option>
+												<?php foreach($this->listIndeks as $dtInd){ ?>
+												<option value="<?php echo $dtInd['id_indeks'];?>"><?php echo $dtInd['indeks']."(".$dtInd['bobot'].")";?></option>
+												<?php } ?>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="box-body">
+								<div class="box-footer col-sm-6">
+									<button type="submit" class="btn btn-primary pull-right col-sm-4" id="btnsbkonv">Tambah</button>
+								</div>
+								<div class="box-footer col-sm-6">
+									<button type="reset" class="btn btn-default pull-left col-sm-4" id="btnreskonv">Reset</button>
+								</div>
+							</div>
+						</form>
+						<div class="table-responsive">
+							<table id="tbkonv" class="table table-bordered table-hover">
+								<?php foreach ($this->mhs_pt as $dataMhs) { ?>
+								<thead>
+									<tr>
+										<th colspan="10">NIM : <?php echo $dataMhs['nim']; ?>, Angkatan : <?php echo $dataMhs['id_angkatan']; ?>, Prodi : <?php echo $dataMhs['nm_prodi']; ?> </th>
+									</tr>
+									<tr>
+										<th colspan="5" width="50%">Diakui (<?php echo $this->nm_pt;?>)</th>
+										<th colspan="4">Asal (<?php echo $this->asal_sekolah."-".$this->asal_prodi;?>)</th>
+										<th rowspan="2" width="10%">Aksi</th>
+									</tr>
+									<tr>
+										<th>Kode MK</th>
+										<th>Nama MK</th>
+										<th>SKS Def</th>
+										<th>SKS Diakui</th>
+										<th>Nilai</th>
+										<th>Kode MK</th>
+										<th>Nama MK</th>
+										<th>SKS MK</th>
+										<th>Nilai</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php $totSksDef=0;$totSksDiakui=0;foreach ($this->listKonversi as $dtKonv) { ?>
+									<?php if($dtKonv['nim']==$dataMhs['nim']){ ?>
+									<tr>
+										<td><?php echo $dtKonv['kode_mk'];?></td>
+										<td><?php echo $dtKonv['nm_mk'];?></td>
+										<td><?php echo $dtKonv['sks_tot'];?></td>
+										<td><?php echo ($dtKonv['sks_tot']-$dtKonv['sks_deducted']);?></td>
+										<td><?php echo $dtKonv['indeks'];?></td>
+										<td><?php echo $dtKonv['kode_mk_asal'];?></td>
+										<td><?php echo $dtKonv['nm_mk_asal'];?></td>
+										<td><?php echo $dtKonv['sks_asal'];?></td>
+										<td><?php echo $dtKonv['indeks_asal'];?></td>
+										<td align="center">
+											<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/mahasiswa/editmktransfer?nim=<?php echo $dtKonv['nim'];?>&idmkkur=<?php echo $dtKonv['id_mk_kurikulum'];?>')"><i class="fa fa-pencil"></i></button>
+											<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus nilai konversi/transfer ini? <strong><?php echo str_replace("'", "\'", $dtKonv['nm_mk']);?></strong>','<?php echo $this->baseUrl;?>','/ajax/delkonv',new Array('<?php echo $dtKonv['nim'];?>','<?php echo $dtKonv['id_mk_kurikulum'];?>'))"><i class="fa fa-remove"></i></button>
+										</td>
+									</tr>
+									<?php $totSksDef=$totSksDef+$dtKonv['sks_tot'];$totSksDiakui=$totSksDiakui+($dtKonv['sks_tot']-$dtKonv['sks_deducted']);} ?>
+									<?php } ?>
+									<tr>
+										<td colspan="2"><strong>Jumlah</strong></td>
+										<td align="center"><strong><?php echo $totSksDef;?></strong></td>
+										<td align="center"><strong><?php echo $totSksDiakui;?></strong></td>
+										<td colspan="7"></td>
+									</tr>
+								</tbody>
+								<?php } ?>
+							</table>
+						</div>
+					</div>
+				</div>
+				<?php } ?>
+				<div class="tab-pane" id="syst">
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">Profiling Student Portal System</h3>
+						</div>
+						<table id="example1" class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>NIM</th>
+									<th>USERNAME</th>
+									<th>STATUS PORTAL</th>
+									<th>STATUS PASSWORD</th>
+									<th>RESET PASSWORD = NIM</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php foreach ($this->mhs_pt as $dataMhs) { ?>
+								<tr>
+									<td><?php echo $dataMhs['nim']; ?></td>
+									<td><?php echo $dataMhs['nim']; ?></td>
+									<?php 
+										if($dataMhs['sys_aktif']=='t'){
+										  $sys_stat="AKTIF";
+										}else{
+										  $sys_stat="TIDAK AKTIF";
+										}
+										?>
+									<td><?php echo $sys_stat; ?></td>
+									<?php 
+										if($dataMhs['sys_password']==md5($dataMhs['nim'])){ 
+										  $pwd_stat= "=NIM";
+										}else{
+										  $pwd_stat= "CHANGED";
+										}
+										?>
+									<td><?php echo $pwd_stat; ?></td>
+									<?php if($dataMhs['sys_password']!=md5($dataMhs['nim'])){ ?>
+									<td><button class="btn btn-danger btn-block" onclick="confirm('Apakah anda yakin akan mereset password menjadi NIM ?','<?php echo $this->baseUrl;?>','/ajax/resetpwdmhs',new Array('<?php echo $dataMhs['nim'];?>'))"><b>RESET</b></button></td>
+									<?php }else{ ?>
+									<td></td>
+									<?php }?>
+								</tr>
+								<?php } ?>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function() {
+	  kd_prd = $("#nim").val().split("###");
+	  $("#prd").val(kd_prd[1]);
+	  return false;
+	});
+	$("#nim").on('change',function() {
+	  kd_prd = $("#nim").val().split("###");
+	  $("#prd").val(kd_prd[1]);
+	  return false;
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm_konv").submit(function() {
+	  ajaxSubmit("frm_konv","<?php echo $this->baseUrl;?>","/ajax/inskonv","/mahasiswa/detil?id=<?php echo $this->id_mhs;?>&nkonv=","u");
+	  return false;d
+	});
+</script>
+<script>
+	$('#upload').on('click', function() {
+	  ajaxUpload('fotomhs','<?php echo $this->baseUrl;?>','/ajax/uplmhspic?id=<?php echo $this->id_mhs;?>','picmhs','/image/jpg?url=public/file/mhs/foto/<?php echo $this->id_mhs;?>.jpg');
+	});
+</script>

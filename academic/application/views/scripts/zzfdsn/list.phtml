@@ -1,0 +1,181 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<form id="frm_dsn" method="post">
+		<div class="box-body">
+			<?php if($this->opt=='1'){ ?>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<th rowspan="2" width="4%">No</th>
+						<th rowspan="2" width="3%">
+							<input type="hidden" id="prd" value="<?php echo $this->prd;?>">
+							<input type="checkbox" name="ckbCheckAll" id="ckbCheckAll" onClick="selectAll(this)">
+						</th>
+						<th colspan="6">
+							Data Dosen Mengajar SIA (<?php echo count($this->listDsnSIA) ?>)
+							<?php if($this->id_kur){ ?>
+							<input type="hidden" value="<?php echo $this->id_kur; ?>" id="id_kur">
+							<button id="updnidn" class="btn bg-green">Update NIDN Dosen</button>
+							<button id="transfer" class="btn bg-yellow pull-right">Transfer Data Ajar Dosen &gt;&gt;</button>
+							<?php }else{?>
+							<button id="transfer" class="btn bg-maroon pull-right" disabled="disabled">Tidak dapat melakukan transfer data, kurikulum belum disetting untuk prodi dan periode ini!</button>
+							<?php }?>
+						</th>
+						<th colspan="5" width="12%">Dosen Mengajar di Feeder (<?php echo count($this->listKlsDsnFeeder['data']) ?>)</th>
+					</tr>
+					<tr>
+						<th width="11%">NIDN UNTUK FEEDER</th>
+						<th width="12%">NAMA DOSEN</th>
+						<th width="10%">NIDN SIA</th>
+						<th width="8%">KELAS</th>
+						<th width="8%">MATA KULIAH</th>
+						<th width="5%">TM</th>
+						<th width="8%">STATUS</th>
+						<th width="12%">NAMA DOSEN</th>
+						<th width="10%">NIDN FEEDER</th>
+						<th width="8%">KELAS</th>
+						<th width="8%">MATA KULIAH</th>
+					</tr>
+					<?php $n=1;$x=0;foreach ($this->listDsnSIA as $dataKlsDsnSIA ) { ?>
+					<?php
+						$id_ajar="-";
+						$status="Not Found";
+						$warna="lightyellow";
+						$nmDsn="";
+						$nidn="";
+						$kls="";
+						$mk="";
+						foreach ($this->listKlsDsnFeeder['data'] as $dataKlsDsnFeeder) {
+							if((str_replace(" ", "",$dataKlsDsnSIA['nidn_lap'])==str_replace(" ", "",$dataKlsDsnFeeder['nidn']))and(str_replace(" ", "", $dataKlsDsnSIA['kode_mk'])==str_replace(" ", "", $dataKlsDsnFeeder['kode_mata_kuliah'])) and (str_replace(" ", "",$dataKlsDsnSIA['id_nm_kelas'])==str_replace(" ", "",$dataKlsDsnFeeder['nama_kelas_kuliah']))){
+								$id_ajar = $dataKlsDsnFeeder['id_aktivitas_mengajar'];
+								$status = "Found";
+								$warna="lightgreen";
+								$nmDsn=$dataKlsDsnFeeder['nama_dosen'];
+								$nidn=$dataKlsDsnFeeder['nidn'];
+								$kls=$dataKlsDsnFeeder['nama_kelas_kuliah'];
+								$mk=$dataKlsDsnFeeder['nama_mata_kuliah']."(".$dataKlsDsnFeeder['kode_mata_kuliah'].")";
+							}
+						}
+						?>
+					<tr bgcolor="<?php echo $warna; ?>">
+						<td><?php echo $n;?></td>
+						<td>
+							<input type="checkbox" id="cbajar_<?php echo $x;?>" value="<?php echo $dataKlsDsnSIA['id_nm_kelas']."###".$dataKlsDsnSIA['kode_mk']."###".$dataKlsDsnSIA['id_smt']."###".$dataKlsDsnSIA['tatap_muka'];?>" cbajar><input type="text" style="display:none;" id="ajar_<?php echo $x;?>">
+						</td>
+						<td>
+							<input type="hidden" value="<?php echo $dataKlsDsnSIA['nidn_lap']; ?>" id="oldnidn_<?php echo $x;?>">
+							<input type="text" value="<?php echo $dataKlsDsnSIA['nidn_lap']; ?>" id="nidn_<?php echo $x;?>">
+							<input type="hidden" value="<?php echo $dataKlsDsnSIA['kd_paket_kelas']; ?>" id="pkls_<?php echo $x;?>">
+						</td>
+						<?php $x++?>
+						<td><?php echo $dataKlsDsnSIA['nm_dosen']; ?></td>
+						<td><?php echo $dataKlsDsnSIA['nidn']; ?></td>
+						<td align="center"><?php echo $dataKlsDsnSIA['id_nm_kelas']; ?></td>
+						<td><?php echo $dataKlsDsnSIA['nm_mk']." (".$dataKlsDsnSIA['kode_mk'].")"; ?></td>
+						<td align="center"><?php echo $dataKlsDsnSIA['tatap_muka']; ?></td>
+						<td align="center"><?php echo $status; ?></td>
+						<td><?php echo $nmDsn; ?></td>
+						<td><?php echo $nidn; ?></td>
+						<td align="center"><?php echo $kls; ?></td>
+						<td><?php echo $mk; ?></td>
+					</tr>
+					<?php $n++;} ?>
+					<input type="hidden" id="x" value="<?php echo $x;?>">
+				</table>
+			</div>
+			<?php }else{ ?>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<th rowspan="2" width="4%">No</th>
+						<th colspan="4" width="12%">Data Dosen Mengajar di Feeder (<?php echo count($this->listKlsDsnFeeder) ?>)</th>
+						<th colspan="4">Data Dosen Mengajar di SIA (<?php echo count($this->listDsnSIA) ?>)</th>
+					</tr>
+					<tr>
+						<th width="15%">NAMA DOSEN</th>
+						<th width="12%">NIDN</th>
+						<th>MATA KULIAH</th>
+						<th width="8%">NAMA KELAS</th>
+						<th width="10%">STATUS SINKRONISASI</th>
+						<th width="15%">NAMA DOSEN</th>
+						<th width="10%">NIDN UNTUK FEEDER</th>
+					</tr>
+					<?php $n=1;foreach ($this->listKlsDsnFeeder as $dataKlsDsnFeeder ) { ?>
+					<?php
+						$kd_pkls="-";
+						$status="Not Found";
+						$warna="lightyellow";
+						$nmDsnSIA="";
+						$nidnSIA="";
+						foreach ($this->listDsnSIA as $dataKlsDsnSIA) {
+							if(($dataKlsDsnSIA['nidn_lap']==$dataKlsDsnFeeder['nidn'])and($dataKlsDsnSIA['kode_mk']==$dataKlsDsnFeeder['kode_mk']) and ($dataKlsDsnSIA['id_smt']==$dataKlsDsnFeeder['id_smt'])){
+								$kd_pkls = $dataKlsDsnSIA['kd_paket_kelas'];
+								$status = "Found";
+								$warna="lightgreen";
+								$nmDsnSIA=$dataKlsDsnSIA['nm_dosen'];
+								$nidnSIA=$dataKlsDsnSIA['nidn_lap'];
+							}
+						}
+						?>
+					<tr bgcolor="<?php echo $warna; ?>">
+						<td><?php echo $n;?></td>
+						<td><?php echo $dataKlsDsnFeeder['nm_ptk']; ?></td>
+						<td><?php echo $dataKlsDsnFeeder['nidn']; ?></td>
+						<td><?php echo $dataKlsDsnFeeder['nm_mk']." (".$dataKlsDsnFeeder['kode_mk'].")"; ?></td>
+						<td><?php echo $dataKlsDsnFeeder['nm_kls']; ?></td>
+						<td align="center"><?php echo $status; ?></td>
+						<td><?php echo $nmDsnSIA; ?></td>
+						<td><?php echo $nidnSIA; ?></td>
+					</tr>
+					<?php $n++;} ?>
+				</table>
+			</div>
+			<?php } ?>
+			</div>
+		</div>
+	</form>
+	<?php 
+		foreach ($this->listPenugasan as $dt){
+			echo $dt['id_registrasi_dosen']."<br>".$dt['nama_dosen']."<br>".$dt['id_tahun_ajaran'];	
+		}
+	?>
+</div>
+<script>
+	$("[cbajar]").on('change',(function() {
+		id=$(this).attr('id');
+		n= id.split('_');
+		if($(this).is(':checked')){
+			$("#ajar_"+n[1]).val($(this).val());
+		}else{
+			$("#ajar_"+n[1]).val('');
+		}
+	}))
+</script>
+<script>
+	function selectAll(all){
+		var checked = all.checked;
+		var chkBoxes = $("[cbajar]");
+		for (var counter=0;counter<=chkBoxes.length;counter++) {
+			chkBoxes[counter].checked = checked ;
+			a=chkBoxes[counter]
+			id=$(a).attr('id');
+			n= id.split('_');
+			if($(chkBoxes[counter]).is(':checked')){
+				$("#ajar_"+n[1]).val($(chkBoxes[counter]).val());
+			}else{
+				$("#ajar_"+n[1]).val('');
+			}
+		}
+	}
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm_dsn").submit(function() {
+	  ajaxSubmit("frm_dsn","<?php echo $this->baseUrl;?>","/ajax4/insfdsn","/zzfdsn/list?new=","u");
+	  return false;
+	});
+	$("#updnidn").on('click',(function() {
+	  ajaxSubmit("frm_dsn","<?php echo $this->baseUrl;?>","/ajax4/updnidnlap","/zzfdsn/list?new=","u");
+	  return false;
+	}));
+</script>

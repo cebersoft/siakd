@@ -1,0 +1,199 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<form id="frm_mhs" method="post">
+		<div class="box-body">
+			<?php if($this->opt=='1'){ ?>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<th rowspan="2" width="4%">No</th>
+						<th rowspan="2" width="3%">
+							<input type="hidden" id="prd" value="<?php echo $this->prd;?>">
+							<input type="checkbox" name="ckbCheckAll" id="ckbCheckAll" onClick="selectAll(this)">
+						</th>
+						<th colspan="8">Data Mahasiswa SIA (<?php echo count($this->listMhsSIA) ?>)</th>
+						<th>
+							<button id="transfer" class="btn bg-yellow">Transfer Data &gt;&gt;</button>
+						</th>
+						<th rowspan="2" width="12%">NIM di Feeder (<?php echo count($this->listMhsFeeder) ?>)</th>
+						<th>Tingkat Kecocokan Data</th>
+					</tr>
+					<tr>
+						<th width="12%">NIM SIA</th>
+						<th>NAMA</th>
+						<th width="10%">KET</th>
+						<th width="12%">TANGGAL</th>
+						<th width="12%">NO.SK</th>
+						<th width="10%">TGL.SK</th>
+						<th width="12%">NO.IJZ</th>
+						<th width="15%">JDL</th>
+						<th width="15%">IPK</th>
+						<th width="10%">PERSENTASE</th>
+					</tr>
+					<?php $n=1;$x=0;foreach ($this->listMhsSIA as $dataMhsSIA ) { ?>
+					<?php
+						$nimFeeder="-";
+						$status="Not Found";
+						$warna="lightyellow";
+						$match1="-";$match2="-";$match3="-";$match4="-";$match5="-";$match6="-";$match7="-";
+						foreach ($this->listMhsFeeder as $dataMhsFeeder) {
+							if($dataMhsSIA['nim']==str_replace(" ", "",$dataMhsFeeder['nim'])){
+								$jnskeluar=$dataMhsFeeder['id_jenis_keluar'];
+								$tglkel=date_format(date_create($dataMhsFeeder['tanggal_keluar']),'Y-m-d');
+								$sk=$dataMhsFeeder['nomor_sk_yudisium'];
+								if($dataMhsFeeder['tanggal_sk_yudisium']!=''){
+									$tglsk=date_format(date_create($dataMhsFeeder['tanggal_sk_yudisium']),'Y-m-d');
+								}else{
+									$tglsk="";
+								}
+								$ijz=$dataMhsFeeder['nomor_ijazah'];
+								$judul=$dataMhsFeeder['judul_skripsi'];
+								$ipk=$dataMhsFeeder['ipk'];
+								$match=0;
+								$tot_atr=7;
+								if(trim($dataMhsSIA['id_jns_keluar'])==trim($jnskeluar)){
+									$match++;
+									$match1="OK";
+								}
+								if(trim($dataMhsSIA['tgl_keluar'])==trim($tglkel)){
+									$match++;
+									$match2="OK";
+								}
+								if(trim($dataMhsSIA['sk_yudisium'])==trim($sk)){
+									$match++;
+									$match3="OK";
+								}
+								if(trim($dataMhsSIA['tgl_sk_yudisium'])==trim($tglsk)){
+									$match++;
+									$match4="OK";
+								}
+								if(trim($dataMhsSIA['no_ijazah'])==trim($ijz)){
+									$match++;
+									$match5="OK";
+								}
+								if(trim(strtoupper($dataMhsSIA['judul_skripsi']))==trim(strtoupper($judul))){
+									$match++;
+									$match6="OK";
+								}
+								if(floatval($dataMhsSIA['ipk'])==floatval($ipk)){
+									$match++;
+									$match7="OK";
+								}
+								$per_match=number_format((($match/$tot_atr)*100),2,',','.');
+								$nimFeeder = $dataMhsFeeder['nim'];
+								$status = "Found";
+								$warna="lightgreen";
+							}
+						}
+						?>
+					<tr bgcolor="<?php echo $warna; ?>">
+						<td><?php echo $n;?></td>
+						<td>
+							<input type="checkbox" id="cbnim_<?php echo $x;?>" value="<?php echo $dataMhsSIA['nim'] ?>" cbnim><input type="text" style="display:none;" id="nim_<?php echo $x;?>">
+						</td>
+						<td><?php echo $dataMhsSIA['nim']; ?></td>
+						<td><?php echo $dataMhsSIA['nm_mhs']; ?></td>
+						<td><?php echo $dataMhsSIA['ket_keluar']; ?>(<?php echo $match1;?>)</td>
+						<td><?php echo $dataMhsSIA['tgl_keluar']; ?>(<?php echo $match2;?>)</td>
+						<td><?php echo $dataMhsSIA['sk_yudisium']; ?>(<?php echo $match3;?>)</td>
+						<td><?php echo $dataMhsSIA['tgl_sk_yudisium']; ?>(<?php echo $match4;?>)</td>
+						<td><?php echo $dataMhsSIA['no_ijazah']; ?>(<?php echo $match5;?>)</td>
+						<td><?php echo $dataMhsSIA['judul_skripsi']; ?>(<?php echo $match6;?>)</td>
+						<td><?php echo $dataMhsSIA['ipk']; ?>(<?php echo $match7;?>)</td>
+						<td align="center"><?php echo $status; ?></td>
+						<?php if($nimFeeder=='-'){ ?>
+							<td align="center">0.00%</td>
+						<?php }else{?>
+							<td align="center">
+								<input type="hidden" id="dump_<?php echo $n;?>"><input type="hidden" id="nipd_<?php echo $n;?>" value="<?php echo $dataMhsSIA['nim'];?>">
+								<?php echo $per_match;?>%
+							</td>
+						<?php }?>
+					</tr>
+					<?php $x++;$n++;} ?>
+					<input type="hidden" id="x" value="<?php echo $x;?>">
+				</table>
+			</div>
+			<?php }else{ ?>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<th rowspan="2" width="4%">No</th>
+						<th  rowspan="2" width="12%">NIM Mahasiswa Feeder (<?php echo count($this->listMhsFeeder) ?>)</th>
+						<th  rowspan="2" width="12%">Nama Mahasiswa Feeder</th>
+						<th width="12%" colspan="4">Data Mahasiswa di SIA (<?php echo count($this->listMhsSIA) ?>)</th>
+					</tr>
+					<tr>
+						<th width="12%">NIM</th>
+						<th>Nama Mahasiswa</th>
+						<th width="20%">Tempat Tanggal Lahir</th>
+						<th width="10%">Status Sinkronisasi</th>
+					</tr>
+					<?php $n=1;foreach ($this->listMhsFeeder as $dataMhsFeeder ) { ?>
+					<?php
+						$nimSIA="-";
+						$nmSIA="-";
+						$lahirSIA="-";
+						$status="Not Found";
+						$warna="lightyellow";
+						foreach ($this->listMhsSIA as $dataMhsSIA) {
+							if($dataMhsSIA['nim']==str_replace(" ", "",$dataMhsFeeder['nim'])){
+								$nimSIA = $dataMhsSIA['nim'];
+								$nmSIA = $dataMhsSIA['nm_mhs'];
+								$lahirSIA = $dataMhsSIA['tmp_lahir'].", ".$dataMhsSIA['tgl_lahir_fmt'];
+								$status = "Found";
+								$warna="lightgreen";
+							}
+						}
+						?>
+					<tr bgcolor="<?php echo $warna; ?>">
+						<td><?php echo $n;?></td>
+						<td><?php echo $dataMhsFeeder['nim']; ?></td>
+						<td><?php echo $dataMhsFeeder['nama_mahasiswa']; ?></td>
+						<td><?php echo $nimSIA; ?></td>
+						<td><?php echo $nmSIA; ?></td>
+						<td><?php echo $lahirSIA; ?></td>
+						<td align="center"><?php echo $status; ?></td>
+					</tr>
+					<?php $n++;} ?>
+				</table>
+			</div>
+			<?php } ?>
+		</div>
+	</form>
+</div>
+<script>
+	$("[cbnim]").on('change',(function() {
+		id=$(this).attr('id');
+		n= id.split('_');
+		if($(this).is(':checked')){
+			$("#nim_"+n[1]).val($(this).val());
+		}else{
+			$("#nim_"+n[1]).val('');
+		}
+	}))
+</script>
+<script>
+	function selectAll(all){
+		var checked = all.checked;
+		var chkBoxes = $("[cbnim]");
+		for (var counter=0;counter<=chkBoxes.length;counter++) {
+			chkBoxes[counter].checked = checked ;
+			a=chkBoxes[counter]
+			id=$(a).attr('id');
+			n= id.split('_');
+			if($(chkBoxes[counter]).is(':checked')){
+				$("#nim_"+n[1]).val($(chkBoxes[counter]).val());
+			}else{
+				$("#nim_"+n[1]).val('');
+			}
+		}
+	}
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm_mhs").submit(function() {
+	  ajaxSubmit("frm_mhs","<?php echo $this->baseUrl;?>","/ajax4/insfalm","/zzfalm/list?new=","u");
+	  return false;
+	});
+</script>

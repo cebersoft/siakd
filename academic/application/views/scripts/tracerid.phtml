@@ -1,0 +1,67 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<div class="col-sm-8">
+			<strong>
+			ANGKATAN : <?php echo $this->akt; ?>
+			</strong>
+		</div>
+		<div class="col-sm-8">
+			<strong>
+			PROGRAM STUDI : <?php echo $this->prd; ?>
+			</strong>
+		</div>
+		<div class="col-sm-8">
+			<strong>
+			TANGGAL LULUS : <?php echo $this->startdate." s/d ".$this->enddate; ?>
+			</strong>
+		</div>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbalm" class="table table-bordered table-hover" style="width:1800px">
+				<thead align="center">
+					<tr>
+						<th width="7%">NIM</th>
+						<th width="15%">NAMA ALUMNI</th>
+						<th width="5%">ANGKATAN</th>
+						<th width="10%">PROGRAM STUDI</th>
+						<th width="5%">STATUS</th>
+						<th width="8%">TANGGAL LULUS</th>
+						<th width="10%">NO.IJAZAH</th>
+						<th width="10%">NO.SK YUDISIUM</th>
+						<th width="8%">TANGGAL SK</th>
+						<th width="3%">IPK</th>
+						<th>JUDUL SKRIPSI</th>
+						<th width="5%">AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listAlumni as $dataAlm) { ?>
+					<tr>
+						<td><?php echo $dataAlm['nim']; ?></td>
+						<td><?php echo $dataAlm['nm_mhs']; ?></td>
+						<td align="center"><?php echo $dataAlm['id_angkatan']; ?></td>
+						<td><?php echo $dataAlm['nm_prodi']; ?></td>
+						<td align="center"><?php echo $dataAlm['status_mhs']; ?></td>
+						<td><?php echo $dataAlm['tgl_keluar_fmt']; ?></td>
+						<td align="center"><?php echo $dataAlm['no_ijazah']; ?></td>
+						<td align="center"><?php echo $dataAlm['sk_yudisium']; ?></td>
+						<td><?php echo $dataAlm['tgl_sk_yudisium_fmt']; ?></td>
+						<td align="center"><?php echo $dataAlm['ipk']; ?></td>
+						<td><?php echo $dataAlm['judul_skripsi']; ?></td>
+						<td align="center">
+							<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/alumni/edit?nim=<?php echo $dataAlm['nim'];?>')"><i class="fa fa-pencil"></i></button>
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan membatalkan status kelulusan mahasiswa ini? <strong><?php echo str_replace("'", "\'", $dataAlm['nm_mhs']);?></strong>','<?php echo $this->baseUrl;?>','/ajax3/delalm',new Array('<?php echo $dataAlm['nim'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbalm',true,true,true,true,true,false);});</script>

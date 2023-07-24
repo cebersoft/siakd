@@ -1,0 +1,53 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Filter Periode Akademik</h3>
+</div>
+<div class="inqbox-content">
+	<form id="frm" class="form-horizontal">
+		<div class="form-group">
+			<div class="col-sm-4">
+				<select id="sel_per" class="form-control">
+					<option value="" disabled="disabled" selected="selected">pilih periode akademik</option>
+					<?php foreach ($this->listPer as $dtPer){?>
+					<?php 
+						$per="";
+						if($dtPer['kd_periode']==$this->per){
+							$per="selected";
+						}
+					?>
+					<option value="<?php echo $dtPer['kd_periode'];?>" <?php echo $per;?> ><?php echo $dtPer['kd_periode'];?></option>
+					<?php }?>
+				</select>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbkur" class="table table-bordered table-hover">
+			<tr>
+				<th width="5%">No</th>
+				<th>Program Studi</th>
+				<th width="15%">Download SK</th>
+			</tr>
+			<?php $j=1; foreach ($this->listDosbim as $data) { ?>
+			<tr>
+				<td><?php echo $j;?></td>
+				<td><?php echo $data['nm_prodi'];?></td>
+				<td align="center">
+					<a class="btn btn-success btn-xs" href="<?php echo $this->baseUrl;?>/image/anyfile?url=public/file/sk/dosbim/<?php echo strtolower(str_replace('.','',$data['kd_dosen']).str_replace('/','',$data['kd_periode']).$data['kd_prodi']).".pdf";?>&newname=<?php echo $data['kd_dosen'].".pdf";?>"><i class="fa fa-download">&nbsp;</i>Download</a>
+				</td>
+			</tr>
+			<?php $j++; } ?>
+		</table>
+	</div>
+</div>
+<script>
+	$('#sel_per').on('change',(function() {
+		per=$('#sel_per').val();
+		nav('<?php echo $this->baseUrl;?>/skbim/index?id='+per);
+	}))
+</script>

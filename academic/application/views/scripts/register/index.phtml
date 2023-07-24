@@ -1,0 +1,65 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box  box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbper" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>KODE PERIODE</th>
+						<th>STATUS PERIODE</th>
+						<th>TANGGAL DIMULAI</th>
+						<th>TANGGAL SELESAI</th>
+						<th>PRODI-ANGKATAN</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listPeriode as $dataPer) { ?>
+					<?php 
+						if ($dataPer['id_status_periode']==0){
+							$warna='lightgreen';
+						}else if($dataPer['id_status_periode']==1){
+							$warna='yellow';
+						}else{
+							$warna='lightblue';
+						}
+						?>
+					<tr bgcolor="<?php echo $warna;?>">
+						<td><?php echo $dataPer['kd_periode']; ?></td>
+						<td><?php echo $dataPer['status_periode_akademik']; ?></td>
+						<td><?php echo $dataPer['tanggal_mulai_fmt']; ?></td>
+						<td><?php echo $dataPer['tanggal_selesai_fmt']; ?></td>
+						<td align="center">
+							<form id="frm<?php echo $i;?>" method="post">
+								<input type="hidden" id="per<?php echo $i;?>" value="<?php echo $dataPer['kd_periode']?>">
+								<select id="prd<?php echo $i;?>" class="form-control">
+									<?php foreach ($this->listProdi as $dtPrd) { ?>
+									<option value="<?php echo $dtPrd['kd_prodi'];?>" ><?php echo $dtPrd['nm_prodi'];?></option>
+									<?php } ?>
+								</select>
+								<select id="akt<?php echo $i;?>" class="form-control">
+									<?php foreach ($this->listAngkt as $dtAkt) { ?>
+									<option value="<?php echo $dtAkt['id_angkatan'];?>" ><?php echo $dtAkt['id_angkatan'];?></option>
+									<?php } ?>
+								</select>
+								<button id="sb" type="button" class="btn btn-primary btn-sm" sb value="<?php echo $i;?>"><i class="fa fa-eye"></i></button>
+							</form>
+						</td>
+					</tr>
+					<?php $i++;} ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbper',true,true,true,false,true,false);});</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("[sb]").on('click',(function() {
+	 x=$(this).val();   
+	 ajaxSubmit("frm"+x,"<?php echo $this->baseUrl;?>","/ajax3/showreg?frm="+x,"/register/list","s");
+	  return false;
+	}));
+</script>

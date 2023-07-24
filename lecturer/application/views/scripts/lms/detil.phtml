@@ -1,0 +1,120 @@
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data Kelas (Online Learning)</h3>
+</div>
+<div class="inqbox-content col-sm-12">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Jenis Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->jns_kelas;?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn." (".$this->kd_dsn.")";?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+		</div>
+	</div>
+	<div class="table-responsive col-sm-6">
+		<table id="tbprm" class="table table-bordered table-hover">
+			<tr>
+				<th width="35%">Keterangan</th>
+				<th width="35%">Nama Parameter</th>
+				<th width="30%">Persentase (%)</th>
+			</tr>
+			<tr>
+				<th>Parameter 1 (P1)</th>
+				<th><?php echo $this->nm_p1;?></th>
+				<td align="right"><?php echo $this->p_p1;?></td>
+			</tr>
+			<tr>
+				<th>Parameter 2 (P2)</th>
+				<th><?php echo $this->nm_p2;?></th>
+				<td align="right"><?php echo $this->p_p2;?></td>
+			</tr>
+			<tr>
+				<th>Parameter 3 (P3)</th>
+				<th><?php echo $this->nm_p3;?></th>
+				<td align="right"><?php echo $this->p_p3;?></td>
+			</tr>
+			<tr>
+				<th>Parameter 4 (P4)</th>
+				<th><?php echo $this->nm_p4;?></th>
+				<td align="right"><?php echo $this->p_p4;?></td>
+			</tr>
+			<tr>
+				<th>Parameter UTS</th>
+				<th>UTS</th>
+				<td align="right"><?php echo $this->p_uts;?></td>
+			</tr>
+			<tr>
+				<th>Parameter 5 (P5)</th>
+				<th><?php echo $this->nm_p5;?></th>
+				<td align="right"><?php echo $this->p_p5;?></td>
+			</tr>
+			<tr>
+				<th>Parameter 6 (P6)</th>
+				<th><?php echo $this->nm_p6;?></th>
+				<td align="right"><?php echo $this->p_p6;?></td>
+			</tr>
+			<tr>
+				<th>Parameter 7 (P7)</th>
+				<th><?php echo $this->nm_p7;?></th>
+				<td align="right"><?php echo $this->p_p7;?></td>
+			</tr>
+			<tr>
+				<th>Parameter 8 (P8)</th>
+				<th><?php echo $this->nm_p8;?></th>
+				<td align="right"><?php echo $this->p_p8;?></td>
+			</tr>
+			<tr>
+				<th>Parameter UAS</th>
+				<th>UAS</th>
+				<td align="right"><?php echo $this->p_uas;?></td>
+			</tr>
+			<tr>
+				<th colspan="2">Total Parameter</th>
+				<td align="right"><strong><?php echo $this->p_tot ?></strong></td>
+			</tr>
+		</table>
+	</div>
+	<div class="table-responsive col-sm-6">
+		<table id="tbpkt" class="table table-bordered table-hover">
+			<tr>
+				<th width="40%">Nama Kelas</th>
+				<th width="20%">Tugas</th>
+				<th width="20%">Diskusi</th>
+				<th width="20%">Quiz</th>
+			</tr>
+			<?php foreach($this->listPaket as $dtPaket){ ?>
+			<tr>
+				<td><strong><?php echo $dtPaket['nm_kelas'];?></strong> (<?php echo $dtPaket[n_mhs];?> Mahasiswa)</td>
+				<td align="center"><a class="btn btn-primary btn-sm" onclick="nav('/tugas/index?id=<?php echo $dtPaket['kd_paket_kelas'];?>')"><?php echo $dtPaket['n_tugas'];?></a></td>
+				<td align="center"><a class="btn btn-warning btn-sm" onclick="nav('/diskusi/index?id=<?php echo $dtPaket['kd_paket_kelas'];?>')"><?php echo $dtPaket['n_diskusi'];?></a></td>
+				<td align="center"><a class="btn btn-danger btn-sm" onclick="nav('/quiz/index?id=<?php echo $dtPaket['kd_paket_kelas'];?>')"><?php echo $dtPaket['n_quiz'];?></a></td>
+			</tr>
+			<?php } ?>
+		</table>
+	</div>
+	<div class="table-responsive col-sm-6">
+		<table id="tbpkt" class="table table-bordered table-hover">
+			<tr>
+				<th width="40%">Nama Kelompok (Praktikum)</th>
+				<th width="30%">Tugas</th>
+				<th width="30%">Diskusi</th>
+				<!-- <th width="20%">Quiz</th> -->
+			</tr>
+			<?php foreach($this->listKelompok as $dtKel){ ?>
+			<tr>
+				<td><strong><?php echo $dtKel['nm_kelompok'];?></strong> (<?php echo $dtKel[n_mhs];?> Mahasiswa)</td>
+				<td align="center"><a class="btn btn-primary btn-sm" onclick="nav('/tugas/index?id=<?php echo $dtKel['id_kelompok'];?>')"><?php echo $dtKel['n_tugas'];?></a></td>
+				<td align="center"><a class="btn btn-warning btn-sm" onclick="nav('/diskusi/index?id=<?php echo $dtKel['id_kelompok'];?>')"><?php echo $dtKel['n_diskusi'];?></a></td>
+				<!--
+				<td align="center"><a class="btn btn-danger btn-sm" onclick="nav('/quiz/index?id=<?php echo $dtKel['id_kelompok'];?>')"><?php echo $dtKel['n_tugas'];?></a></td>
+				-->
+			</tr>
+			<?php } ?>
+		</table>
+	</div>
+</div>

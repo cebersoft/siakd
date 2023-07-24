@@ -1,0 +1,113 @@
+<div class="inqbox-content border-top-danger">
+	<h5 class="alert alert-info">
+		<i class="icon fa fa-info"></i>&nbsp;&nbsp;Penentuan Nilai dalam Transkrip
+		<ul>
+			<li>Nilai dalam transkrip terdiri atas nilai dari KHS dan nilai transfer/konversi untuk mahasiswa pindahan</li>
+			<li>Nilai dari KHS, dapat mengalami ekuivalensi jika terjadi perubahan kurikulum</li>
+			<li>Nilai yang tidak mengalami ekuivalensi ditandai dengan baris berwarna <i class="bg-blue">biru</i></li>
+			<li>Nilai yang mengalami ekuivalensi ditandai dengan baris berwarna <i class="bg-green">hijau</i></li>
+			<li>Nilai yang berasal dari nilai transfer yang <strong>SUDAH</strong> mencapai SKS yang ditentukan ditandai dengan baris berwarna <i class="bg-orange">orange</i></li>
+			<li>Nilai yang berasal dari nilai transfer yang <strong>BELUM</strong> mencapai SKS yang ditentukan TIDAK DITAMPILKAN dalam transkrip</li>
+		</ul>
+	</h5>
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">NIM</div>
+			<div class="col-sm-8">: <?php echo $this->nim;?></div>
+			<div class="col-sm-4">Nama Mahasiswa</div>
+			<div class="col-sm-8">: <?php echo $this->nm;?></div>
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prd."(".$this->kd_prd.")";?></div>
+			<div class="col-sm-4">Angkatan</div>
+			<div class="col-sm-8">: <?php echo $this->akt;?></div>
+		</div>
+	</div>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbkur" class="table table-bordered table-hover">
+			<?php $km_kum=0;$sks_kum=0;$ipk=0;for ($i=1;$i<=$this->smt;$i++){ ?>
+			<tr>
+				<th colspan="12"><strong>Semester <?php echo $i;?></strong></th>
+			</tr>
+			<tr>
+				<th>No</th>
+				<th>Kode</th>
+				<th>Mata Kuliah</th>
+				<th>SKS</th>
+				<th>Nilai</th>
+				<th>Angka Mutu</th>
+				<th>SKS x AM</th>
+				<th>Status</th>
+			</tr>
+			<?php $j=1; $sks_total=0;$km_total=0;$ips=0;foreach ($this->listNilai as $dataNilai) { ?>
+			<?php if($dataNilai['smt_def']==$i){ ?>
+			<?php 
+				if($dataNilai['ori']==0){
+					$warna="lightgreen";
+				}else{
+					$warna="lightblue";
+				}
+				if($dataNilai['asal']=='TFR'){
+					$warna="orange";
+				}
+			?>
+			<?php if((($dataNilai['sks_taken'] >= $dataNilai['sks_def'])and($dataNilai['ori']==1))or($dataNilai['ori']==0)){ ?>
+			<tr bgcolor="<?php echo $warna;?>">
+				<td><?php echo $j;?></td>
+				<td><?php echo $dataNilai['kode_mk'];?></td>
+				<td><?php echo $dataNilai['nm_mk'];?></td>
+				<td align="center"><?php echo $dataNilai['sks_def'];?></td>
+				<td align="center"><?php echo $dataNilai['huruf'];?></td>
+				<td align="center"><?php echo $dataNilai['bobot'];?></td>
+				<?php $km=floatval($dataNilai['sks_def']*$dataNilai['bobot']); ?>
+				<td align="center"><?php echo $km;?></td>
+				<?php 
+					if($dataNilai['status']==0){
+						$st="BELUM FIX";
+					}elseif ($dataNilai['status']==1){
+						$st="FIX";
+					}else{
+						$st="TUNDA";
+					}
+				?>
+				<td align="center"><?php echo $st;?></td>
+			</tr>
+			<?php
+				if($dataNilai['status']==1){
+					$km_total=$km_total+$km;
+					$sks_total=$sks_total+$dataNilai['sks_def'];
+					if($sks_total!=0){
+						$ips=number_format($km_total/$sks_total,2,',','.');
+					}else{
+						$ips=0;
+					}
+				}
+				$j++;
+			}
+			} ?>
+			<?php } ?>
+			<tr>
+				<td colspan="3"><strong>IPS : <?php echo $ips;?></strong></td>
+				<td align="center"><strong><?php echo $sks_total;?></strong></td>
+				<td colspan="2"></td>
+				<td align="center"><strong><?php echo $km_total;?></strong></td>
+				<td></td>
+			</tr>
+			<?php 
+				$km_kum=$km_kum+$km_total;
+				$sks_kum=$sks_kum+$sks_total;
+				if($sks_kum!=0){
+					$ipk=number_format($km_kum/$sks_kum,2,',','.');
+				}else {
+					$ipk=0;
+				}
+			} ?>
+			<tr>
+				<td colspan="3"><strong>IPK : <?php echo $ipk;?></strong></td>
+				<td align="center"><strong><?php echo $sks_kum;?></strong></td>
+				<td colspan="4"></td>
+			</tr>
+		</table>
+	</div>
+</div>

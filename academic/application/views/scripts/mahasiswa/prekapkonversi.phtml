@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<div class="col-sm-8">
+			<strong>
+			ANGKATAN : <?php echo $this->akt; ?>
+			</strong>
+		</div>
+		<div class="col-sm-8">
+			<strong>
+			PROGRAM STUDI : <?php echo $this->prd; ?>
+			</strong>
+		</div>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbmhs" class="table table-bordered table-hover">
+				<tbody>
+					<?php foreach ($this->listMhs as $dataMhs) { ?>
+					<tr>
+						<td>
+							<strong>NIM</strong> : <?php echo $dataMhs['nim']; ?><br>
+							<strong>Nama</strong> : <?php echo $dataMhs['nm_mhs']; ?><br>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<table class="table table-bordered table-hover">
+								<tr>
+									<th colspan="6" width="50%">DIAKUI DI <?php echo $this->nm_pt?></th>
+									<th colspan="4">ASAL : <?php echo $dataMhs['nm_pt_asal']." (".$dataMhs['nm_prodi_asal'].")"?></th>
+								</tr>
+								<tr>
+									<th>No</th>
+									<th>Kode MK</th>
+									<th>Nama MK</th>
+									<th>SKS Def</th>
+									<th>SKS Diakui</th>
+									<th>Nilai</th>
+									<th>Kode MK</th>
+									<th>Nama MK</th>
+									<th>SKS MK</th>
+									<th>Nilai</th>
+								</tr>
+								<?php $n=1;$totSksDef=0;$totSksDiakui=0;foreach ($this->listNilai as $dtKonv) { ?>
+								<?php if($dtKonv['nim']==$dataMhs['nim']){ ?>
+								<tr align="center">
+									<td><?php echo $n;?></td>
+									<td><?php echo $dtKonv['kode_mk'];?></td>
+									<td><?php echo $dtKonv['nm_mk'];?></td>
+									<td><?php echo $dtKonv['sks_tot'];?></td>
+									<td><?php echo $dtKonv['sks_diakui'];?></td>
+									<td><?php echo $dtKonv['indeks'];?></td>
+									<td><?php echo $dtKonv['kode_mk_asal'];?></td>
+									<td><?php echo $dtKonv['nm_mk_asal'];?></td>
+									<td><?php echo $dtKonv['sks_asal'];?></td>
+									<td><?php echo $dtKonv['indeks_asal'];?></td>
+								</tr>
+								<?php $n++;$totSksDef=$totSksDef+$dtKonv['sks_tot'];$totSksDiakui=$totSksDiakui+$dtKonv['sks_diakui'];} ?>
+								<?php } ?>
+								<tr>
+									<td colspan="3"><strong>Jumlah</strong></td>
+									<td align="center"><strong><?php echo $totSksDef;?></strong></td>
+									<td align="center"><strong><?php echo $totSksDiakui;?></strong></td>
+									<td colspan="7"></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

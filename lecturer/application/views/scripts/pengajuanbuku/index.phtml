@@ -1,0 +1,143 @@
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Daftar Pengajuan Buku</h3>
+</div>
+<div class="inqbox-content">
+	<form method="post" id="frm" class="form-horizontal">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Kategori *</label>
+ 			<div class="col-sm-4">
+				<select id="kat" class="form-control">
+					<option value="BUKU">BUKU</option>
+					<option value="JURNAL">JURNAL</option>
+				</select>
+ 			</div>
+ 		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Kelompok Keilmuan *</label>
+ 			<div class="col-sm-4">
+				<select id="kk" class="form-control">
+					<?php foreach($this->listKk as $dtKk){ ?>
+					<option value="<?php echo $dtKk['id_kk'];?>"><?php echo $dtKk['nm_kk'] ?></option>
+					<?php } ?>
+				</select>
+ 			</div>
+ 		</div>
+ 		<div class="form-group">
+ 			<label class="col-sm-2 control-label">Judul *</label>
+ 			<div class="col-sm-6">
+ 				<input type="text" id="kd" value="<?php echo $this->kd;?>" style="display:none;">
+ 				<textarea rows="6" cols="300" class="form-control" id="jdl" required="required"></textarea>
+ 			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Pengarang *</label>
+ 			<div class="col-sm-4">
+ 				<input type="text" class="form-control" id="pgr" placeholder="pengarang" maxlength="100" required="required">
+ 			</div>
+ 		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Penerbit *</label>
+ 			<div class="col-sm-4">
+ 				<input type="text" class="form-control" id="pnb" placeholder="penerbit" maxlength="100" required="required">
+ 			</div>
+ 		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Tahun *</label>
+ 			<div class="col-sm-4">
+ 				<input type="number" class="form-control" id="thn" placeholder="tahun" min="2000" max="3000" step="1" required="required">
+ 			</div>
+ 		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Edisi *</label>
+ 			<div class="col-sm-4">
+ 				<input type="text" class="form-control" id="ed" placeholder="edisi" maxlength="100" required="required">
+ 			</div>
+ 		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Eksemplar *</label>
+ 			<div class="col-sm-4">
+ 				<input type="number" class="form-control" id="ex" placeholder="exemplar" min="1" max="100" step="1" required="required">
+ 			</div>
+ 		</div>
+		<div class="form-group">
+ 			<div class="col-sm-8 col-sm-offset-2">
+ 				<button class="btn btn-white" type="reset">Batal</button>
+ 				<button class="btn btn-primary" type="submit">Tambah</button>
+ 			</div>
+ 		</div>
+	</form>
+	<div class="table-responsive">
+		<table id="tbl" class="table table-bordered table-hover">
+			<thead align="center">
+			<tr>
+				<th width="10%">No.Pengajuan</th>
+				<th width="10%">Tanggal</th>	
+				<th width="8%">Kelompok Keilmuan</th>
+				<th width="8%">Kategori</th>
+				<th>Data Buku</th>
+				<th width="8%">Eksemplar</th>
+				<th width="6%">Status</th>
+				<th width="8%">Aksi</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php foreach($this->listAju as $dataAju){ ?>
+			<?php
+				if($dataAju['status']==0){
+					$warna = "warning";
+					$st="PENDING";
+				}elseif($dataAju['status']==1){
+					$warna = "primary";
+					$st="DISETUJUI";
+				}elseif($dataAju['status']==2){
+					$warna = "success";
+					$st="TERSEDIA";
+				}else{
+					$warna = "danger";
+					$st="DITOLAK";
+				}				
+			?>
+			<tr>
+				<td><?php echo $dataAju['id_pengajuan'] ?></td>
+				<td><?php echo $dataAju['tgl_pengajuan_formated'] ?></td>
+				<td><?php echo $dataAju['nm_kk'] ?></td>
+				<td><?php echo $dataAju['kategori'] ?></td>
+				<td>
+					<strong>Judul</strong>     : <?php echo $dataAju['judul_buku'] ?><br>
+					<strong>Pengarang</strong> : <?php echo $dataAju['pengarang'] ?><br>
+					<strong>Penerbit</strong>  : <?php echo $dataAju['penerbit'] ?><br>
+					<strong>Tahun</strong>     : <?php echo $dataAju['tahun_terbit'] ?><br>
+					<strong>Edisi</strong>     : <?php echo $dataAju['edisi'] ?><br>
+				</td>
+				<td align="center"><?php echo $dataAju['exemplar'] ?></td>
+				<td><span class="label label-<?php echo $warna;?>"><?php echo $st; ?></span></td>
+				<?php if($dataAju['status']==0){?>
+					<td align="center">
+						<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus pengajuan buku ini? :  <?php echo $dataAju['id_pengajuan'];?>','<?php echo $this->baseUrl;?>','/pengajuanbuku/adel',new Array('<?php echo $dataAju['id_pengajuan'];?>'))"><i class="fa fa-remove"></i></button>						
+					</td>
+				<?php }else{ ?>
+					<td></td>
+				<?php }?>
+			</tr>
+			<?php }?>
+			</tbody>
+		</table>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script>
+$('#tbl').dataTable({
+    responsive: true,
+    "ordering":false
+});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/pengajuanbuku/ains","/pengajuanbuku/index?new=","u");
+	  return false;
+	});
+</script>

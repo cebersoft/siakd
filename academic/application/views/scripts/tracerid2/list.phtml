@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		Data Tracer Study Mahasiswa
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbalm" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th width="15%">NIM</th>
+						<th>NAMA ALUMNI</th>
+						<th width="15%">TAHUN LULUS</th>
+						<th width="15%">KODE PRODI</th>
+						<th width="15%">DATA</th>
+						<th width="5%">AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listKuis as $dataKuis) { ?>
+					<tr>
+						<td><?php echo $dataKuis['nimhsmsmh']; ?></td>
+						<td><?php echo $dataKuis['nmmhsmsmh']; ?></td>
+						<td align="center"><?php echo $dataKuis['tahun_lulus']; ?></td>
+						<td align="center"><?php echo $dataKuis['kdpstmsmh']; ?></td>
+						<td>
+							<?php $a=json_decode($dataKuis['answer'],true);?>
+							<?php
+								foreach($a as $key=>$value){
+									echo $value.",";
+								}
+							?>
+						</td>
+						<td align="center">
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus data ini?  <?php echo str_replace("'", "\'", $dataKuis['nimhsmsmh']);?>','<?php echo $this->baseUrl;?>','/ajax3/deltrc2',new Array('<?php echo $dataKuis['nimhsmsmh'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbalm',true,true,true,true,true,false);});</script>

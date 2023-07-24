@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+	<?php $ses = new Zend_Session_Namespace('ses_fin');$super=$ses->super;?>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title><?php echo $this->title;?></title>
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<link rel="shortcut icon" href=<?php echo $this->baseUrl;?>/image/png?url=public/img/logo.png>
+		<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/assets/font-awesome/4.2.0/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/assets/fonts/fonts.googleapis.com.css" />
+		<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+		<script src="<?php echo $this->baseUrl;?>/public/assets/js/ace-extra.min.js"></script>
+		
+		<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.2.1.1.min.js"></script>
+		<script src="<?php echo $this->baseUrl; ?>/public/js/helper.js"></script>
+	</head>
+	<body class="no-skin">
+		<div id="navbar" class="navbar navbar-default navbar-fixed-top">
+			<div class="navbar-container" id="navbar-container">
+				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+					<span class="sr-only">Toggle sidebar</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<div class="navbar-header pull-left">
+					<a href="<?php echo $this->baseUrl;?>/home" class="navbar-brand">
+						<small>
+							<i class="fa fa-desktop"></i>
+							Sistem Informasi Keuangan Mahasiswa
+						</small>
+					</a>
+				</div>
+				<div class="navbar-buttons navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+						<li class="light-blue">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+								<img class="nav-user-photo" src="<?php echo $this->baseUrl;?>/public/assets/avatars/avatar.png" alt="User" />
+								<span class="user-info">
+									<small>Selamat Datang,</small>
+									<?php echo $this->namauser;?>
+								</span>
+								<i class="ace-icon fa fa-caret-down"></i>
+							</a>
+							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+								<li>
+									<a href="<?php echo $this->baseUrl;?>/profil">
+										<i class="ace-icon fa fa-user"></i>
+										Profile
+									</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a href="<?php echo $this->baseUrl;?>/logout">
+										<i class="ace-icon fa fa-power-off"></i>
+										Logout
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="main-container" id="main-container">
+			<div id="sidebar" class="sidebar responsive sidebar-fixed">
+				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+					<div class="sidebar-shortcuts-large">
+						Main Menu :
+					</div>
+				</div>
+				<ul class="nav nav-list">
+					<li class="<?php echo $this->act_mst;?>">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-cube"></i>
+							<span class="menu-text">
+								Master Data
+							</span>
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+						<b class="arrow"></b>
+						<ul class="submenu">
+							<li class="<?php echo $this->act_bank;?>">
+								<a href="<?php echo $this->baseUrl;?>/bank">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Master Data Bank
+								</a>
+							</li>
+							<li class="<?php echo $this->act_va;?>">
+								<a href="<?php echo $this->baseUrl;?>/va">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Virtual Account
+								</a>
+							</li>
+							<li class="<?php echo $this->act_kal;?>">
+								<a href="<?php echo $this->baseUrl;?>/kalender">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Kalender Keuangan
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="<?php echo $this->act_setbiaya;?>">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-edit"></i>
+							<span class="menu-text">
+								Pengaturan Biaya
+							</span>
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+						<b class="arrow"></b>
+						<ul class="submenu">
+							<li class="<?php echo $this->act_kom;?>">
+								<a href="<?php echo $this->baseUrl;?>/kompbiaya">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Komponen Biaya
+								</a>
+							</li>
+							<li class="<?php echo $this->act_pkt;?>">
+								<a href="<?php echo $this->baseUrl;?>/paketbiaya">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Paket Biaya
+								</a>
+							</li>
+							<li class="<?php echo $this->act_biaya;?>">
+								<a href="<?php echo $this->baseUrl;?>/biaya">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Biaya Periodik
+								</a>
+							</li>
+							<li class="<?php echo $this->act_obiaya;?>">
+								<a href="<?php echo $this->baseUrl;?>/fbiaya">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Urutan Biaya Periodik
+								</a>
+							</li>
+							<li class="<?php echo $this->act_biayata;?>">
+								<a href="<?php echo $this->baseUrl;?>/biayata">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Biaya Interval
+								</a>
+							</li>
+							<li class="<?php echo $this->act_sumb;?>">
+								<a href="<?php echo $this->baseUrl;?>/sumbangan">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Biaya Sumbangan
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="<?php echo $this->act_gel;?>">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-users"></i>
+							<span class="menu-text">
+								Gelombang PMB
+							</span>
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+						<b class="arrow"></b>
+						<ul class="submenu">
+							<li class="<?php echo $this->act_gelmt;?>">
+								<a href="<?php echo $this->baseUrl;?>/gelmaster">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Master Gelombang PMB
+								</a>
+							</li>
+							<li class="<?php echo $this->act_gelmhs;?>">
+								<a href="<?php echo $this->baseUrl;?>/gelmhs">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Gelombang PMB Mahasiswa
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="<?php echo $this->act_reg;?>">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-clock-o"></i>
+							<span class="menu-text">
+								Registrasi
+							</span>
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+						<b class="arrow"></b>
+						<ul class="submenu">
+							<li class="<?php echo $this->act_praregs;?>">
+								<a href="<?php echo $this->baseUrl;?>/praregister">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Pra Registrasi
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="<?php echo $this->act_mhsbiaya;?>">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-user"></i>
+							<span class="menu-text">
+								Biaya Mahasiswa
+							</span>
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+						<b class="arrow"></b>
+						<ul class="submenu">
+							<li class="<?php echo $this->act_detbiaya;?>">
+								<a href="<?php echo $this->baseUrl;?>/mhsbiaya">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Rincian Biaya
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="<?php echo $this->act_ta;?>">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-list"></i>
+							<span class="menu-text">
+								Tugas Akhir
+							</span>
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+						<b class="arrow"></b>
+						<ul class="submenu">
+							<li class="<?php echo $this->act_verifyta;?>">
+								<a href="<?php echo $this->baseUrl;?>/verifyta">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Verifikasi TA (Keuangan)
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="<?php echo $this->act_rep;?>">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-bar-chart-o"></i>
+							<span class="menu-text">
+								Rekap-Laporan
+							</span>
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+						<b class="arrow"></b>
+						<ul class="submenu">
+							<li class="<?php echo $this->act_rep1;?>">
+								<a href="<?php echo $this->baseUrl;?>/report">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Laporan Biaya Periodik
+								</a>
+							</li>
+							<li class="<?php echo $this->act_rep2;?>">
+								<a href="<?php echo $this->baseUrl;?>/report/index2">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Laporan Biaya TA
+								</a>
+							</li>
+						<!-- 	<li class="<?php echo $this->act_rep3;?>">
+								<a href="<?php echo $this->baseUrl;?>/report/index3">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Laporan Sumbangan
+								</a>
+							</li>
+							<li class="<?php echo $this->act_rep4;?>">
+								<a href="<?php echo $this->baseUrl;?>/report/index4">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Rekap Kewajiban
+								</a>
+							</li>
+						-->
+							<li class="<?php echo $this->act_rep5;?>">
+								<a href="<?php echo $this->baseUrl;?>/report/index5">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Rekap Pembayaran
+								</a>
+							</li>
+						</ul>
+					</li>
+					<?php if($super=='t'){?>
+					<li class="<?php echo $this->act_tools;?>">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-wrench"></i>
+							<span class="menu-text">
+								Pengaturan
+							</span>
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+						<b class="arrow"></b>
+						<ul class="submenu">
+							<li class="<?php echo $this->act_user;?>">
+								<a href="<?php echo $this->baseUrl;?>/user">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Manajemen User
+								</a>
+							</li>
+						</ul>
+					</li>
+					<?php }?>
+				</ul>
+				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+					<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+				</div>
+				<script type="text/javascript">
+					try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+				</script>
+			</div>
+			<div class="main-content">
+				<div class="main-content-inner">
+					<div class="breadcrumbs breadcrumbs-fixed" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+						<ul class="breadcrumb">
+							<h4>
+								<?php echo $this->title;?>
+							</h4>
+						</ul>
+					</div>
+					<div class="page-content">
+						<div class="page-header">
+							<button class="btn btn-primary btn-sm navbar-btn" onclick="nav('<?php echo $this->baseUrl; ?>/<?php echo $this->lback;?>')" <?php echo $this->bdis;?>><i class="fa fa-backward"></i>&nbsp;&nbsp;Back</button>
+							<button class="btn btn-primary btn-sm" onclick="nav('<?php echo $this->baseUrl; ?>/<?php echo $this->llist;?>')" <?php echo $this->ldis;?>><i class="fa fa-list"></i>&nbsp;&nbsp;List</button>
+							<button class="btn btn-primary btn-sm" onclick="nav('<?php echo $this->baseUrl; ?>/<?php echo $this->lnew;?>')" <?php echo $this->ndis;?>><i class="fa fa-plus"></i>&nbsp;&nbsp;New</button>
+							<button class="btn btn-primary btn-sm" onclick="nav('<?php echo $this->baseUrl; ?>/<?php echo $this->lexport;?>')" <?php echo $this->edis;?>><i class="fa fa-file-o"></i>&nbsp;&nbsp;Export</button>
+							<button class="btn btn-primary btn-sm" onclick="nav('<?php echo $this->baseUrl; ?>/<?php echo $this->limport;?>')" <?php echo $this->idis;?>><i class="fa fa-upload"></i>&nbsp;&nbsp;Upload</button>
+						</div>
+						<div class="row">
+							<div class="modal fade" id=myModal tabindex=-1 role=dialog aria-labelledby=myModalLabel aria-hidden=true>
+								<div class=modal-dialog>
+									<div class=modal-content>
+										<div class=modal-header>
+											<h4>Halaman <?php echo $this->title; ?></h4>
+										</div>
+										<div class=modal-body></div>
+										<div class=modal-footer>
+											<button type=button id=btC class="btn btn-default" data-dismiss=modal>Close</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12">

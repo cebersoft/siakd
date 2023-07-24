@@ -1,0 +1,26 @@
+<?php echo $this->render('helper/function.phtml');?>
+<div class="box  box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbkur" class="table table-bordered table-hover" style="cursor: pointer;">
+				<thead align="center">
+					<tr>
+						<th>KODE</th>
+						<th>NAMA KURIKULUM</th>
+						<th>PROGRAM STUDI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listKur as $dataKur) { ?>
+					<tr onclick="insVal('<?php echo $this->readyCaller;?>', new Array('<?php echo escQuoteJS($dataKur['id_kurikulum']);?>','<?php echo escQuoteJS($dataKur['nm_kurikulum']);?>'))">
+						<td><?php echo $dataKur['kd_kurikulum']; ?></td>
+						<td><?php echo $dataKur['nm_kurikulum']; ?></td>
+						<td><?php echo $dataKur['nm_prodi']; ?></td>
+					</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script>$(function () {tabel('tbkur',true,true,true,true,true,false);});</script>

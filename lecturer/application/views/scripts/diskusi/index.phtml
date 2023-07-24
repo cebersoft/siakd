@@ -1,0 +1,139 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data Diskusi</h3>
+</div>
+<div class="inqbox-content">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Jenis Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->jns_kelas;?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn." (".$this->kd_dsn.")";?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+			<div class="col-sm-4">Nama Kelas/Kelompok</div>
+			<div class="col-sm-8">: <?php echo $this->nm;?></div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Minggu</label>
+					<div class="col-sm-10">
+						<input type="hidden" id="kd_paket_kelas" value="<?php echo $this->kd_paket_kelas;?>">
+						<input type="hidden" id="id_kel" value="<?php echo $this->id_kel;?>">
+						<select class="form-control" id="rps">
+							<?php foreach($this->listRps as $dtRps){ ?>
+							<option value="<?php echo $dtRps['id_rps_detil'];?>">(<?php echo $dtRps['minggu'];?>) <?php echo substr($dtRps['kemampuan_akhir'],0,40);?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Parameter Nilai</label>
+					<div class="col-sm-10">
+						<select class="form-control" id="prm">
+							<option value="P1">P1</option>
+							<option value="P2">P2</option>
+							<option value="P3">P3</option>
+							<option value="P4">P4</option>
+							<option value="UTS">UTS</option>
+							<option value="P5">P5</option>
+							<option value="P6">P6</option>
+							<option value="P7">P7</option>
+							<option value="P8">P8</option>
+							<option value="UAS">UAS</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Judul Diskusi</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="jdl" placeholder="judul diskusi">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Materi Diskusi</label>
+					<div class="col-sm-10">
+						<textarea id="knt" class="form-control" placeholder="materi diskusi" rows="8"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Tanggal Terbit Diskusi</label>
+					<div class="col-sm-10">
+						<input type="date" class="form-control" id="tgl1" placeholder="tanggal terbit diskusi">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Kadaluwarsa Diskusi</label>
+					<div class="col-sm-10">
+						<input type="date" class="form-control" id="tgl2" placeholder="deadline diskusi">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="box-footer col-sm-6">
+					<button type="submit" class="btn btn-primary pull-right col-sm-4" id="btnsbm">Tambah</button>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-4" id="btnres">Reset</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="table-responsive">
+		<table id="tbkls" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th width="5%">NO</th>
+					<th width="8%">MINGGU</th>
+					<th>DISKUSI</th>
+					<th width="15%">KONTRIBUTOR</th>
+					<th width="10%">SUBMITED/SCORED</th>
+					<th width="5%">DETIL</th>
+					<th width="10%">AKSI</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;foreach ($this->listDiskusi as $dataDiskusi) { ?>
+				<tr>
+					<td><?php echo $i; ?></td>
+					<td><?php echo $dataDiskusi['minggu']; ?></td>
+					<td>
+						<strong>Diterbitkan </strong> : <?php echo $dataDiskusi['published_fmt']; ?><br>
+						<strong>Deadline </strong> : <?php echo $dataDiskusi['expired_fmt']; ?><br>
+						<strong>Judul</strong> : <?php echo $dataDiskusi['judul_diskusi']; ?><br>
+						<strong>Materi</strong> : <br><?php echo $dataDiskusi['konten_diskusi']; ?><br>
+						<strong>Parameter</strong> : <?php echo $dataDiskusi['param_nilai']; ?>
+					</td>
+					<td align="center">
+						<?php echo $dataDiskusi['nm_dosen']." (".$dataDiskusi['created'].")"; ?>
+					</td>
+					<td align="center">
+						<?php echo $dataDiskusi['n_diskusi_mhs']."/".$dataDiskusi['n_diskusi_mhs_scored']; ?>
+					</td>
+					<td align="center">
+						<button type="button" class="btn btn-primary btn-sm" onclick="nav('<?php echo $this->baseUrl;?>/diskusi/detil?id=<?php echo $dataDiskusi['id_diskusi'];?>')"><i class="fa fa-eye"></i></button>
+					</td>
+					<td align="center">
+						<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus data ini? ','<?php echo $this->baseUrl;?>','/ajax/deldiskusi',new Array('<?php echo $dataDiskusi['id_diskusi'];?>'))"><i class="fa fa-remove"></i></button>
+					</td>
+				</tr>
+				<?php $i++; } ?>
+		</table>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","","/ajax/insdiskusi","/diskusi/index?id=<?php echo $this->url;?>&new=","u");
+	  return false;
+	});
+</script>

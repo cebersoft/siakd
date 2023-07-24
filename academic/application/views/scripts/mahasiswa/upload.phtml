@@ -1,0 +1,74 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Upload Data Mahasiswa </h3>
+	</div>
+	<div class="box-body">
+		<?php if((count($this->listAgama)>0)and(count($this->listKwn)>0)and(count($this->listJob)>0)and(count($this->listDosenAktif)>0)){?>
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="box-body">
+				<div class="col-md-6">
+					<div class="form-group">
+					<label class="col-sm-4 control-label">Angkatan</label>
+					<div class="col-sm-8">
+						<select class="form-control select2" id="akt" sel-2>
+							<option disabled selected value="">pilih angkatan</option>
+							<?php foreach ($this->listAkt as $dt) { ?>
+							<option value="<?php echo $dt['id_angkatan']?>"><?php echo $dt['id_angkatan']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Program Studi</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="prd">
+							<option disabled selected value="">pilih program studi</option>
+							<?php foreach ($this->listProdi as $dt) { ?>
+							<option value="<?php echo $dt['kd_prodi']?>"><?php echo $dt['nm_prodi']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">Template</label>
+						<div class="col-sm-8">
+							<button type="button" id="gen" class="btn btn-success col-sm-6">Generate Template</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">File</label>
+						<div class="col-sm-8">
+							<input type="file" id="fileToUpload" name="fileToUpload" accept="application/vnd.ms-excel" >
+						</div>
+					</div>
+					<div class="box-footer">
+						<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+						<button type="button" id="upload" class="btn btn-primary pull-right col-sm-2">Upload</button>
+					</div>
+				</div>
+			</div>
+		</form>
+		<?php }else{?>
+		<h5 class="callout callout-warning">Data refeensi masih ada yang kosong (Agama, Kewarganegaraan, Pekerjaan dan Dosen Wali)</h5>
+		<?php }?>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$('#upload').on('click', function() {
+	  ajaxUpload('fileToUpload','<?php echo $this->baseUrl;?>','/ajax/uplmhs');
+	});
+</script>
+<script>
+	$('#gen').on('click', function() {
+	  var akt=$('#akt').val();
+	  var prd=$('#prd').val();
+	  if((akt==null)||(prd==null)){
+		  ibox('Data angkatan dan prodi tidak boleh kosong');
+		  return false;
+      }else{
+	  	nav('<?php echo $this->baseUrl;?>/mahasiswa/template?akt='+akt+'&prd='+prd);
+	  	return false;
+      }
+	});
+</script>

@@ -1,0 +1,180 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">HISTORI KULIAH</h3>
+	</div>
+	<div class="box-header">
+		<div class="col-md-8">
+			<div class="col-sm-4">NIM</div>
+			<div class="col-sm-8">: <?php echo $this->nim;?></div>
+			<div class="col-sm-4">Nama Mahasiswa</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mhs;?></div>
+			<div class="col-sm-4">Program Studi/Angkatan</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prd."(".$this->kd_prd.") / ".$this->akt;?></div>
+			<div class="col-sm-4">Dosen Wali</div>
+			<div class="col-sm-8">: <?php echo $this->dw;?></div>
+		</div>
+	</div>
+	<div class="box-body">
+		<div class="col-md-12">
+			<div class="nav-tabs-custom">
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#reg" data-toggle="tab">Her-Registrasi</a></li>
+					<li><a href="#krs" data-toggle="tab">Rencana Studi</a></li>
+					<li><a href="#khs" data-toggle="tab">Hasil Studi</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="active tab-pane" id="reg">
+						<div class="box-body">
+							<table id="reg" class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th>NO</th>
+										<th>PERIODE AKADEMIK</th>
+										<th>STATUS REGISTRASI</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php $nX=0;$i=1;foreach ($this->listRegister as $dataReg) { ?>
+									<tr>
+										<td align="center"><?php echo $i; ?></td>
+										<td align="center"><?php echo $dataReg['kd_periode']; ?></td>
+										<td align="center"><?php echo $dataReg['status_reg']." (".$dataReg['status_mhs_periode'].")"; ?></td>
+									</tr>
+									<?php if($this->keluar=='t'){ ?>
+									<?php if($this->periode_keluar==$dataReg['kd_periode']){?>
+									<?php $i++;?>
+									<tr bgcolor="lightgrey">
+										<td align="center"><?php echo $i; ?></td>
+										<td align="center"><?php echo $this->periode_keluar; ?></td>
+										<td align="center"><?php echo $this->jns_keluar; ?></td>
+									</tr>
+									<?php $nX++;} ?>
+									<?php } ?>
+									<?php $i++;} ?>
+									<?php if($nX==0){ ?>
+									<tr bgcolor="lightgrey">
+										<td align="center"><?php echo $i; ?></td>
+										<td align="center"><?php echo $this->periode_keluar; ?></td>
+										<td align="center"><?php echo $this->jns_keluar; ?></td>
+									</tr>
+									<?php }?>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="krs">
+						<div class="box-body">
+							<div class="table-responsive">
+								<table id="tbkur" class="table table-bordered table-hover">
+									<?php foreach ($this->listPerKul as $dtPer){ ?>
+									<tr>
+										<th colspan="13"><strong>Periode Akademik <?php echo $dtPer;?></strong></th>
+									</tr>
+									<tr>
+										<th width="5%">No</th>
+										<th>Kode</th>
+										<th>Mata Kuliah</th>
+										<th>SKS Default</th>
+										<th>SKS Diambil</th>
+										<th>Kode Dosen</th>
+										<th>Nama Dosen</th>
+										<th>Kelas</th>
+										<th>Status KRS</th>
+									</tr>
+									<?php $j=1; $sks_total=0;$km_total=0;foreach ($this->listKuliah as $dataKul) { ?>
+									<?php if($dataKul['kd_periode']==$dtPer){ ?>
+									<tr>
+										<td><?php echo $j;?></td>
+										<td><?php echo $dataKul['kode_mk'];?></td>
+										<td><?php echo $dataKul['nm_mk'];?></td>
+										<?php $sks=$dataKul['sks_tm']+$dataKul['sks_prak']+$dataKul['sks_prak_lap']+$dataKul['sks_sim']; ?>
+										<td align="center"><?php echo $sks;?></td>
+										<?php $sks_taken=$sks-$dataKul['sks_deducted']; ?>
+										<td align="center"><?php echo $sks_taken;?></td>
+										<td align="center"><?php echo $dataKul['kd_dosen'];?></td>
+										<td><?php echo $dataKul['nm_dosen'];?></td>
+										<td align="center"><?php echo $dataKul['nm_kelas'];?></td>
+										<?php 
+											if($dataKul['approved']=='t'){
+												$app="fa fa-check-square-o";
+											}else{
+												$app="fa fa-warning";
+											}
+										?>
+										<td align="center"><i class="<?php echo $app;?>"></i></td>
+									</tr>
+									<?php $j++;} ?>
+									<?php } ?>
+									<?php } ?>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="khs">
+						<div class="box-body">
+							<div class="table-responsive">
+								<table id="tbkur" class="table table-bordered table-hover">
+									<?php foreach ($this->listPerNilai as $dtPer){ ?>
+									<tr>
+										<th colspan="13"><strong>Periode Akademik <?php echo $dtPer;?></strong></th>
+									</tr>
+									<tr>
+										<th width="5%">No</th>
+										<th>Kode</th>
+										<th>Mata Kuliah</th>
+										<th>SKS Default</th>
+										<th>SKS Diambil</th>
+										<th>Nilai</th>
+										<th>Angka Mutu</th>
+										<th>SKS x AM</th>
+										<th>Status Nilai</th>
+									</tr>
+									<?php $j=1; $sks_total=0;$km_total=0;foreach ($this->listNilai as $dataNilai) { ?>
+									<?php if($dataNilai['kd_periode']==$dtPer){ ?>
+									<?php $arrIndeks=explode('/', $dataNilai['index']); ?>
+									<tr>
+										<td><?php echo $j;?></td>
+										<td><?php echo $dataNilai['kode_mk'];?></td>
+										<td><?php echo $dataNilai['nm_mk'];?></td>
+										<?php $sks=$dataNilai['sks_tm']+$dataNilai['sks_prak']+$dataNilai['sks_prak_lap']+$dataNilai['sks_sim']; ?>
+										<td align="center"><?php echo $sks;?></td>
+										<?php $sks_taken=$sks-$dataNilai['sks_deducted']; ?>
+										<td align="center"><?php echo $sks_taken;?></td>
+										<td align="center"><?php echo $arrIndeks[0];?></td>
+										<td align="center"><?php echo floatval($arrIndeks[1]);?></td>
+										<?php $km=floatval(($sks-$dataNilai['sks_deducted'])*$arrIndeks[1]); ?>
+										<td align="center"><?php echo $km;?></td>
+										<?php 
+											if($dataNilai['status']==0){
+												$st="BELUM FIX";
+											}elseif ($dataNilai['status']==1){
+												$st="FIX";
+											}else{
+												$st="TUNDA";
+											}
+										?>
+										<td align="center"><?php echo $st;?></td>
+									</tr>
+									<?php
+										$km_total=$km_total+$km;
+										$sks_total=$sks_total+$sks_taken;
+										$ips=number_format($km_total/$sks_total,2,',','.');
+										$j++;
+									} ?>
+									<?php } ?>
+									<tr>
+										<td colspan="4"><strong>IPS : <?php echo $ips;?></strong></td>
+										<td align="center"><strong><?php echo $sks_total;?></strong></td>
+										<td colspan="2"></td>
+										<td align="center"><strong><?php echo $km_total;?></strong></td>
+										<td></td>
+									</tr>
+									<?php } ?>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

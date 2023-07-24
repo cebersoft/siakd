@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Nama Paket Kelas</h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Kode Nama Paket Kelas</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="id_nm" placeholder="kode nama paket kelas" maxlength="5">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nama Paket Kelas</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="nm" placeholder="nama paket kelas" maxlength="30">
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+				<button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+			</div>
+		</div>
+	</form>
+	<div class="box-body">
+		<div class="table-responsive col-sm-6">
+			<table id="tbakt" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>NO</th>
+						<th>KODE NAMA KELAS</th>
+						<th>NAMA KELAS</th>
+						<th>AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listNmKls as $data) { ?>
+					<tr>
+						<td><?php echo $i; ?></td>
+						<td><?php echo $data['id_nm_kelas']; ?></td>
+						<td><?php echo $data['nm_kelas']; ?></td>
+						<td align="center">
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus nama paket kelas ini ? <strong><?php echo $data['nm_kelas'];?></strong>','<?php echo $this->baseUrl;?>','/ajax2/delnmkls',new Array('<?php echo $data['id_nm_kelas'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbakt',true,true,true,true,true,false);});</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax2/insnmkls","/nmkelas/index?new=","u");
+	  return false;
+	});
+</script>

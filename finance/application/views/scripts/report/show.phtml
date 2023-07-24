@@ -1,0 +1,139 @@
+<div class="table-header">
+	Laporan Kewajiban Periodik 
+</div>
+<div>
+	<table id="tbl" class="table table-striped table-bordered table-hover" width="<?php echo 3000+(count($this->listKompBiaya)*100)+(count($this->listKompSumb)*100)?>px">
+		<thead>
+			<tr>
+				<th class="center" width="15%" rowspan="3">NIM</th>
+				<th class="center" rowspan="3">Nama</th>
+				<th class="center" width="7%" rowspan="3">Prodi/Angkatan</th>
+				<th class="center" width="10%" rowspan="3">Status Registrasi</th>
+				<th class="center" colspan="3">SKS/Jumlah MK</th>
+				<th class="center" colspan="<?php echo count($this->listKompBiaya)*2;?>">Komponen Biaya Semester Ini</th>
+				<th class="center" width="50px" rowspan="3">Total Biaya Semester Ini</th>
+				<th class="center" width="50px" rowspan="3">Kompensasi</th>
+				<th class="center" width="50px" rowspan="3">Pembayaran Untuk Semester Ini</th>
+				<th class="center" width="50px" rowspan="3">Tunggakan Semester Ini</th>
+				<?php if($this->nSumb!=0){?>
+				<th class="center" colspan="<?php echo count($this->listKompSumb)*2;?>">Sumbangan</th>
+				<?php }?>
+			</tr>
+			<tr>
+				<th class="center" width="8%" rowspan="2">Teori</th>
+				<th class="center" width="8%" rowspan="2">Prak</th>
+				<th class="center" width="8%" rowspan="2">TA</th>
+				<?php if(count($this->listKompBiaya)>0){?>
+				<?php foreach ($this->listKompBiaya as $dtKomp){?>
+				<?php
+					$arrKomp=explode("||", $dtKomp);
+					$id_komp=$arrKomp[0];
+					$nm_komp=$arrKomp[1];
+				?>
+				<th class="center" width="100px" colspan="2">
+					<?php echo $nm_komp;?>
+				</th>
+				<?php }}else{?>
+				<th></th>
+				<?php }?>
+				<?php if($this->nSumb!=0){?>
+				<?php foreach ($this->listKompSumb as $dtKompSumb) { ?>
+				<?php
+					$arrKompSumb=explode("||", $dtKompSumb);
+					$id_komp_sumb=$arrKompSumb[0];
+					$nm_komp_sumb=$arrKompSumb[1];
+				?>
+				<th class="center" width="100px" colspan="2">
+					<?php echo $nm_komp_sumb;?>
+				</th>
+				<?php }?>
+				<?php }?>
+			</tr>
+			<tr>
+				<?php if(count($this->listKompBiaya)>0){?>
+				<?php foreach ($this->listKompBiaya as $dtKomp){?>
+				<th class="center" width="50px">Kewajiban</th>
+				<th class="center" width="50px">Bayar</th>
+				<?php }}else{?>
+				<th></th>
+				<?php }?>
+				<?php if(count($this->listKompSumb)>0){?>
+				<?php foreach ($this->listKompSumb as $dtKompSumb){?>
+				<th class="center" width="50px">Kewajiban</th>
+				<th class="center" width="50px">Bayar</th>
+				<?php }}?>
+			</tr>
+		</thead>
+		<tbody>
+			<?php $i=1;foreach ($this->listMhsReg as $dtMhsReg){?>
+			<tr>
+				<td><?php echo $dtMhsReg['nim'];?></td>
+				<td><?php echo $dtMhsReg['nm_mhs'];?></td>
+				<td class="center"><?php echo $dtMhsReg['nm_prodi']."/".$dtMhsReg['id_angkatan'];?></td>
+				<td class="center"><?php echo $dtMhsReg['status_reg']."(".$dtMhsReg['status_mhs_periode'].")";?></td>
+				<td class="center"><?php echo $dtMhsReg['sks_teori'];?>/<?php echo $dtMhsReg['n_teori'];?></td>
+				<td class="center"><?php echo $dtMhsReg['sks_prak'];?>/<?php echo $dtMhsReg['n_prak'];?></td>
+				<td class="center"><?php echo $dtMhsReg['sks_ta'];?>/<?php echo $dtMhsReg['n_ta'];?></td>
+				<?php 
+				$totNomKomp=0;
+				$totNomAlocate=0;
+				$totNomKompen=0;
+				if(count($this->listKompBiaya)>0){
+				foreach ($this->listKompBiaya as $dtKomp){ ?>
+				<?php
+					$nomKomp=0;
+					$nomKompen=0;
+					$nomAlocate=0;
+					$arrKomp=explode("||", $dtKomp);
+					$id_komp=$arrKomp[0];
+					foreach ($this->listMhsBiayaPer as $dtMhsBiaya){
+						if(($dtMhsBiaya['nim']==$dtMhsReg['nim'])and($dtMhsBiaya['id_komp']==$id_komp)){
+							$nomKomp=number_format($dtMhsBiaya['nominal_komp'],2,',','.');
+							$nomAlocate=number_format($dtMhsBiaya['nominal_alocate'],2,',','.');
+							$totNomKomp=$totNomKomp+$dtMhsBiaya['nominal_komp'];
+							$totNomAlocate=$totNomAlocate+$dtMhsBiaya['nominal_alocate'];
+							$totNomKompen=$totNomKompen+$dtMhsBiaya['nominal_kompensasi'];
+						}
+					}
+				?>
+				<td align="right"><?php echo $nomKomp;?></td>
+				<td align="right"><?php echo $nomAlocate;?></td>	
+				<?php }}else{?>
+				<td></td>
+				<?php }?>
+				<td align="right"><?php echo number_format($totNomKomp,2,',','.');?></td>
+				<td align="right"><?php echo number_format($totNomKompen,2,',','.');?></td>
+				<td align="right"><?php echo number_format($totNomAlocate,2,',','.');?></td>
+				<td align="right"><?php echo number_format($totNomKomp-$totNomKompen-$totNomAlocate,2,',','.');?></td>
+				<?php
+				if(count($this->listKompSumb)>0){
+				foreach ($this->listKompSumb as $dtKompSumb){
+					$arrKompSumb=explode("||", $dtKompSumb);
+					$id_komp_sumb=$arrKompSumb[0];
+					$nomKompSumb=0;
+					$nomAlocateSumb=0;
+					foreach ($this->listSumb as $dtMhsSumb){
+						if(($dtMhsSumb['nim']==$dtMhsReg['nim'])and($dtMhsSumb['id_komp']==$id_komp_sumb)){
+							$nomKompSumb=number_format($dtMhsSumb['nominal'],2,',','.');
+							$nomAlocateSumb=number_format($dtMhsSumb['tot_bayar'],2,',','.');
+						}
+					}
+				?>
+				<td align="right"><?php echo $nomKompSumb;?></td>
+				<td align="right"><?php echo $nomAlocateSumb;?></td>	
+				<?php }?>
+				<?php }?>
+			</tr>
+			<?php $i++;}?>
+		</tbody>
+	</table>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#tbl').DataTable( {
+        "scrollX": true
+    } );
+} );
+</script>

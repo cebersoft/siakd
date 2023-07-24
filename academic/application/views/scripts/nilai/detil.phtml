@@ -1,0 +1,177 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Daftar Nilai Mahasiswa</h3>
+	</div>
+	<div class="box-body">
+		<div class="box-body">
+			<div class="col-md-6">
+				<div class="col-sm-4">Program Studi</div>
+				<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+				<div class="col-sm-4">Periode Akademik</div>
+				<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+				<div class="col-sm-4">Nama Kelas</div>
+				<div class="col-sm-8">: <?php echo $this->nm_kelas." (".$this->jns_kelas.")";?></div>
+				<div class="col-sm-4">Dosen</div>
+				<div class="col-sm-8">: <?php echo $this->nm_dsn;?></div>
+				<div class="col-sm-4">Mata Kuliah</div>
+				<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+			</div>
+		</div>
+		<h5 class="callout callout-info">
+			<i class="icon fa fa-info-circle"></i>
+			<ul>
+				<li>Klik pada NIM Mahasiswa tersebut jika hendak menginput nilai dan mengubah status nilai</li>
+				<li>Pada kolom nomor, warna <i class="bg-yellow">oranye</i> menunjukkan status nilai BELUM FIX, sedangkan warna <i class="bg-green">hijau</i> menunjukkan status nilai SUDAH FIX dan warna <i class="bg-navy">biru tua</i> menunjukkan nilai masih ditunda</li>
+				<li>Pada Kolom paling kanan terdapat <i>button</i> <span class="btn btn-success btn-xs">Mass Fix</span> yang dapat Anda gunakan untuk fix nilai secara massal, dengan terlebih dahulu melakukan cheklist terhadap data yang akan di-fix</li>
+			</ul>
+		</h5>
+		<?php
+			if($this->p_tot!=100){
+			  $class="danger";
+			  $alert="Total parameter belum mencapai 100%, edit di menu kelas agar total mencapai 100!";
+			  $icon="warning";
+			}else{
+			  $class="success";
+			  $alert="Total parameter sudah tepat 100%, sudah dapat digunakan untuk perhitungan nilai";
+			  $icon="check";
+			}
+			?>
+		<h5 class="callout callout-<?php echo $class;?>">
+			<i class="icon fa fa-<?php echo $icon;?>"></i>&nbsp;&nbsp;<?php echo $alert;?>&nbsp;&nbsp;
+			<a href="<?php echo $this->baseUrl;?>/kelas/detil?id=<?php echo $this->kd_kelas;?>" target="_blank" class="button btn btn-info">Link Kelas</a>
+		</h5>
+		<div class="table-responsive">
+			<form id="frm_nilai" method="post">
+				<table id="tbnilai" class="table table-bordered table-hover" style="width:1420px; table-layout:fixed;">
+					<thead align="center">
+						<tr>
+							<th rowspan="2" style="width:40px">NO</th>
+							<th rowspan="2" style="width:100px">NIM</th>
+							<th rowspan="2" style="width:300px">NAMA MAHASISWA</th>
+							<th rowspan="2" style="width:60px">AKT</th>
+							<th style="width:60px;word-wrap:break-word"><?php echo $this->nm_p1;?></th>
+							<th style="width:60px;word-wrap:break-word"><?php echo $this->nm_p2;?></th>
+							<th style="width:60px;word-wrap:break-word"><?php echo $this->nm_p3;?></th>
+							<th style="width:60px;word-wrap:break-word"><?php echo $this->nm_p4;?></th>
+							<th style="width:60px;word-wrap:break-word">UTS</th>
+							<th style="width:60px;word-wrap:break-word"><?php echo $this->nm_p5;?></th>
+							<th style="width:60px;word-wrap:break-word"><?php echo $this->nm_p6;?></th>
+							<th style="width:60px;word-wrap:break-word"><?php echo $this->nm_p7;?></th>
+							<th style="width:60px;word-wrap:break-word"><?php echo $this->nm_p8;?></th>
+							<th style="width:60px;word-wrap:break-word">UAS</th>
+							<th style="width:60px;word-wrap:break-word">TOTAL</th>
+							<th rowspan="2" style="width:60px;word-wrap:break-word">IDX</th>
+							<th rowspan="2" style="width:60px;word-wrap:break-word">BBT</th>
+							<th style="width:60px;word-wrap:break-word">
+								<input type="submit" value="Mass Fix" class="btn btn-success">						
+							</th>
+						</tr>
+						<tr>
+							<td><strong><?php echo $this->p_p1;?>%</strong></td>
+							<td><strong><?php echo $this->p_p2;?>%</strong></td>
+							<td><strong><?php echo $this->p_p3;?>%</strong></td>
+							<td><strong><?php echo $this->p_p4;?>%</strong></td>
+							<td><strong><?php echo $this->p_uts;?>%</strong></td>
+							<td><strong><?php echo $this->p_p5;?>%</strong></td>
+							<td><strong><?php echo $this->p_p6;?>%</strong></td>
+							<td><strong><?php echo $this->p_p7;?>%</strong></td>
+							<td><strong><?php echo $this->p_p8;?>%</strong></td>
+							<td><strong><?php echo $this->p_uas;?></strong>%</td>
+							<td><strong><?php echo $this->p_tot;?></strong>%</td>
+							<td><input type="checkbox" name="ckbCheckAll" id="ckbCheckAll"></td>
+						</tr>
+					</thead>
+					<tbody>
+						<?php $i=1;$x=0;foreach ($this->listNilai as $dataNilai) { ?>
+						<?php
+							if($dataNilai['status']=="0"){
+							  $warna="orange";
+							}elseif ($dataNilai['status']=='1'){
+							  $warna="green";
+							}else{
+							  $warna="navy";
+							}
+							?>
+						<tr >
+							<td><a class="btn btn-block btn-xs bg-<?php echo $warna;?>"><?php echo $i; ?></a></td>
+							<td><a class="btn btn-block btn-xs bg-blue" onclick="nav('<?php echo $this->baseUrl;?>/nilai/new?id=<?php echo $dataNilai['kd_kuliah'];?>')"><?php echo $dataNilai['nim']?></a></td>
+							<td><?php echo $dataNilai['nm_mhs']; ?></td>
+							<td align="center"><?php echo $dataNilai['id_angkatan']; ?></td>
+							<td align="center"><?php echo $dataNilai['p1']; ?></td>
+							<td align="center"><?php echo $dataNilai['p2']; ?></td>
+							<td align="center"><?php echo $dataNilai['p3']; ?></td>
+							<td align="center"><?php echo $dataNilai['p4']; ?></td>
+							<td align="center"><?php echo $dataNilai['uts']; ?></td>
+							<td align="center"><?php echo $dataNilai['p5']; ?></td>
+							<td align="center"><?php echo $dataNilai['p6']; ?></td>
+							<td align="center"><?php echo $dataNilai['p7']; ?></td>
+							<td align="center"><?php echo $dataNilai['p8']; ?></td>
+							<td align="center"><?php echo $dataNilai['uas']; ?></td>
+							<td align="center"><?php echo $dataNilai['nilai_tot']; ?></td>
+							<?php 
+								$arrIdx = explode('/', $dataNilai['index']);
+								$hrf=$arrIdx[0];
+								$bbt=$arrIdx[1];
+								?>
+							<td align="center"><?php echo $hrf;?></td>
+							<td align="center"><?php echo $bbt;?></td>
+							<?php if($dataNilai['status']!=1){ ?>
+							<td align="center">
+								<input type="checkbox" id="cbkul_<?php echo $x;?>" cbkul value="<?php echo $dataNilai['kd_kuliah'];?>">
+							</td>
+							<?php $x++;}else{ ?>
+							<td></td>
+							<?php }?>
+						</tr>
+						<?php $i++; } ?>
+					</tbody>
+				</table>
+					<input type="text" style="display:none;" id="x" value="<?php echo $x;?>">
+				<?php $x=0;foreach ($this->listNilai as $dataNilai) { ?>
+					<input type="text" style="display:none;" id="nim_<?php echo $x;?>" value="<?php echo $dataNilai['nim'];?>">
+					<input type="text" style="display:none;" id="kul_<?php echo $x;?>">
+				<?php $x++; }?>
+			</form>
+		</div>
+	</div>
+</div>
+<script>
+$(document).ready(function () {
+    $('body').on('click', '#ckbCheckAll', function () {
+    	var oTable = $('#tbnilai').dataTable();
+   	 	var allPages = oTable.fnGetNodes();
+        if ($(this).hasClass('allChecked')) {
+            $('input[type="checkbox"]', allPages).prop('checked', false);
+        } else {
+            $('input[type="checkbox"]', allPages).prop('checked', true);
+        }
+        $(this).toggleClass('allChecked');
+    });
+});
+</script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbnilai',true,true,true,false,true,false);});</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm_nilai").submit(function() {
+		form=$(this);
+		var oTable = $('#tbnilai').dataTable();
+   	 	var allPages = oTable.fnGetNodes();
+   	 	oTable.$('input[type="checkbox"]').each(function(){
+      	   	if(this.checked){
+      	   		id=$(this).attr('id');
+   				n= id.split('_');
+      	   	   	$("#kul_"+n[1]).val($(this).val());
+            }else{
+            	id=$(this).attr('id');
+   				n= id.split('_');
+            	$("#kul_"+n[1]).val("");
+            }
+	      });
+	  	ajaxSubmit("frm_nilai","<?php echo $this->baseUrl;?>","/ajax3/fixnlmmass","/nilai/detil?id=<?php echo $this->kd_paket_kelas;?>&new=","u");
+	  return false;
+	});
+</script>

@@ -1,0 +1,156 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data Perkuliahan</h3>
+</div>
+<div class="inqbox-content">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Nama Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->nm_kelas." (".$this->jns_kelas.")";?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn;?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Tanggal</label>
+					<div class="col-sm-8">
+						<input type="hidden" id="kd_paket" value="<?php echo $this->kd_paket;?>">
+						<input type="text" class="form-control" id="tgl" placeholder="tanggal" readonly>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Tempat</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="tempat" placeholder="tempat perkuliahan">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Waktu Mulai</label>
+					<div class="col-sm-8">
+						<div class="bootstrap-timepicker">
+							<input type="text" id="start" class="form-control timepicker" placeholder="waktu mulai">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Waktu Selesai</label>
+					<div class="col-sm-8">
+						<div class="bootstrap-timepicker">
+							<input type="text" id="end" class="form-control timepicker" placeholder="waktu selesai">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Media Digunakan</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="media" placeholder="media digunakan">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Materi</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" rows="2" placeholder="materi" id="materi"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kejadian Selama Perkuliahan</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" rows="2" id="kejadian" placeholder="kejadian selama perkuliahan"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="box-footer col-sm-6">
+					<button type="submit" class="btn btn-primary pull-right col-sm-4" id="btnsbm">Tambah</button>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-4" id="btnres">Reset</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="table-responsive">
+		<table id="tbkul" class="table table-bordered table-hover">
+			<thead>
+			<tr>
+				<th>No</th>
+				<th>Hari / Tanggal</th>
+				<th>Info</th>
+				<th width="250px">Materi</th>
+				<th>Media Yang Digunakan</th>
+				<th>Kejadian selama Perkuliahan</th>
+				<th>Mahasiswa</th>
+				<th>Aksi</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php $i=1;foreach ($this->listKbm as $dataKbm){ ?>
+			<?php $info ="Tempat : ".$dataKbm['tempat']."<br>Waktu : ".$dataKbm['start_time_fmt']."-".$dataKbm['end_time_fmt'] ?>
+			<tr>
+				<td><?php echo $i;?></td>
+				<td><?php echo $dataKbm['hari'].", ".$dataKbm['tgl_kuliah_fmt'] ?></td>
+				<td align="center"><span data-toggle="tooltip" data-original-title="<?php echo $info;?>" data-html="true"><button class="btn btn-primary btn-xs"><i class="fa fa-info"></i></button></span></td>
+				<td><?php echo $dataKbm['materi'] ?></td>
+				<td><?php echo $dataKbm['media'] ?></td>
+				<td><?php echo $dataKbm['kejadian'] ?></td>
+				<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/absensi/index?id=<?php echo $dataKbm['id_perkuliahan'];?>')"><i class="fa fa-eye"></i></button></td>
+				<td align="center">
+					<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/kbm/edit?id=<?php echo $dataKbm['id_perkuliahan'];?>')"><i class="fa fa-pencil"></i></button>
+					<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus perkuliahan ini? Menghapus perkuliahan akan menghapus daftar hadir mahasiswa. <strong>Tanggal : <?php echo $dataKbm['tgl_kuliah_fmt'];?></strong>','<?php echo $this->baseUrl;?>','/ajax/delkbm',new Array('<?php echo $dataKbm['id_perkuliahan'];?>'))"><i class="fa fa-remove"></i></button>
+				</td>
+			</tr>
+			<?php $i++;} ?>
+			</tbody>
+		</table>
+	</div>
+</div>
+<script>
+	$(function () {
+	  $('[data-toggle="tooltip"]').tooltip();
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script>
+	$('#tbkul').dataTable({
+   	 responsive: true,
+    	"ordering":false
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/moment/moment.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<script>
+	$(function () {
+	  $('#tgl').datepicker({ format: 'dd MM yyyy', autoclose:true, todayHighlight:true});
+	  $(".timepicker").timepicker({
+	    showInputs: false,
+	    showMeridian:false,
+	    minuteStep:5
+	  });
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/inskbm","/kbm/index?id=<?php echo $this->kd_paket;?>&new=","u");
+	  return false;
+	});
+</script>

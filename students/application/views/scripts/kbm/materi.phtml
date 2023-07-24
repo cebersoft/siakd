@@ -1,0 +1,28 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbdwl" class="table table-bordered table-hover">
+			<thead align="center">
+			<tr>
+				<th width="8%">No</th>
+				<th>Nama File</th>
+				<th width="10%">Ukuran</th>
+				<th width="10%">Tipe File</th>
+				<th>Deskripsi</th>
+				<th width="12%">Download</th>
+			</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script>
+$('#tbdwl').dataTable({
+    responsive: true
+});
+</script>

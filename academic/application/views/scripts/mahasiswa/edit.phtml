@@ -1,0 +1,427 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker-bs3.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Pribadi Mahasiswa</h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Nama Lengkap</label>
+					<div class="col-sm-8">
+						<input type="hidden" id="oldnim" value="<?php echo $this->nim;?>">
+						<input type="hidden" id="idmhs" value="<?php echo $this->idmhs;?>">
+						<input type="text" class="form-control" id="nm" placeholder="nama lengkap" maxlength="50" value="<?php echo $this->nm;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Tempat Lahir</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="tmplhr" placeholder="tempat lahir" maxlength="40" value="<?php echo $this->tmplhr;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Tanggal Lahir</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="tgllhr" placeholder="tgl lahir" value="<?php echo $this->tgllhr;?>" readonly>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Jenis Kelamin</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="jk">
+							<option disabled>pilih jenis kelamin</option>
+							<option value="L" <?php echo $this->jkL;?> >Laki-Laki</option>
+							<option value="P" <?php echo $this->jkP;?> >Perempuan</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Agama</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="agm">
+							<option disabled selected>pilih agama</option>
+							<?php foreach ($this->listAgama as $dt) { ?>
+							<?php
+								if($dt['id_agama']==$this->agm){
+								  $agm="selected";
+								}else{
+								  $agm="";
+								}
+								?>
+							<option value="<?php echo $dt['id_agama']?>" <?php echo $agm;?> ><?php echo $dt['nm_agama']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kewarganegaraan</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="kwn">
+							<option disabled selected>pilih kewarganegaraan</option>
+							<?php foreach ($this->listKwn as $dt) { ?>
+							<?php
+								if($dt['id_kwn']==$this->kwn){
+								  $kwn="selected";
+								}else{
+								  $kwn="";
+								}
+								?>
+							<option value="<?php echo $dt['id_kwn']?>" <?php echo $kwn;?> ><?php echo $dt['nm_kwn']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">N.I.K</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="nik" value="<?php echo $this->nik;?>" placeholder="n.i.k" data-inputmask='"mask": "99.9999.999999.9999"' data-mask>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">NPWP</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="npwp" placeholder="npwp" data-inputmask='"mask": "99.999.999.9-999.999"' data-mask value="<?php echo $this->npwp;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Penerima KPS ?</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="kps">
+							<?php
+								if($this->kps=='t'){
+									$selY="selected='selected'";
+									$selT="";
+								}else{
+									$selT="selected='selected'";
+									$selY="";
+								}
+							?>
+							<option value="f" <?php echo $selT; ?> >TIDAK</option>
+							<option value="t" <?php echo $selY; ?> >YA</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Alat Trasportasi</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="trans">
+							<option disabled selected value="">pilih transportasi</option>
+							<?php foreach ($this->listTransport as $dt) { ?>
+							<?php
+								if($dt['id_alat_transport']==$this->trans){
+								  $trans="selected";
+								}else{
+								  $trans="";
+								}
+							?>
+							<option value="<?php echo $dt['id_alat_transport']?>" <?php echo $trans;?> ><?php echo $dt['nm_alat_transport']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Jenis Tinggal</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="tinggal">
+							<option disabled selected value="">pilih jenis tinggal</option>
+							<?php foreach ($this->listTinggal as $dt) { ?>
+							<?php
+								if($dt['id_jenis_tinggal']==$this->tinggal){
+								  $tgl="selected";
+								}else{
+								  $tgl="";
+								}
+							?>
+							<option value="<?php echo $dt['id_jenis_tinggal']?>" <?php echo $tgl;?>><?php echo $dt['nm_jenis_tinggal']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Jalan</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" rows="2" placeholder="jalan" id="jalan"><?php echo $this->jln;?></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Dusun</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="dsn" placeholder="dusun" maxlength="100" value="<?php echo $this->dsn;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">RT/RW</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="rt" placeholder="rt" maxlength="3" value="<?php echo $this->rt;?>">
+					</div>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="rw" placeholder="rw" maxlength="3" value="<?php echo $this->rw;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kelurahan</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="kel" placeholder="kelurahan" maxlength="100" value="<?php echo $this->kel;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kode Pos</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="zip" placeholder="kodepos" maxlength="10" value="<?php echo $this->zip;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Wilayah</label>
+					<div class="col-sm-8">
+						<input type="text" id="id_wil" style="display:none;" value="<?php echo $this->id_wil;?>">
+						<input type="hidden" id="lvl" value="3">
+						<input type="text" class="form-control" id="nm_wil" placeholder="Klik untuk memilih wilayah" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/wilayah',new Array('id_wil','nm_wil'), new Array('lvl'))" value="<?php echo $this->nm_wil;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kota/Kabupaten</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="kota" placeholder="kota/kabupaten" maxlength="40" value="<?php echo $this->kota;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Nama Ayah</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="ayah" placeholder="nama ayah" maxlength="40" value="<?php echo $this->ayah;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Nama Ibu</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="ibu" placeholder="nama ibu" maxlength="40" value="<?php echo $this->ibu;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Pekerjaan Ayah</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="job_a">
+							<?php foreach ($this->listJob as $dt) { ?>
+							<?php
+								if($dt['id_job']==$this->job_a){
+								  $job_a="selected";
+								}else{
+								  $job_a="";
+								}
+								?>
+							<option value="<?php echo $dt['id_job']?>" <?php echo $job_a;?> ><?php echo $dt['nm_job']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Pekerjaan Ibu</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="job_i">
+							<?php foreach ($this->listJob as $dt) { ?>
+							<?php
+								if($dt['id_job']==$this->job_i){
+								  $job_i="selected";
+								}else{
+								  $job_i="";
+								}
+								?>
+							<option value="<?php echo $dt['id_job']?>" <?php echo $job_i;?>><?php echo $dt['nm_job']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box-header with-border">
+			<h3 class="box-title">Data Akademik Mahasiswa</h3>
+		</div>
+		<div class="box-body">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">NPM/NIM</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="nim" placeholder="npm/nim" maxlength="20" value="<?php echo $this->nim;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Angkatan</label>
+					<div class="col-sm-8">
+						<select class="form-control select2" id="akt">
+							<option disabled selected>pilih angkatan</option>
+							<?php foreach ($this->listAkt as $dt) { ?>
+							<?php
+								if($dt['id_angkatan']==$this->akt){
+								  $akt="selected";
+								}else{
+								  $akt="";
+								}
+								?>
+							<option value="<?php echo $dt['id_angkatan']?>" <?php echo $akt;?> ><?php echo $dt['id_angkatan'];?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Dosen Wali</label>
+					<div class="col-sm-8">
+						<select class="form-control select2" id="dw">
+							<option disabled selected>pilih dosen wali</option>
+							<?php foreach ($this->listDosenAktif as $dtDosen) { ?>
+							<?php
+								if($dtDosen['kd_dosen']==$this->dw){
+								  $selDw="selected";
+								}else{
+								  $selDw="";
+								}
+								?>
+							<option value="<?php echo $dtDosen['kd_dosen']?>" <?php echo $selDw;?> ><?php echo $dtDosen['nm_dosen']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Program Studi</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="prd">
+							<option disabled selected>pilih program studi</option>
+							<?php foreach ($this->listProdi as $dt) { ?>
+							<?php
+								if($dt['kd_prodi']==$this->prd){
+								  $prd="selected";
+								}else{
+								  $prd="";
+								}
+								?>
+							<option value="<?php echo $dt['kd_prodi']?>" <?php echo $prd;?>><?php echo $dt['nm_prodi']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Tanggal Masuk</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="tglmsk" placeholder="tgl masuk" value="<?php echo $this->tglmsk;?>" readonly>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Status Masuk</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="stat_msk">
+							<?php foreach ($this->listStatMasuk as $dt) { ?>
+							<?php
+								if($dt['id_stat_masuk']==$this->statmasuk){
+								  $statmasuk="selected";
+								}else{
+								  $statmasuk="";
+								}
+								?>
+							<option value="<?php echo $dt['id_stat_masuk']?>" <?php echo $statmasuk;?> ><?php echo $dt['nm_stat_masuk']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">NISN</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="nisn" placeholder="nisn" maxlength="50" value="<?php echo $this->nisn;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Asal Sekolah/PT</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="as_sk" placeholder="asal sekolah/pt" maxlength="50" value="<?php echo $this->as_sk;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Asal Program Studi</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="as_prd" placeholder="asal program studi" maxlength="40" value="<?php echo $this->as_prd;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">SKS Diakui</label>
+					<div class="col-sm-8">
+						<input type="number" class="form-control" id="sks" placeholder="sks diakui" min="0" max="99" step="1" value="<?php echo $this->sks;?>">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box-header with-border">
+			<h3 class="box-title">Kontak Mahasiswa</h3>
+		</div>
+		<div class="box-body">
+			<div class="col-md-6">
+				<!--
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Nomor Handphone</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="hp" placeholder="nomor handphone" data-inputmask='"mask": "(999)-999-999999"' data-mask>
+					</div>
+				</div>
+				 -->
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kontak</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" rows="2" placeholder="nomor kontak" id="hp"><?php echo $this->hp;?></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Email Kampus</label>
+					<div class="col-sm-8">
+						<input type="email" class="form-control" id="em_k" placeholder="email kampus" value="<?php echo $this->email_k;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Email Alternatif</label>
+					<div class="col-sm-8">
+						<input type="email" class="form-control" id="em_l" placeholder="email alternatif" value="<?php echo $this->email_l;?>">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box-body">
+			<div class="box-footer col-sm-6">
+				<button type="submit" class="btn btn-primary pull-right col-sm-4">Simpan</button>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="reset" class="btn btn-default pull-left col-sm-4" id="btnres">Reset</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="<?php echo $this->baseUrl?>/public/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script>
+	$(function () {$("[data-mask]").inputmask();});
+</script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/moment.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker.js"></script>
+<script>
+	$(function () {
+	  $('#tgllhr').daterangepicker({singleDatePicker:true,showDropdowns:true,format:'DD MMMM YYYY'});
+	  $('#tglmsk').daterangepicker({singleDatePicker:true,format:'DD MMMM YYYY'});
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.full.min.js"></script>
+<script>
+	$("#dw").select2({
+	  placeholder: "pilih dosen wali"
+	});
+	$("#akt").select2({
+	  placeholder: "pilih angkatan"
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/updmhs","/mahasiswa/detil?id=","u");
+	  return false;d
+	});
+</script>

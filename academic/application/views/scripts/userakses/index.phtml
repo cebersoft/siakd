@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box  box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Akses</h3>
+	</div>
+	<div class="box-body">
+		<div class="col-md-6">
+			<div class="col-sm-4">Username</div>
+			<div class="col-sm-8">: <?php echo $this->uname;?></div>
+			<div class="col-sm-4">Nama</div>
+			<div class="col-sm-8">: <?php echo $this->nm;?></div>
+			<div class="col-sm-4">Email</div>
+			<div class="col-sm-8">: <?php echo $this->email;?></div>
+			<div class="col-sm-4">SUPERADMIN ?</div>
+			<div class="col-sm-8">: <?php echo $this->superadmin;?></div>
+		</div>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Akses Menu</label>
+				<input type="hidden" id="uname" value="<?php echo $this->uname;?>">
+				<div class="col-sm-4">
+					<input type="text" id="id_menu" style="display: none;">
+					<input type="text" id="true" style="display: none;" value="f">
+					<input type="text" class="form-control" id="nm_menu" placeholder="klik untuk pilih akses menu akademik" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/menu?f=1',new Array('id_menu','nm_menu'), new Array('uname','true'))">
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="submit" class="btn btn-primary pull-right col-sm-2" id="btnsbm">Tambah</button>
+				<button type="reset" class="btn btn-default pull-left col-sm-2" id="btnres">Reset</button>
+			</div>
+		</div>
+	</form>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbmenu" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>KODE AKSES</th>
+						<th>AKSES</th>
+						<th>URL</th>
+						<th>AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listMenu as $dataMenu) { ?>
+					<tr>
+						<td><?php echo $dataMenu['id']; ?></td>
+						<td><?php echo $dataMenu['nama_menu']; ?></td>
+						<td><?php echo $dataMenu['url']; ?></td>
+						<td align="center"><button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus akses user ini? <strong><?php echo str_replace("'", "\'", $dataMenu['nama_menu']);?></strong>','<?php echo $this->baseUrl;?>','/ajax4/delakses',new Array('<?php echo $dataMenu['username'];?>','<?php echo $dataMenu['id'];?>'))"><i class="fa fa-remove"></i></button></td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbmenu',true,true,true,false,true,false);});</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax4/insakses","/userakses/index?id=<?php echo $this->uname;?>&new=","u");
+	  return false;
+	});
+</script>

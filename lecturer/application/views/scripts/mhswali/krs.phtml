@@ -1,0 +1,91 @@
+<div class="inqbox-content">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">NIM</div>
+			<div class="col-sm-8">: <?php echo $this->nim;?></div>
+			<div class="col-sm-4">Nama Mahasiswa</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mhs;?></div>
+			<div class="col-sm-4">Program Studi/Angkatan</div>
+			<div class="col-sm-8">: <?php echo $this->prd."(".$this->kd_prd.") / ".$this->akt;?></div>
+			<div class="col-sm-4">Dosen Wali</div>
+			<div class="col-sm-8">: <?php echo $this->dw;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->per;?></div>
+		</div>
+	</div>
+	<div class="table-responsive">
+		<table id="tbkrs" class="table table-bordered table-hover">
+			<tr class="bg-maroon" align="center">
+				<td rowspan="3" width="5%">No</td>
+				<td colspan="4">Mata Kuliah</td>
+				<td colspan="2">Dosen</td>
+				<td rowspan="3">Nama Kelas</td>
+				<td rowspan="3" width="10%">Status Approve Dosen Wali</td>
+			</tr>
+			<tr class="bg-maroon" align="center">
+				<td width="8%" rowspan="2">Kode Mata Kuliah</td>
+				<td width="18%" rowspan="2">Nama Mata Kuliah</td>
+				<td colspan="2">* SKS</td>
+				<td width="10%" rowspan="2">Kode Dosen</td>
+				<td width="20%" rowspan="2">Nama Dosen</td>
+			</tr>
+			<tr class="bg-maroon" align="center">
+				<td width="5%">Default</td>
+				<td width="7%">* Taken</td>
+			</tr>
+			<?php $i=1;$totSksDef=0;$totSksTaken=0;$totSksTakenApp=0;foreach ($this->listKuliah as $dataKuliah){ ?>
+			<tr>
+				<td align="center"><?php echo $i ?></td>
+				<td><?php echo $dataKuliah['kode_mk'] ?></td>
+				<td><?php echo $dataKuliah['nm_mk'] ?></td>
+				<td align="center"><?php echo ($dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']);?></td>
+				<?php if($this->allowReg==1){?>
+				<td align="center"><a class="badge bg-aqua" onclick="nav('<?php echo $this->baseUrl;?>/krs/edit?id=<?php echo $dataKuliah['kd_kuliah'];?>')"><?php echo $dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']-$dataKuliah['sks_deducted'];?></a></td>
+				<?php }else{?>
+				<td align="center"><?php echo $dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']-$dataKuliah['sks_deducted'];?></td>
+				<?php }?>
+				<td align="center"><?php echo $dataKuliah['kd_dosen'];?></td>
+				<td><?php echo $dataKuliah['nm_dosen'] ?></td>
+				<td align="center"><?php echo $dataKuliah['nm_kelas'];?></td>
+				<?php
+					if($dataKuliah['approved']=='t'){
+						$ap = "APPROVED";
+						$totSksTakenApp=$totSksTakenApp+($dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']-$dataKuliah['sks_deducted']);
+					}else{
+						$ap = "NOT-APPROVED";
+					}
+				?>
+				<td align="center"><?php echo $ap;?></td>
+			</tr>
+			<?php $totSksDef=$totSksDef+($dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']);$totSksTaken=$totSksTaken+($dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']-$dataKuliah['sks_deducted']);$i++;}?>
+			<?php $j=$i;$totSksDefTA=0;$totSksTakenTA=0;$totSksTakenTAApp=0;foreach ($this->listKuliahTA as $dataKuliahTA){ ?>
+			<tr>
+			<td align="center"><?php echo $j ?></td>
+			<td><?php echo $dataKuliahTA['kode_mk'] ?></td>
+			<td><?php echo $dataKuliahTA['nm_mk'] ?></td>
+			<td align="center"><?php echo ($dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']);?></td>
+			<td align="center"><?php echo $dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']-$dataKuliahTA['sks_deducted'];?></td>
+			<td align="center"><?php echo $dataKuliahTA['kd_dosen'];?></td>
+			<td><?php echo $dataKuliahTA['nm_dosen'] ?></td>
+			<td align="center"><?php echo $dataKuliahTA['nm_kelas'];?> (Periode Mulai : <?php echo $dataKuliahTA['kd_periode_mulai'];?>)</td>
+			<?php
+				if($dataKuliahTA['approved']=='t'){
+					$ap = "APPROVED";
+					$totSksTakenTAApp=$totSksTakenTAApp+($dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']-$dataKuliahTA['sks_deducted']);
+				}else{
+					$ap = "NOT-APPROVED";
+				}
+			?>
+			<td align="center"><?php echo $ap;?></td>
+			</tr>
+			<?php $totSksDefTA=$totSksDefTA+($dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']);$totSksTakenTA=$totSksTakenTA+($dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']-$dataKuliahTA['sks_deducted']);$j++;}?>
+			<tr class="bg-maroon">
+			<td align="center" colspan="3"><b>Jumlah</b></td>
+			<td align="center"><?php echo $totSksDef+$totSksDefTA;?></td>
+			<td align="center"><?php echo $totSksTaken+$totSksTakenTA;?></td>
+			<td colspan="3"><strong>Jumlah SKS Approved</strong></td>
+			<td align="center"><strong><?php echo $totSksTakenApp+$totSksTakenTAApp;?></strong></td>
+			</tr>	
+		</table>
+	</div>
+</div>

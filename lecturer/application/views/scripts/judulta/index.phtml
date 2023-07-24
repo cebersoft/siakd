@@ -1,0 +1,54 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Daftar Judul TA</h3>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbprd" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th>NO</th>
+					<th>KODE PROGRAM STUDI</th>
+					<th>PROGRAM STUDI</th>
+					<th>PERIODE AKADEMIK</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;foreach ($this->listProdi as $dataProdi) { ?>
+				<tr>
+					<td><?php echo $i; ?></td>
+					<td><?php echo $dataProdi['kd_prodi'];?></td>
+					<td><?php echo $dataProdi['nm_prodi']; ?></td>
+					<td align="center">
+						<form id="frm<?php echo $i;?>" method="post" class="form-inline">
+							<input type="hidden" id="prd<?php echo $i;?>" value="<?php echo $dataProdi['kd_prodi'];?>">
+							<select id="per<?php echo $i;?>" class="form-control">
+								<?php foreach ($this->listPeriode as $dtPer) { ?>
+								<?php
+									if($this->per==$dtPer['kd_periode']){
+										$sel_per="selected";
+									}else{
+										$sel_per="";
+									}
+									?>
+								<option value="<?php echo $dtPer['kd_periode'];?>" <?php echo $sel_per;?> ><?php echo $dtPer['kd_periode'];?></option>
+								<?php } ?>
+							</select>
+							<button id="sb" type="button" class="btn btn-primary btn-sm" sb value="<?php echo $i;?>">view</button>
+						</form>
+					</td>
+				</tr>
+				<?php $i++; } ?>
+		</table>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+	$("[sb]").on('click',(function() {
+	 x=$(this).val();
+	 ajaxSubmit("frm"+x,"<?php echo $this->baseUrl;?>","/ajax/showjudulta?frm="+x,"/judulta/list","s");
+	 	return false;
+	}));
+</script>

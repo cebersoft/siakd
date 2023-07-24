@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker-bs3.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Periode Akademik</h3>
+	</div>
+	<div class="box-body">
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="box-body">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Tahun Dimulai </label>
+					<div class="col-sm-4">
+						<input type="number" class="form-control" id="thn_awal" placeholder="tahun dimulai" min="2008" max="2100" step="1">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Tahun Selesai </label>
+					<div class="col-sm-4">
+						<input type="number" class="form-control" id="thn_akhir" placeholder="tahun selesai" min="2008" max="2100" step="1">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Semester</label>
+					<div class="col-sm-4">
+						<select class="form-control" id="id_smt">
+							<option disabled value="" selected>pilih semester</option>
+							<?php foreach ($this->listSmtPeriode as $dataSmt) {?>
+							<option value="<?php echo $dataSmt['id_smt'];?>"><?php echo $dataSmt['id_smt'];?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Status Periode</label>
+					<div class="col-sm-4">
+						<select class="form-control" id="id_stat">
+							<option disabled value="" selected>pilih status periode</option>
+							<?php foreach ($this->listStatPeriode as $dataStat) {?>
+							<option value="<?php echo $dataStat['id_status_periode'];?>"><?php echo $dataStat['status_periode_akademik'];?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Rentang Periode</label>
+					<div class="col-sm-4">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="fa fa-calendar"></i>
+							</div>
+							<input type="text" class="form-control pull-right" id="tgl" placeholder="rentang periode"  readonly>
+						</div>
+					</div>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+					<button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/moment.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker.js"></script>
+<script>
+	$(function () {
+		$('#tgl').daterangepicker({showDropdowns: true, format:"DD MMMM YYYY"});
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax2/insper","/periode?new=","i");
+	  return false;
+	});
+</script>

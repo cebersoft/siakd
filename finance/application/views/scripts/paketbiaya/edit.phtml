@@ -1,0 +1,29 @@
+<form class="form-horizontal" role="form" id="frm">
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> ID Paket Biaya </label>
+		<div class="col-sm-9">
+			<input type="hidden" id="oldIdPkt" value="<?php echo $this->id;?>" />
+			<input type="text" id="idPkt" placeholder="ID Paket Biaya" class="col-xs-10 col-sm-5" value="<?php echo $this->id;?>" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Nama Paket Biaya </label>
+		<div class="col-sm-9">
+			<input type="text" id="nmPkt" placeholder="Nama Paket Biaya" class="col-xs-10 col-sm-5" value="<?php echo $this->nm;?>" />
+		</div>
+	</div>
+	<div class="clearfix form-actions">
+		<div class="col-md-offset-3 col-md-9">
+			<button class="btn btn-info" type="submit"><i class="ace-icon fa fa-check bigger-110"></i>Submit</button>
+			&nbsp; &nbsp; &nbsp;
+			<button class="btn" type="reset"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+		</div>
+	</div>
+</form>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/updpktbiaya","/paketbiaya?new=","u");
+	  return false;
+	});
+</script>

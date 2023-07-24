@@ -1,0 +1,47 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data Paket Kelas</h3>
+</div>
+<div class="inqbox-content">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Jenis Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->jns_kelas;?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn." (".$this->kd_dsn.")";?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+		</div>
+	</div>
+	<div class="table-responsive">
+		<table id="tbkls" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th width="5%">NO</th>
+					<th>NAMA KELAS</th>
+					<th width="12%">PERKULIAHAN</th>
+					<th width="12%">DAFTAR NILAI</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;foreach ($this->listPaket as $dataPkt) { ?>
+				<tr>
+					<td><?php echo $i; ?></td>
+					<td><?php echo $dataPkt['nm_kelas']; ?></td>
+					<td align="center">
+						<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/kbm/index?id=<?php echo $dataPkt['kd_paket_kelas']; ?>')"><i class="fa fa-list"></i></button>
+					</td>
+					<td align="center">
+						<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/nilai/index?kd=<?php echo $dataPkt['kd_paket_kelas']; ?>')"><i class="fa fa-list"></i></button>
+					</td>
+				</tr>
+				<?php $i++; } ?>
+		</table>
+	</div>
+</div>

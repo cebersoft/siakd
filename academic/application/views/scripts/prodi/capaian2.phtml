@@ -1,0 +1,103 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+	<h3 class="box-title">DETIL DATA PRODI <?php echo $this->nm; ?> CAPAIAN ASOSIASI</h3>
+	</div>
+	<div class="box-body">
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="box-body">
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Label SKPI</label>
+					<div class="col-sm-4">
+						<input type="hidden" id="id" value="<?php echo $this->id; ?>">
+						<input type="text" class="form-control" value="<?php echo $this->nm; ?>" readonly>
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Capaian Asosiasi (indonesia)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" value="<?php echo $this->asosiasi_in; ?>" readonly>
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Capaian Asosiasi (english)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" value="<?php echo $this->asosiasi_en; ?>" readonly>
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Urutan</label>
+					<div class="col-sm-4">
+						<input type="number" class="form-control" id="urutan" placeholder="Urutan">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Apakah Ada Nomer?</label>
+					<div class="col-sm-4">
+						<select class="form-control" id="is_numbered" >
+                            <option value="t">Ya</option>
+                            <option value="f">Tidak</option>
+                        </select>
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Keterangan (indonesia)</label>
+					<div class="col-sm-4">
+						<textarea class="form-control" id="keterangan_id" rows="3" placeholder="Keterangan (indonesia)"></textarea>
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Keterangan (english)</label>
+					<div class="col-sm-4">
+						<textarea class="form-control" id="keterangan_en" rows="3" placeholder="Keterangan (english)"></textarea>
+					</div>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+					<button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="box box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbroom" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th width="10%">URUTAN</th>
+                        <th width="15%">ADA NOMER?</th>
+                        <th>KETERANGAN</th>
+						<th width="10%">AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listProdiCapaianAsosiasi as $data) { ?>
+					<tr>
+						<td><?php echo $data['urutan']; ?></td>
+                        <td><?php if($data['is_numbered'] == 't'){ echo 'YA';}else{echo 'TIDAK';} ?></td>
+                        <td><?php echo $data['keterangan_id'].'<br>(<i>'.$data['keterangan_en'].'</i>)'; ?></td>
+						<td align="center">
+							<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/prodi/editprdcapaian2?id=<?php echo $data['id_prodi_capaian_asosiasi'];?>')"><i class="fa fa-pencil"></i></button>
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus prodi capaian asosiasi ini ? <strong><?php echo str_replace("'", "\'", $data['nm_prodi']);?></strong>','<?php echo $this->baseUrl;?>','/ajax4/delprdcapaian2',new Array('<?php echo $data['id_prodi_capaian_asosiasi'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbroom',true,true,true,true,true,false);});</script>
+<!-- Form Action -->
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax4/insprdcapaian2","/prodi/capaian2?id=<?php echo $this->id; ?>&new=","u");
+	  return false;
+	});
+</script>

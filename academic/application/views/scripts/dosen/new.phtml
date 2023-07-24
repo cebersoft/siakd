@@ -1,0 +1,207 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker-bs3.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Pribadi Dosen</h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Nama Lengkap</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="nm" placeholder="nama lengkap" maxlength="50">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Gelar Depan</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="g_dpn" placeholder="gelar depan" maxlength="20">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Gelar Belakang</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="g_blk" placeholder="gelar belakang" maxlength="20">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Tempat Lahir</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="tmplhr" placeholder="tempat lahir" maxlength="40">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Tanggal Lahir</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="tgllhr" placeholder="tgl lahir" readonly>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Jenis Kelamin</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="jk">
+							<option disabled selected>pilih jenis kelamin</option>
+							<option value="L">Laki-Laki</option>
+							<option value="P">Perempuan</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Agama</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="agm">
+							<option disabled selected>pilih agama</option>
+							<?php foreach ($this->listAgama as $dt) { ?>
+							<option value="<?php echo $dt['id_agama']?>"><?php echo $dt['nm_agama']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kewarganegaraan</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="kwn">
+							<option disabled selected>pilih kewarganegaraan</option>
+							<?php foreach ($this->listKwn as $dt) { ?>
+							<option value="<?php echo $dt['id_kwn']?>"><?php echo $dt['nm_kwn']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">N.I.K</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="nik" placeholder="n.i.k" data-inputmask='"mask": "99.9999.999999.9999"' data-mask>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Alamat</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" rows="3" placeholder="alamat" id="almt"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kota</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="kota" placeholder="kota" maxlength="40">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Nomor Handphone</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="hp" placeholder="nomor handphone" data-inputmask='"mask": "(999)-999-999999"' data-mask>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Email Kampus</label>
+					<div class="col-sm-8">
+						<input type="email" class="form-control" id="em_k" placeholder="email kampus">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Email Alternatif</label>
+					<div class="col-sm-8">
+						<input type="email" class="form-control" id="em_l" placeholder="email alternatif">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box-header with-border">
+			<h3 class="box-title">Data Akademik Dosen</h3>
+		</div>
+		<div class="box-body">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">NIDN</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="nidn" placeholder="nidn" maxlength="20">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Dosen Homebase?</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="a_hb">
+							<option disabled selected>apakah dosen homebase?</option>
+							<option value="t">Ya</option>
+							<option value="f">Tidak</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kelompok Dosen</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="idKat">
+							<option disabled selected>pilih kelompok dosen</option>
+							<?php foreach ($this->listKatDosen as $dataKat) { ?>
+							<option value="<?php echo $dataKat['id_kat_dosen']?>"><?php echo $dataKat['kategori_dosen'];?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Jabatan Dosen</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="jab">
+							<option disabled selected>pilih jabatan dosen</option>
+							<?php foreach ($this->listJabDosen as $dt) { ?>
+							<option value="<?php echo $dt['id_jab']?>"><?php echo $dt['nm_jab']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Pangkat Dosen</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="pang">
+							<option disabled selected>pilih pangkat dosen</option>
+							<?php foreach ($this->listPangDosen as $dt) { ?>
+							<option value="<?php echo $dt['id_pangkat']?>"><?php echo $dt['nm_pangkat']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Dosen Wali?</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="a_dw">
+							<option disabled selected>apakah dosen wali?</option>
+							<option value="t">Ya</option>
+							<option value="f">Tidak</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box-body">
+			<div class="box-footer col-md-6">
+				<button type="submit" class="btn btn-primary pull-right col-md-4">Simpan</button>
+			</div>
+			<div class="box-footer col-md-6">
+				<button type="reset" class="btn btn-default pull-left col-md-4" id="btnres">Reset</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="<?php echo $this->baseUrl?>/public/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script>
+	$(function () {$("[data-mask]").inputmask();});
+</script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/moment.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker.js"></script>
+<script>
+	$(function () {
+	  $('#tgllhr').daterangepicker({singleDatePicker:true,showDropdowns:true,format:'DD MMMM YYYY'});
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/insdsn","/dosen/detil?id=","i");
+	  return false;
+	});
+</script>

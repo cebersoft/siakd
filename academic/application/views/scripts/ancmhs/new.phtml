@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker-bs3.css">
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Data Pengumuman Mahasiswa</h3>
+    </div>
+    <div class="box-body">
+        <form class="form-horizontal" method="post" id="frm">
+            <div class="box-body">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Judul</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="judul" class="form-control" placeholder="judul">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Konten</label>
+                        <div class="col-sm-10">
+                             <textarea class="textarea" id="konten" placeholder="ketik konten di sini" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Kategori Berita</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="id_kategori">
+                                <option disabled value="" selected>pilih kategori Pengumuman</option>
+                                <?php foreach ($this->listAncKategori as $dataKat) {?>
+                                <option value="<?php echo $dataKat['id_announcement_kategori'];?>"><?php echo $dataKat['announcement_kategori'];?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Date Expired</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="date" placeholder="date expired"  readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Status</label>
+                        <div class="col-sm-8">
+                            <select class="form-control select2" id="status">
+                                <option value="1">Published</option>
+                                <option value="0">Draft</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="box-footer col-sm-12">
+                        <button type="reset" class="btn btn-default col-sm-2">Reset</button>
+                        <button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.full.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/daterangepicker/moment.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker.js"></script>
+<script>
+    $("#frm").submit(function() {
+      ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ancmhs/ains","/ancmhs/detil?id=","i");
+      return false;
+    });
+    $("[sel-2]").select2();
+    $(function () {
+      $(".textarea").wysihtml5();
+    });
+    $(function () {
+      $('#date').daterangepicker({singleDatePicker:true,format:'DD MMMM YYYY'});
+    });
+</script>

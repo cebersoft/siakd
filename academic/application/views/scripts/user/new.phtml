@@ -1,0 +1,62 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker-bs3.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data User Akademik</h3>
+	</div>
+	<div class="box-body">
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="box-body">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Username</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="uname" placeholder="username" maxlength="25">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Nama</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="nm" placeholder="nama" maxlength="40">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Password</label>
+					<div class="col-sm-4">
+						<input type="password" class="form-control" id="pwd1" placeholder="password" maxlength="30">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Password Sekali Lagi</label>
+					<div class="col-sm-4">
+						<input type="password" class="form-control" id="pwd2" placeholder="password" maxlength="30">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Super Admin?</label>
+					<div class="col-sm-4">
+						<select class="form-control" id="superadm">
+							<option value="f">TIDAK</option>
+							<option value="t">YA</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Email</label>
+					<div class="col-sm-4">
+						<input type="email" class="form-control" id="email" placeholder="email">
+					</div>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+					<button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax4/insuser","/userakses/index?id=","i");
+	  return false;
+	});
+</script>

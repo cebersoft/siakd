@@ -1,0 +1,45 @@
+<div class="nav-tabs-custom">
+	<ul class="nav nav-tabs">
+		<?php $i=1;foreach ($this->listHari as $dataHari){ ?>
+		<?php if($i==$this->tab){$active="active";}else{$active="";}?>
+		<li class="<?php echo $active;?>"><a href="#tab_<?php echo $dataHari['nm_hari'] ?>" data-toggle="tab"><?php echo $dataHari['nm_hari'] ?></a></li>
+		<?php $i++;} ?>
+	</ul>
+	<div class="tab-content">
+		<?php $i=1;foreach ($this->listHari as $dataHari){ ?>
+		<?php if($i==$this->tab){$active="active";}else{$active="";}?>
+		<div class="tab-pane <?php echo $active;?>" id="tab_<?php echo $dataHari['nm_hari'] ?>">
+			<div class="table-responsive">
+				<table id="tbjdwl_<?php echo $i;?>" class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th width="12%">Slot Waktu</th>
+							<th>Ruangan</th>
+							<th>Kelas</th>
+							<th>Dosen</th>
+							<th>Kode MK</th>
+							<th>Nama MK</th>
+							<th>Prodi</th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($this->listJadwal as $dataJadwal){ ?>
+					<?php if($dataJadwal['id_hari']==$dataHari['id_hari']){ ?>
+					<tr>
+						<td><?php echo $dataJadwal['start_time']." s/d ".$dataJadwal['end_time'];?></td>
+						<td><?php echo $dataJadwal['nm_ruangan'];?></td>
+						<td><?php echo $dataJadwal['nm_kelas'];?></td>
+						<td><?php echo $dataJadwal['nm_dosen'];?></td>
+						<td><?php echo $dataJadwal['kode_mk'];?></td>
+						<td><?php echo $dataJadwal['nm_mk'];?></td>
+						<td><?php echo $dataJadwal['nm_prodi_kur'];?></td>
+					</tr>
+					<?php }?>
+					<?php }?>
+					</tbody>	
+				</table>
+			</div>
+		</div>
+		<?php $i++;} ?>
+	</div>
+</div>

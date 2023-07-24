@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbroom" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>KODE PRODI</th>
+						<th>NAMA PROGRAM STUDI</th>
+						<th>JENJANG</th>
+						<th>INFO</th>
+						<th>LABEL SKPI</th>
+						<th>KAPRODI</th>
+						<th>AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listProdi as $data) { ?>
+					<tr>
+						<td><?php echo $data['kd_prodi']; ?></td>
+						<td><?php echo $data['nm_prodi']; ?></td>
+						<td><?php echo $data['nama_jenjang']; ?></td>
+						<td align="center">
+							<button type="button" class="btn btn-info btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/prodi/detil?kd=<?php echo $data['kd_prodi'];?>')"><i class="fa fa-eye"></i></button>
+						</td>
+						<td align="center">
+							<button type="button" class="btn btn-info btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/prodi/detil2?kd=<?php echo $data['kd_prodi'];?>')"><i class="fa fa-eye"></i></button>
+						</td>
+						<td align="center">
+							<button type="button" class="btn btn-info btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/prodi/detil3?kd=<?php echo $data['kd_prodi'];?>')"><i class="fa fa-eye"></i></button>
+						</td>
+						<td align="center">
+							<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/prodi/edit?kd=<?php echo $data['kd_prodi'];?>')"><i class="fa fa-pencil"></i></button>
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus prodi ini ? <strong><?php echo str_replace("'", "\'", $data['nm_prodi']);?></strong>','<?php echo $this->baseUrl;?>','/ajax4/delprd',new Array('<?php echo $data['kd_prodi'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbroom',true,true,true,true,true,false);});</script>

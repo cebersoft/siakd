@@ -1,0 +1,235 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<form id="frm_mhs" method="post">
+		<div class="box-body">
+			<?php if($this->opt=='1'){ ?>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<th rowspan="2" width="4%">No</th>
+						<th rowspan="2" width="3%">
+							<input type="hidden" id="prd" value="<?php echo $this->prd;?>">
+							<input type="checkbox" name="ckbCheckAll" id="ckbCheckAll" onClick="selectAll(this)">
+						</th>
+						<th>Data Mahasiswa SIA (<?php echo count($this->listMhsSIA) ?>)</th>
+						<th>
+							<button id="transfer" class="btn bg-yellow">Transfer Data &gt;&gt;</button>
+							<button type="button" id="updateall" class="btn bg-maroon" disabled="disabled">Update Data All &gt;&gt;</button>
+							<h5 class="alert alert-danger">Update Data tidak mengubah NIM, NAMA, TEMPAT TANGGAL LAHIR DAN NAMA IBU. Untuk mengubah data tersebut, dapat dilakukan via halaman forlap</h5>
+						</th>
+						<th rowspan="2" width="12%">NIM di Feeder (<?php echo count($this->listMhsFeeder) ?>)</th>
+						<th colspan="3">Tingkat Kecocokan Data Utama(nama, tempat tanggal lahir, jenis kelamin, agama, kewarganegaraan, status mahasiswa, nama ayah, nama ibu, pekerjaan ayah, pekerjaan ibu, status masuk)</th>
+					</tr>
+					<tr>
+						<th width="12%">NIM SIA</th>
+						<th>NAMA</th>
+						<th width="10%">PERSENTASE</th>
+						<th width="10%">LIHAT DATA</th>
+						<th width="10%">UPDATE</th>
+					</tr>
+					<?php $n=1;$x=0;foreach ($this->listMhsSIA as $dataMhsSIA ) { ?>
+					<?php
+						$nimFeeder="-";
+						$status="Not Found";
+						$warna="lightyellow";
+						foreach ($this->listMhsFeeder as $dataMhsFeeder) {
+							if($dataMhsSIA['nim']==str_replace(" ", "",$dataMhsFeeder['nim'])){
+								foreach ($this->listProfMhsFeeder as $dtProf){
+									if($dataMhsFeeder['id_mahasiswa']==$dtProf['id_mahasiswa']){
+										$jk=$dtProf['jenis_kelamin'];
+										$tpl=$dtProf['tempat_lahir'];
+										$tgllhr=date_format(date_create($dtProf['tanggal_lahir']),"Y-m-d");
+										$kwn=$dtProf['id_negara'];
+										$agm=$dtProf['id_agama'];
+										$ayah=$dtProf['nama_ayah'];
+										$ibu=$dtProf['nama_ibu_kandung'];
+										$j_ayah=$dtProf['id_pekerjaan_ayah'];
+										$j_ibu=$dtProf['id_pekerjaan_ibu'];
+										$alamat=$dtProf['jalan'];
+										$email=$dtProf['email'];
+										$hp=$dtProf['handphone'];
+										$nik=$dtProf['nik'];
+										$match=0;
+										$per_match=0;
+										if($dataMhsSIA['jns_masuk']==1){
+											$tot_atr=15;	
+										}elseif ($dataMhsSIA['jns_masuk']!=1){
+											$tot_atr=16;
+										}
+										if(strtoupper(trim($dataMhsSIA['nm_mhs']))==strtoupper(trim($dataMhsFeeder['nama_mahasiswa']))){
+											$match++;	
+										}
+										if(trim($dataMhsSIA['jns_masuk'])==trim($dataMhsFeeder['id_jenis_daftar'])){
+											$match++;
+										}
+										if(trim($dataMhsSIA['tgl_lahir'])==$tgllhr){
+											$match++;
+										}
+										if(trim($dataMhsSIA['jenis_kelamin'])==trim($jk)){
+											$match++;
+										}
+										if (strtoupper(trim($dataMhsSIA['tmp_lahir']))==strtoupper(trim($tpl))){
+											$match++;
+										}
+										if(trim($dataMhsSIA['id_kwn'])==trim($kwn)){
+											$match++;
+										}
+										if(trim($dataMhsSIA['id_agama'])==trim($agm)){
+											$match++;
+										}
+										if(strtoupper(trim($dataMhsSIA['nm_ayah']))==strtoupper(trim($ayah))){
+											$match++;
+										}
+										if(strtoupper(trim($dataMhsSIA['nm_ibu']))==strtoupper(trim($ibu))){
+											$match++;
+										}
+										if(trim($dataMhsSIA['job_ayah'])==trim($j_ayah)){
+											$match++;
+										}
+										if(trim($dataMhsSIA['job_ibu'])==trim($j_ibu)){
+											$match++;
+										}
+										if(trim($dataMhsSIA['large_kontak'])==trim($hp)){
+											$match++;
+										}
+										if(trim($dataMhsSIA['email_lain'])==trim($email)){
+											$match++;
+										}
+										if(trim($dataMhsSIA['alamat'])==trim($alamat)){
+											$match++;
+										}
+										if(trim(str_replace('.', '', $dataMhsSIA['nik']))==trim($nik)){
+											$match++;
+										}
+										if ($dataMhsSIA['jns_masuk']==2){
+											if(trim($dataMhsSIA['sks_diakui'])==trim($dataMhsFeeder['sks_diakui'])){
+												$match++;
+											}
+										}
+										$per_match=number_format((($match/$tot_atr)*100),2,',','.');
+									}
+							 	}
+								$nimFeeder = $dataMhsFeeder['nim'];
+								$status = "Found";
+								$warna="lightgreen";
+							}
+						}
+						?>
+					<tr bgcolor="<?php echo $warna; ?>">
+						<td><?php echo $n;?></td>
+						<?php if($nimFeeder=='-'){ ?>
+						<td>
+							<input type="checkbox" id="cbnim_<?php echo $x;?>" value="<?php echo $dataMhsSIA['nim'] ?>" cbnim><input type="text" style="display:none;" id="nim_<?php echo $x;?>">
+						</td>
+						<?php $x++;}else{ ?>
+						<td></td>
+						<?php } ?>
+						<td><?php echo $dataMhsSIA['nim']; ?></td>
+						<td><?php echo $dataMhsSIA['nm_mhs']; ?></td>
+						<td align="center"><?php echo $status; ?></td>
+						<?php if($nimFeeder=='-'){ ?>
+							<td align="center">0.00%</td>
+							<td></td>
+							<td></td>
+						<?php }else{?>
+							<td align="center"><?php echo $per_match;?>%</td>
+							<td align="center">
+								<input type="hidden" id="dump_<?php echo $n;?>"><input type="hidden" id="nimdump_<?php echo $n;?>" value="<?php echo $dataMhsSIA['nim'];?>">
+								<button type="button" class="btn btn-info btn-xs" onclick="hbox('<?php echo $this->baseUrl;?>','zzfmhs/detil',new Array('dumptxt'),new Array('nimdump_<?php echo $n;?>','prd'))"><i class="fa fa-eye"></i></button>
+							</td>
+							<?php if($per_match<100){?>
+							<td align="center">
+								<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Anda yakin untuk mengupdate data NIM <strong><?php echo $dataMhsSIA['nim'];?></strong> di feeder berdasarkan data dari SIA?','<?php echo $this->baseUrl;?>','/ajax4/updfmhs',new Array('<?php echo $dataMhsSIA['nim'];?>','<?php echo $this->prd;?>'))">Update</button>
+							</td>
+							<?php }else{?>
+							<td></td>
+							<?php }?>	
+						<?php }?>
+					</tr>
+					<?php $n++;} ?>
+					<input type="hidden" id="x" value="<?php echo $x;?>">
+				</table>
+			</div>
+			<?php }else{ ?>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<th rowspan="2" width="4%">No</th>
+						<th  rowspan="2" width="12%">NIM Mahasiswa Feeder (<?php echo count($this->listMhsFeeder) ?>)</th>
+						<th  rowspan="2" width="12%">Nama Mahasiswa Feeder</th>
+						<th width="12%" colspan="4">Data Mahasiswa di SIA (<?php echo count($this->listMhsSIA) ?>)</th>
+					</tr>
+					<tr>
+						<th width="12%">NIM</th>
+						<th>Nama Mahasiswa</th>
+						<th width="20%">Tempat Tanggal Lahir</th>
+						<th width="10%">Status Sinkronisasi</th>
+					</tr>
+					<?php $n=1;foreach ($this->listMhsFeeder as $dataMhsFeeder ) { ?>
+					<?php
+						$nimSIA="-";
+						$nmSIA="-";
+						$lahirSIA="-";
+						$status="Not Found";
+						$warna="lightyellow";
+						foreach ($this->listMhsSIA as $dataMhsSIA) {
+							if($dataMhsSIA['nim']==str_replace(" ", "",$dataMhsFeeder['nim'])){
+								$nimSIA = $dataMhsSIA['nim'];
+								$nmSIA = $dataMhsSIA['nm_mhs'];
+								$lahirSIA = $dataMhsSIA['tmp_lahir'].", ".$dataMhsSIA['tgl_lahir_fmt'];
+								$status = "Found";
+								$warna="lightgreen";
+							}
+						}
+						?>
+					<tr bgcolor="<?php echo $warna; ?>">
+						<td><?php echo $n;?></td>
+						<td><?php echo $dataMhsFeeder['nim']; ?></td>
+						<td><?php echo $dataMhsFeeder['nama_mahasiswa']; ?></td>
+						<td><?php echo $nimSIA; ?></td>
+						<td><?php echo $nmSIA; ?></td>
+						<td><?php echo $lahirSIA; ?></td>
+						<td align="center"><?php echo $status; ?></td>
+					</tr>
+					<?php $n++;} ?>
+				</table>
+			</div>
+			<?php } ?>
+		</div>
+	</form>
+</div>
+<script>
+	$("[cbnim]").on('change',(function() {
+		id=$(this).attr('id');
+		n= id.split('_');
+		if($(this).is(':checked')){
+			$("#nim_"+n[1]).val($(this).val());
+		}else{
+			$("#nim_"+n[1]).val('');
+		}
+	}))
+</script>
+<script>
+	function selectAll(all){
+		var checked = all.checked;
+		var chkBoxes = $("[cbnim]");
+		for (var counter=0;counter<=chkBoxes.length;counter++) {
+			chkBoxes[counter].checked = checked ;
+			a=chkBoxes[counter]
+			id=$(a).attr('id');
+			n= id.split('_');
+			if($(chkBoxes[counter]).is(':checked')){
+				$("#nim_"+n[1]).val($(chkBoxes[counter]).val());
+			}else{
+				$("#nim_"+n[1]).val('');
+			}
+		}
+	}
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm_mhs").submit(function() {
+	  ajaxSubmit("frm_mhs","<?php echo $this->baseUrl;?>","/ajax4/insfmhs","/zzfmhs/list?new=","u");
+	  return false;
+	});
+</script>

@@ -1,0 +1,111 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data PKRS</h3>
+	</div>
+	<div class="box-body">
+		<div class="col-md-6">
+			<div class="col-md-4">Periode Akademik</div>
+			<div class="col-md-8">: <?php echo $this->per;?></div>
+			<div class="col-md-4">NIM</div>
+			<div class="col-md-8">: <?php echo $this->nim;?></div>
+			<div class="col-md-4">Nama Mahasiswa</div>
+			<div class="col-md-8">: <?php echo $this->nm_mhs;?></div>
+			<div class="col-md-4">Angkatan</div>
+			<div class="col-md-8">: <?php echo $this->akt;?></div>
+			<div class="col-md-4">Prodi</div>
+			<div class="col-md-8">: <?php echo $this->prd;?></div>
+			<div class="col-md-4">Dosen Wali</div>
+			<div class="col-md-8">: <?php echo $this->dw;?></div>
+		</div>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+		<table id="tbkrs" class="table table-bordered table-hover">
+			<tr class="bg-maroon" align="center">
+				<td rowspan="3" width="5%">No</td>
+				<td colspan="4">Mata Kuliah</td>
+				<td colspan="2">Dosen</td>
+				<td rowspan="3">Nama Kelas</td>
+				<td rowspan="3" width="5%">Perubahan</td>
+				<td rowspan="3" width="5%">Status Approve Dosen Wali</td>
+			</tr>
+			<tr class="bg-maroon" align="center">
+				<td width="8%" rowspan="2">Kode Mata Kuliah</td>
+				<td width="18%" rowspan="2">Nama Mata Kuliah</td>
+				<td colspan="2">* SKS</td>
+				<td width="10%" rowspan="2">Kode Dosen</td>
+				<td width="20%" rowspan="2">Nama Dosen</td>
+			</tr>
+			<tr class="bg-maroon" align="center">
+				<td width="5%">Default</td>
+				<td width="7%">* Taken</td>
+			</tr>
+			<?php $i=1;foreach ($this->listPkrs as $dtPkrs) { ?>
+			<tr>
+				<td align="center"><?php echo $i;?></td>
+				<td><?php echo $dtPkrs['kode_mk'];?></td>
+				<td><?php echo $dtPkrs['nm_mk'];?></td>
+				<td align="center"><?php echo $dtPkrs['sks_tm']+$dtPkrs['sks_prak']+$dtPkrs['sks_prak_lap']+$dtPkrs['sks_sim'];?></td>
+				<td align="center"><?php echo $dtPkrs['sks_tm']+$dtPkrs['sks_prak']+$dtPkrs['sks_prak_lap']+$dtPkrs['sks_sim']-$dtPkrs['sks_deducted'];?></td>
+				<td align="center"><?php echo $dtPkrs['kd_dosen'];?></td>
+				<td><?php echo $dtPkrs['nm_dosen'];?></td>
+				<td align="center"><?php echo $dtPkrs['nm_kelas'];?></td>
+				<?php 
+					if($dtPkrs['mode']=='i'){
+						$mode="TAMBAH";
+					}elseif ($dtPkrs['mode']=='d'){
+						$mode="DROP";
+					}elseif ($dtPkrs['mode']=='u'){
+						$mode="UBAH SKS";
+					}else{
+						$mode="-";
+					}
+					if($dtPkrs['executed']=='0'){
+						$appPkrs="NOT APPROVED";
+					}elseif ($dtPkrs['executed']=='1'){
+						$appPkrs="APPROVED";
+					}else{
+						$appPkrs="NOT APPROVED";
+					}
+				?>
+				<td align="center"><?php echo $mode;?></td>
+				<td align="center"><?php echo $appPkrs;?></td>
+			</tr>
+			<?php $i++;}?>
+			<?php $j=$i;foreach ($this->listPkrsTA as $dtPkrsTA) { ?>
+			<tr>
+				<td align="center"><?php echo $i;?></td>
+				<td><?php echo $dtPkrsTA['kode_mk'];?></td>
+				<td><?php echo $dtPkrsTA['nm_mk'];?></td>
+				<td align="center"><?php echo $dtPkrsTA['sks_tm']+$dtPkrsTA['sks_prak']+$dtPkrsTA['sks_prak_lap']+$dtPkrsTA['sks_sim'];?></td>
+				<td align="center"><?php echo $dtPkrsTA['sks_tm']+$dtPkrsTA['sks_prak']+$dtPkrsTA['sks_prak_lap']+$dtPkrsTA['sks_sim']-$dtPkrsTA['sks_deducted'];?></td>
+				<td align="center"><?php echo $dtPkrsTA['kd_dosen'];?></td>
+				<td><?php echo $dtPkrsTA['nm_dosen'];?></td>
+				<td align="center"><?php echo $dtPkrsTA['nm_kelas'];?> (Periode Mulai:<?php echo $dtPkrsTA['kd_periode_mulai'];?>)</td>
+				<?php 
+					if($dtPkrsTA['mode']=='i'){
+						$mode="TAMBAH";
+					}elseif ($dtPkrsTA['mode']=='d'){
+						$mode="DROP";
+					}elseif ($dtPkrsTA['mode']=='u'){
+						$mode="UBAH SKS";
+					}else{
+						$mode="-";
+					}
+					if($dtPkrsTA['executed']=='0'){
+						$appPkrs="NOT APPROVED";
+					}elseif ($dtPkrsTA['executed']=='1'){
+						$appPkrs="APPROVED";
+					}else{
+						$appPkrs="NOT APPROVED";
+					}
+				?>
+				<td align="center"><?php echo $mode;?></td>
+				<td align="center"><?php echo $appPkrs;?></td>
+			</tr>
+			<?php $j++;}?>
+		</table>
+	</div>
+	</div>
+</div>

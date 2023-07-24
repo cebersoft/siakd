@@ -1,0 +1,12 @@
+<?=$this->doctype() ?>
+<?php echo $this->render('parts/h.phtml');?>
+<?php  
+	$eksis='t';
+	$eksis=$this->eksis;
+	if ($eksis=='f'){
+		echo $this->render('parts/nodata.phtml');
+	}else{
+?>
+	<?php echo $this->layout()->content ?>
+<?php }?>
+<?php echo $this->render('parts/f.phtml');?>

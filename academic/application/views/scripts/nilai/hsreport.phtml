@@ -1,0 +1,92 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/morris/morris.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/dist/css/AdminLTE.min.css">
+<?php //echo $this->x;?>
+<?php if(!$this->chart){?>
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Filter </h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">AXIS : Angkatan</label>
+				<div class="col-sm-4">
+					<select id="akt" class="form-control select2" multiple="multiple" data-placeholder="pilih angkatan" name="akt" sel-2>
+						<?php foreach ($this->listAkt as $dataAngkatan) { ?>
+						<option value="<?php echo $dataAngkatan['id_angkatan']; ?>"><?php echo $dataAngkatan['id_angkatan']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">FILTER : PRODI</label>
+				<div class="col-sm-4">
+					<select id="prd" class="form-control select2" multiple="multiple" data-placeholder="pilih program studi" name="prd" sel-2>
+						<?php foreach ($this->listProdi as $dataProdi) { ?>
+						<option value="<?php echo $dataProdi['kd_prodi']; ?>"><?php echo $dataProdi['kd_prodi']." : ".$dataProdi['nm_prodi']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">FILTER : PERIODE</label>
+				<div class="col-sm-4">
+					<select id="per" class="form-control data-placeholder="pilih periode akademik" name="per">
+						<?php foreach ($this->listPeriode as $dataPeriode) { ?>
+						<option value="<?php echo $dataPeriode['kd_periode']; ?>"><?php echo $dataPeriode['kd_periode']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">CHART</label>
+				<div class="col-sm-4">
+					<select id="cht" class="form-control" data-placeholder="pilih chart" name="cht">
+						<option value="b">BAR</option>
+						<option value="l">LINE</option>
+						<option value="a">AREA</option>
+					</select>
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="submit" class="btn btn-info pull-right col-sm-2">Show</button>
+			</div>
+		</div>
+	</form>
+</div>
+<?php }else{ ?>
+<div class="box box-success">
+	<div class="box-header with-border">
+		<h3 class="box-title">Report Chart IPS Mahasiswa</h3>
+		<div class="box-tools pull-right">
+			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+		</div>
+		<div class="box-body chart-responsive">
+			<div class="chart" id="cht_hs" style="height: 300px;"></div>
+		</div>
+	</div>
+</div>
+<?php } ?>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.full.min.js"></script>
+<script>
+	$("[sel-2]").select2();
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $("#frm").submit(function() {
+	    ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax5/showhscht","/nilai/hsreport","s");
+	    return false;
+	  });
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/morris/raphael.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/morris/morris.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/morris/html2canvas.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/chart.js"></script>
+<script>
+	$(function () {
+		chart('cht_hs','<?php echo $this->chart;?>',<?php echo json_encode($this->key);?>,<?php echo json_encode($this->labels);?>,<?php echo json_encode($this->data);?>);	   
+	});
+</script>

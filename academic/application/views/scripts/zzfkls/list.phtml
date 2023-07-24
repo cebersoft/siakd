@@ -1,0 +1,202 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<form id="frm_kls" method="post">
+		<div class="box-body">
+			<?php if($this->opt=='1'){ ?>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<th rowspan="2" width="4%">No</th>
+						<th rowspan="2" width="3%">
+							<input type="hidden" id="prd" value="<?php echo $this->prd;?>">
+							<input type="checkbox" name="ckbCheckAll" id="ckbCheckAll" onClick="selectAll(this)">
+						</th>
+						<th colspan="5">
+							Data Kelas Kuliah SIA (<?php echo count($this->listkelasSIA) ?>)
+							<?php if($this->id_kur){ ?>
+							<input type="hidden" value="<?php echo $this->id_kur; ?>" id="id_kur">
+							<button id="transfer" class="btn bg-yellow pull-right">Transfer Data Kelas &gt;&gt;</button>
+							<?php }else{?>
+							<button id="transfer" class="btn bg-maroon pull-right" disabled="disabled">Tidak dapat melakukan transfer data, kurikulum belum disetting untuk prodi dan periode ini!</button>
+							<?php }?>
+						</th>
+						<th colspan="5" width="12%">Kelas di Feeder (<?php echo count($this->listKelasFeeder) ?>)</th>
+					</tr>
+					<tr>
+						<th width="10%">KODE MK</th>
+						<th>NAMA MK</th>
+						<th width="5%">KELAS</th>
+						<th width="5%">KRS</th>
+						<th width="5%">DOSEN</th>
+						<th width="10%">STATUS</th>
+						<th width="10%">KODE MK</th>
+						<th width="17%">NAMA MK</th>
+						<th width="5%">KELAS</th>
+						<th width="5%">KRS</th>
+						<th width="5%">NILAI</th>
+					</tr>
+					<?php $n=1;$x=0;foreach ($this->listkelasSIA as $dataKlsSIA ) { ?>
+					<?php
+						$idKls="-";
+						$status="Not Found";
+						$warna="lightyellow";
+						$kode_mk_f="";
+						$nm_mk_f="";
+						$kls_f="";
+						$nKrs=0;
+						$nMhs_f=0;
+						$nMhs_nl=0;
+						foreach ($this->listKelasFeeder as $dataKlsFeeder) {
+							if($dataKlsSIA['id_nm_kelas']==str_replace(" ", "",$dataKlsFeeder['nama_kelas_kuliah']) and ($dataKlsSIA['kode_mk']==$dataKlsFeeder['kode_mata_kuliah'])){
+								$idKls = $dataKlsFeeder['id_kelas_kuliah'];
+								$status = "Found";
+								$kode_mk_f=$dataKlsFeeder['kode_mata_kuliah'];
+								$nm_mk_f=$dataKlsFeeder['nama_mata_kuliah'];
+								$kls_f=$dataKlsFeeder['nama_kelas_kuliah'];
+								$nMhs_f=$dataKlsFeeder['jumlah_mahasiswa'];
+								$nMhs_nl=$dataKlsFeeder['jumlah_mahasiswa_nilai'];
+								if($nMhs_f==$dataKlsSIA['n_mhs_kuliah']){
+									$warna="lightgreen";
+									if($nMhs_nl==$nMhs_f){
+										$warna="lightblue";
+									}
+								}else{
+									$warna="orange";
+								}
+							}
+						}
+						?>
+					<tr bgcolor="<?php echo $warna; ?>">
+						<td><?php echo $n;?></td>
+						<?php if($idKls=='-'){ ?>
+						<td>
+							<input type="checkbox" id="cbpkls_<?php echo $x;?>" value="<?php echo $dataKlsSIA['id_nm_kelas']."###".$dataKlsSIA['kode_mk']."###".$dataKlsSIA['id_smt']."###".$dataKlsSIA['sks_tm']."###".$dataKlsSIA['sks_prak']."###".$dataKlsSIA['sks_prak_lap']."###".$dataKlsSIA['sks_sim'];?>" cbpkls><input type="text" style="display:none;" id="pkls_<?php echo $x;?>">
+						</td>
+						<?php $x++;}else{ ?>
+						<td></td>
+						<?php } ?>
+						<td align="center"><?php echo $dataKlsSIA['kode_mk']; ?></td>
+						<td><?php echo $dataKlsSIA['nm_mk']; ?></td>
+						<td align="center"><?php echo $dataKlsSIA['id_nm_kelas']; ?></td>
+						<td align="center">
+								<button type="button" class="btn btn-xs btn-info" onclick="nav('<?php echo $this->baseUrl;?>/zzfkrs/list?nm=<?php echo $dataKlsSIA['id_nm_kelas'];?>&mk=<?php echo $dataKlsSIA['kode_mk'];?>&sm=<?php echo $dataKlsSIA['id_smt'];?>&prd=<?php echo $this->prd;?>&o=1&kls=<?php echo $idKls;?>')" ><?php echo $dataKlsSIA['n_mhs_kuliah'];?></button>
+						</td>
+						<td align="center"><?php echo $dataKlsSIA['n_dosen']; ?></td>
+						<td align="center"><?php echo $status; ?></td>
+						<td align="center"><?php echo $kode_mk_f;?></td>
+						<td><?php echo $nm_mk_f;?></td>
+						<td align="center"><?php echo $kls_f;?></td>
+						<td align="center">
+							<?php if($idKls!='-'){ ?>
+							<button type="button" class="btn btn-xs btn-info" onclick="nav('<?php echo $this->baseUrl;?>/zzfkrs/list?nm=<?php echo $dataKlsSIA['id_nm_kelas'];?>&mk=<?php echo $dataKlsSIA['kode_mk'];?>&sm=<?php echo $dataKlsSIA['id_smt'];?>&prd=<?php echo $this->prd;?>&o=2')" ><?php echo $nMhs_f;?></i></button>
+							<?php }?>
+						</td>
+						<td align="center">
+							<?php 
+								if($idKls!='-'){
+									echo $nMhs_nl;
+								}
+							?>
+						</td>
+					</tr>
+					<?php $n++;} ?>
+					<input type="hidden" id="x" value="<?php echo $x;?>">
+				</table>
+			</div>
+			<?php }else{ ?>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<th rowspan="2" width="4%">No</th>
+						<th  colspan="5" width="12%">
+							Kelas di Feeder (<?php echo count($this->listKelasFeeder) ?>)
+							<button id="delkrs" class="btn bg-yellow pull-right">Hapus Massal KRS dan Nilai</button>
+							<button id="delkls" class="btn bg-red">Hapus Massal Kelas (Termasuk KRS, Nilai dan Dosen)</button>
+						</th>
+						<th width="12%">Data Kelas di SIA (<?php echo count($this->listkelasSIA) ?>)</th>
+					</tr>
+					<tr>
+						<th width="12%">ID KELAS</th>
+						<th width="12%">KODE MK</th>
+						<th>NAMA MK</th>
+						<th width="20%">NAMA KELAS</th>
+						<th width="5%">KRS</th>
+						<th width="10%">STATUS SINKRONISASI</th>
+					</tr>
+					<?php $n=1;foreach ($this->listKelasFeeder as $dataKlsFeeder ) { ?>
+					<?php
+						$kd_kleas="-";
+						$status="Not Found";
+						$warna="lightyellow";
+						foreach ($this->listkelasSIA as $dataKlsSIA) {
+							if($dataKlsSIA['id_nm_kelas']==str_replace(" ", "",$dataKlsFeeder['nama_kelas_kuliah']) and ($dataKlsSIA['kode_mk']==$dataKlsFeeder['kode_mata_kuliah'])){
+								$kd_kelas = $dataKlsSIA['id_nm_kelas'];
+								$status = "Found";
+								$warna="lightgreen";
+							}
+						}
+						?>
+					<tr bgcolor="<?php echo $warna; ?>">
+						<td><?php echo $n;?></td>
+						<td><?php echo $dataKlsFeeder['id_kelas_kuliah']; ?></td>
+						<td><?php echo $dataKlsFeeder['kode_mata_kuliah']; ?></td>
+						<td><?php echo $dataKlsFeeder['nama_mata_kuliah']; ?></td>
+						<td><?php echo $dataKlsFeeder['nama_kelas_kuliah']; ?></td>
+						<td align="center">
+							<button type="button" class="btn btn-xs btn-info" onclick="nav('<?php echo $this->baseUrl;?>/zzfkrs/list?nm=<?php echo $dataKlsFeeder['nm_kls'];?>&mk=<?php echo $dataKlsFeeder['kode_mk'];?>&sm=<?php echo $dataKlsFeeder['id_smt'];?>&prd=<?php echo $this->prd;?>&o=2')" ><i class="fa fa-eye"></i></button>
+						</td>
+						<td align="center"><?php echo $status; ?></td>
+					</tr>
+					<?php $n++;} ?>
+				</table>
+			</div>
+			<?php } ?>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	$("[cbpkls]").on('change',(function() {
+		id=$(this).attr('id');
+		n= id.split('_');
+		if($(this).is(':checked')){
+			$("#pkls_"+n[1]).val($(this).val());
+		}else{
+			$("#pkls_"+n[1]).val('');
+		}
+	}))
+</script>
+<script>
+	function selectAll(all){
+		var checked = all.checked;
+		var chkBoxes = $("[cbpkls]");
+		for (var counter=0;counter<=chkBoxes.length;counter++) {
+			chkBoxes[counter].checked = checked ;
+			a=chkBoxes[counter]
+			id=$(a).attr('id');
+			n= id.split('_');
+			if($(chkBoxes[counter]).is(':checked')){
+				$("#pkls_"+n[1]).val($(chkBoxes[counter]).val());
+			}else{
+				$("#pkls_"+n[1]).val('');
+			}
+		}
+	}
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm_kls").submit(function() {
+	  ajaxSubmit("frm_kls","<?php echo $this->baseUrl;?>","/ajax4/insfkls","/zzfkls/list?new=","u");
+	  return false;
+	});
+</script>
+<script>
+	$("#delkrs").on('click',(function() {
+	  confirm('Apakah Anda yakin akan menghapus massal KRS dan Nilai?','<?php echo $this->baseUrl;?>','/ajax4/delmasfkrs',new Array('<?php echo $this->smt;?>','<?php echo $this->sms;?>'));
+	  return false;
+	}));
+	$("#delkls").on('click',(function() {
+	  confirm('Apakah Anda yakin akan menghapus massal Kelas?','<?php echo $this->baseUrl;?>','/ajax4/delmasfkls',new Array('<?php echo $this->smt;?>','<?php echo $this->sms;?>'));
+	  return false;
+	}));
+</script>

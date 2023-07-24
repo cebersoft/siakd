@@ -1,0 +1,64 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border" class="col-sm-2">
+		<div class="col-sm-8">
+			<strong>
+			PROGRAM STUDI : <?php echo $this->prd;?>
+			</strong>
+		</div>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbkur" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>KODE</th>
+						<th>NAMA KURIKULUM</th>
+						<th>PRODI</th>
+						<th>PERIODE BERLAKU</th>
+						<th>STATUS</th>
+						<th>MATA KULIAH</th>
+						<th>SEMESTER</th>
+						<th>SKS LULUS</th>
+						<th>SKS WAJIB</th>
+						<th>SKS PILIHAN</th>
+						<th>AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listKur as $dataKur) { ?>
+					<tr>
+						<td><?php echo $dataKur['kd_kurikulum']; ?></td>
+						<td><?php echo $dataKur['nm_kurikulum']; ?></td>
+						<td><?php echo $dataKur['nm_prodi']; ?></td>
+						<td align="center"><?php echo $dataKur['kd_periode_berlaku']; ?></td>
+						<?php 
+							if($dataKur['status']=='t'){
+								$status="BERLAKU";
+							}else{
+								$status="TIDAK BERLAKU";
+							}
+							?>
+						<td align="center"><?php echo $status; ?></td>
+						<td align="center">
+							<button type="button" class="btn btn-info btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/kurikulum/detil?id=<?php echo $dataKur['id_kurikulum'];?>')"><i class="fa fa-eye"></i></button>
+						</td>
+						<td align="center"><?php echo $dataKur['smt_normal']; ?></td>
+						<td align="center"><?php echo $dataKur['sks_lulus']; ?></td>
+						<td align="center"><?php echo $dataKur['sks_wajib']; ?></td>
+						<td align="center"><?php echo $dataKur['sks_pilihan']; ?></td>
+						<td align="center">
+							<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/kurikulum/edit?id=<?php echo $dataKur['id_kurikulum'];?>')"><i class="fa fa-pencil"></i></button>
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus kurikulum ini? <strong><?php echo $dataKur['nm_kurikulum'];?></strong>','<?php echo $this->baseUrl;?>','/ajax/delkur',new Array('<?php echo $dataKur['id_kurikulum'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbkur',true,true,true,false,true,false);});</script>

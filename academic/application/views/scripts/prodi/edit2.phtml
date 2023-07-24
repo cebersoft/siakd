@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker-bs3.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Info Program Studi</h3>
+	</div>
+	<div class="box-body">
+		<form class="form-horizontal" method="post" id="frm">
+            <div class="box-body">
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Gelar (indonesia)</label>
+					<div class="col-sm-4">
+						<input type="hidden" id="kd" value="<?php echo $this->kd; ?>">
+						<input type="text" class="form-control" id="gelar_id" placeholder="Gelar (indonesia)" value="<?php echo $this->gelar_id; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Gelar (english)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="gelar_en" placeholder="Gelar (english)" value="<?php echo $this->gelar_en; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Jenis Pendidikan (indonesia)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="jenis_pend_id" placeholder="Jenis Pendidikan (indonesia)" value="<?php echo $this->jenis_pend_id; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Jenis Pendidikan (english)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="jenis_pend_en" placeholder="Jenis Pendidikan (english)" value="<?php echo $this->jenis_pend_en; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Req Pendidikan (indonesia)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="req_pend_id" placeholder="req Pendidikan (indonesia)" value="<?php echo $this->req_pend_id; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Req Pendidikan (english)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="req_pend_en" placeholder="req Pendidikan (english)" value="<?php echo $this->req_pend_en; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Bahasa (indonesia)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="bahasa_id" placeholder="Bahasa (indonesia)" value="<?php echo $this->bahasa_id; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Bahasa (english)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="bahasa_en" placeholder="Bahasa (english)" value="<?php echo $this->bahasa_en; ?>">
+					</div>
+				</div>
+		<div class="form-group">
+					<label class="col-sm-2 control-label">Studi lanjutan (indonesia)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="lanjut_id" placeholder="Studi lanjutan (indonesia)" value="<?php echo $this->lanjut_id; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Studi lanjutan (english)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="lanjut_en" placeholder="Studi lanjutan (english)" value="<?php echo $this->lanjut_en; ?>">
+					</div>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+					<button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax4/updprdinfo","/prodi/detil?kd=","u");
+	  return false;
+	});
+</script>

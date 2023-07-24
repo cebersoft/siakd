@@ -1,0 +1,85 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker-bs3.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Info Program Studi</h3>
+	</div>
+	<div class="box-body">
+		<form class="form-horizontal" method="post" id="frm">
+            <div class="box-body">
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Capaian KKNI (indonesia)</label>
+					<div class="col-sm-4">
+						<input type="hidden" id="id" value="<?php echo $this->id; ?>">
+                        <input type="hidden" id="kd" value="<?php echo $this->kd; ?>">
+						<input type="text" class="form-control" id="capaian_kkni_id" placeholder="Capaian KKNI (indonesia)" value="<?php echo $this->capaian_kkni_id; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Capaian KKNI (english)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="capaian_kkni_en" placeholder="Capaian KKNI (english)" value="<?php echo $this->capaian_kkni_en; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Capaian Asosisasi (indonesia)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="capaian_asosiasi_id" placeholder="Capaian Asosisasi (indonesia)" value="<?php echo $this->capaian_asosiasi_id; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Capaian Asosisasi (english)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="capaian_asosiasi_en" placeholder="Capaian Asosisasi (english)" value="<?php echo $this->capaian_asosiasi_en; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Capaian Perguruan Tingggi (indonesia)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="capaian_pt_major_id" placeholder="Capaian Perguruan Tingggi (indonesia)" value="<?php echo $this->capaian_pt_major_en; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Capaian Perguruan Tingggi (english)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="capaian_pt_major_en" placeholder="Capaian Perguruan Tingggi (english)" value="<?php echo $this->capaian_pt_major_en; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Capaian Perguruan Tinggi (Pendukung) (indonesia)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="capaian_pt_minor_id" placeholder="Capaian Perguruan Tinggi (Pendukung) (indonesia)" value="<?php echo $this->capaian_pt_minor_en; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Capaian Perguruan Tinggi (Pendukung) (english)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="capaian_pt_minor_en" placeholder="Capaian Perguruan Tinggi (Pendukung) (english)" value="<?php echo $this->capaian_pt_minor_en; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Capaian Lain (indonesia)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="capaian_pt_other_id" placeholder="Capaian Lain (indonesia)" value="<?php echo $this->capaian_pt_other_en; ?>">
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-sm-2 control-label">Capaian Lain (english)</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="capaian_pt_other_en" placeholder="Capaian Lain (english)" value="<?php echo $this->capaian_pt_other_en; ?>">
+					</div>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+					<button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax4/updprdskpilabel","/prodi/detil2?kd=","u");
+	  return false;
+	});
+</script>

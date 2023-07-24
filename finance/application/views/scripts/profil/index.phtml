@@ -1,0 +1,73 @@
+<div class="alert alert-block alert-info">
+	Ubah Data Pengguna
+</div>
+<form class="form-horizontal" role="form" id="frm1">
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Username </label>
+		<div class="col-sm-9">
+			<input type="text" id="uname" class="col-xs-10 col-sm-5" value="<?php echo $this->username;?>" readonly="readonly" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Nama </label>
+		<div class="col-sm-9">
+			<input type="text" id="nm" placeholder="nama" class="col-xs-10 col-sm-5" value="<?php echo $this->nama;?>" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Email </label>
+		<div class="col-sm-9">
+			<input type="email" id="email" placeholder="email" class="col-xs-10 col-sm-5" value="<?php echo $this->email;?>" />
+		</div>
+	</div>
+	<div class="clearfix form-actions">
+		<div class="col-md-offset-3 col-md-9">
+			<button class="btn btn-info" type="submit"><i class="ace-icon fa fa-check bigger-110"></i>Submit</button>
+			&nbsp; &nbsp; &nbsp;
+			<button class="btn" type="reset"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+		</div>
+	</div>
+</form>
+<div class="alert alert-block alert-info">
+	Ubah Password
+</div>
+<form class="form-horizontal" role="form" id="frm2">	
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Password Lama </label>
+		<div class="col-sm-9">
+			<input type="hidden" id="oldpwd" class="col-xs-10 col-sm-5" value="<?php echo $this->pwd;?>" />
+			<input type="password" id="pwd0" placeholder="password lama" class="col-xs-10 col-sm-5" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Password Baru </label>
+		<div class="col-sm-9">
+			<input type="hidden" id="uname" class="col-xs-10 col-sm-5" value="<?php echo $this->username;?>" />
+			<input type="password" id="pwd1" placeholder="password baru" class="col-xs-10 col-sm-5" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Ketik Ulang Password Baru </label>
+		<div class="col-sm-9">
+			<input type="password" id="pwd2" placeholder="ketik ulang password baru" class="col-xs-10 col-sm-5"  />
+		</div>
+	</div>
+	<div class="clearfix form-actions">
+		<div class="col-md-offset-3 col-md-9">
+			<button class="btn btn-info" type="submit"><i class="ace-icon fa fa-check bigger-110"></i>Submit</button>
+			&nbsp; &nbsp; &nbsp;
+			<button class="btn" type="reset"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+		</div>
+	</div>
+</form>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm1").submit(function() {
+	  ajaxSubmit("frm1","<?php echo $this->baseUrl;?>","/ajax/updprofil","/profil?new=","u");
+	  return false;
+	});
+	$("#frm2").submit(function() {
+	  ajaxSubmit("frm2","<?php echo $this->baseUrl;?>","/ajax/updprofilpwd","/profil?new=","u");
+	  return false;
+	});
+</script>

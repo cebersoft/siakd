@@ -1,0 +1,265 @@
+<link rel="stylesheet" href="<?php echo $this->publicUrl?>/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		Rekap Data Mahasiswa Berdasarkan <?php echo $this->header; ?>
+	</div>
+	<?php if($this->header == 'JENIS KELAMIN'){ ?>
+        <div class="box-body">
+            <div class="table-responsive">
+                <?php
+                    foreach($this->listProdi as $prod){ ?>
+                        <?php echo 'Prodi : <b>'.$prod['nm_prodi'].'</b><br>'; ?>
+                        <table id="tbl" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">ANGKATAN</th>
+                                    <th colspan="2" style="text-align: center; vertical-align: middle;">JENIS KELAMIN</th>
+                                </tr>
+                                <tr>
+                                    <?php foreach ($this->listJenisKelamin as $jk){ ?>
+                                        <th style="text-align: center; vertical-align: middle;"><?php echo $jk['keterangan']; ?></th>
+                                    <?php } ?>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($this->listAngkatan as $ang){ ?>
+                                <tr>
+                                    <td><?php echo $ang['id_angkatan'] ?></td>
+                                    <?php foreach($this->listJenisKelamin as $jk2 ){ ?>
+                                        <td align="center">
+                                            <?php $n_mhs=0; ?>
+                                            <?php foreach($this->listRepJk as $rep){ 
+                                                if(($rep['kd_prodi'] == $prod['kd_prodi']) and ($rep['id_angkatan'] == $ang['id_angkatan']) and ($rep['jenis_kelamin'] == $jk2['jenis_kelamin'])){
+                                                    $n_mhs = $rep['n_mahasiswa'];
+                                                }
+                                            }
+                                            echo $n_mhs;
+                                            ?>
+                                        </td>
+                                    <?php } ?>
+                                </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                        <br>
+                <?php } ?>
+            </div>
+        </div>
+    <?php }elseif($this->header == 'AGAMA'){ ?>
+        <div class="box-body">
+            <div class="table-responsive">
+                <?php
+                    foreach($this->listProdi as $prod){ ?>
+                        <?php echo 'Prodi : <b>'.$prod['nm_prodi'].'</b><br>'; ?>
+                        <table id="tbl" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">ANGKATAN</th>
+                                    <th colspan="<?php echo count($this->listAgama); ?>" style="text-align: center; vertical-align: middle;" style="text-align: center; vertical-align: middle;">AGAMA</th>
+                                    </tr>
+                                <tr>
+                                    <?php foreach ($this->listAgama as $agama){ ?>
+                                        <th style="text-align: center; vertical-align: middle;"><?php echo $agama['nm_agama']; ?></th>
+                                    <?php } ?>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($this->listAngkatan as $ang){ ?>
+                                <tr>
+                                    <td><?php echo $ang['id_angkatan'] ?></td>
+                                    <?php foreach($this->listAgama as $agama2 ){ ?>
+                                        <td  align="center">
+                                            <?php $n_mhs=0; ?>
+                                            <?php foreach($this->listRepAgama as $rep){ 
+                                                if(($rep['kd_prodi'] == $prod['kd_prodi']) and ($rep['id_angkatan'] == $ang['id_angkatan']) and ($rep['id_agama'] == $agama2['id_agama'])){
+                                                    $n_mhs = $rep['n_mahasiswa'];
+                                                }
+                                            }
+                                            echo $n_mhs;
+                                            ?>
+                                        </td>
+                                    <?php } ?>
+                                </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                        <br>
+                <?php } ?>
+            </div>
+        </div>
+    <?php }elseif($this->header == 'STATUS MAHASISWA'){ ?>
+        <div class="box-body">
+            <div class="table-responsive">
+                <?php
+                    foreach($this->listProdi as $prod){ ?>
+                    <?php echo 'Prodi : <b>'.$prod['nm_prodi'].'</b><br>'; ?>
+                    <table id="tbl" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" style="text-align: center; vertical-align: middle;">ANGKATAN</th>
+                                <th colspan="<?php echo count($this->listStatMhs); ?>" style="text-align: center; vertical-align: middle;">STATUS MAHASISWA</th>
+                            </tr>
+                            <tr>
+                                <?php foreach ($this->listStatMhs as $statmhs){ ?>
+                                    <th style="text-align: center; vertical-align: middle;"><?php echo $statmhs['status_mhs']; ?></th>
+                                <?php } ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($this->listAngkatan as $ang){ ?>
+                            <tr>
+                                <td><?php echo $ang['id_angkatan'] ?></td>
+                                <?php foreach($this->listStatMhs as $statmhs2 ){ ?>
+                                    <td  align="center">
+                                        <?php $n_mhs=0; ?>
+                                        <?php foreach($this->listRepStatMhs as $rep){ 
+                                            if(($rep['kd_prodi'] == $prod['kd_prodi']) and ($rep['id_angkatan'] == $ang['id_angkatan']) and ($rep['id_stat_mhs'] == $statmhs2['id_stat_mhs'])){
+                                                $n_mhs = $rep['n_mahasiswa'];
+                                            }
+                                        }
+                                        echo $n_mhs;
+                                        ?>
+                                    </td>
+                                <?php } ?>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                    <br>
+                <?php } ?>
+            </div>
+        </div>
+    <?php }elseif($this->header == 'STATUS MASUK MAHASISWA'){ ?>
+        <div class="box-body">
+            <div class="table-responsive">
+            <?php
+                foreach($this->listProdi as $prod){ ?>
+                    <?php echo 'Prodi : <b>'.$prod['nm_prodi'].'</b><br>'; ?>
+                    <table id="tbl" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" style="text-align: center; vertical-align: middle;">ANGKATAN</th>
+                                <th colspan="<?php echo count($this->listStatMasuk); ?>" style="text-align: center; vertical-align: middle;">STATUS MASUK MAHASISWA</th>
+                                </tr>
+                            <tr>
+                                <?php foreach ($this->listStatMasuk as $statmasuk){ ?>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;"><?php echo $statmasuk['nm_stat_masuk']; ?></th>
+                                <?php } ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($this->listAngkatan as $ang){ ?>
+                            <tr>
+                                <td><?php echo $ang['id_angkatan'] ?></td>
+                                <?php foreach($this->listStatMasuk as $statmasuk2 ){ ?>
+                                    <td  align="center">
+                                        <?php $n_mhs=0; ?>
+                                        <?php foreach($this->listRepStatMasuk as $rep){ 
+                                            if(($rep['kd_prodi'] == $prod['kd_prodi']) and ($rep['id_angkatan'] == $ang['id_angkatan']) and ($rep['id_stat_masuk'] == $statmasuk2['id_stat_masuk'])){
+                                                $n_mhs = $rep['n_mahasiswa'];
+                                            }
+                                        }
+                                        echo $n_mhs;
+                                        ?>
+                                    </td>
+                                <?php } ?>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                <br>
+            <?php } ?>
+            </div>
+        </div>
+    <?php }elseif($this->header == 'KOTA'){ ?>
+        <div class="box-body">
+            <div class="table-responsive">
+            <?php
+                foreach($this->listProdi as $prod){ ?>
+                    <?php echo 'Prodi : <b>'.$prod['nm_prodi'].'</b><br>'; ?>
+                    <table id="tbl" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" style="text-align: center; vertical-align: middle;">KOTA / PROPINSI</th>
+                                <th colspan="<?php echo count($this->listAngkatan); ?>" style="text-align: center; vertical-align: middle;">ANGKATAN</th>
+                                </tr>
+                            <tr>
+                                <?php foreach ($this->listAngkatan as $ang){ ?>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;"><?php echo $ang['id_angkatan']; ?></th>
+                                <?php } ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($this->listKota as $kota){ ?>
+                            <?php 
+                                $arrkota=explode("&&&&", $kota);
+                            ?>
+                            <tr>
+                                <td><?php echo $arrkota[1]."/".$arrkota[2]; ?></td>
+                                <?php foreach($this->listAngkatan as $ang2 ){ ?>
+                                    <td  align="center">
+                                        <?php $n_mhs=0; ?>
+                                        <?php foreach($this->listRepKota as $rep){ 
+                                            if(($rep['kd_prodi'] == $prod['kd_prodi']) and ($rep['id_angkatan'] == $ang2['id_angkatan']) and ($rep['id_kota'] == $arrkota[0])){
+                                                $n_mhs = $rep['n_mahasiswa'];
+                                            }
+                                        }
+                                        echo $n_mhs;
+                                        ?>
+                                    </td>
+                                <?php } ?>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                <br>
+            <?php } ?>
+            </div>
+        </div>
+    <?php }elseif($this->header == 'PROVINSI'){ ?>
+        <div class="box-body">
+            <div class="table-responsive">
+            <?php
+                foreach($this->listProdi as $prod){ ?>
+                    <?php echo 'Prodi : <b>'.$prod['nm_prodi'].'</b><br>'; ?>
+                    <table id="tbl" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" style="text-align: center; vertical-align: middle;">PROPINSI</th>
+                                <th colspan="<?php echo count($this->listAngkatan); ?>" style="text-align: center; vertical-align: middle;">ANGKATAN</th>
+                                </tr>
+                            <tr>
+                                <?php foreach ($this->listAngkatan as $ang){ ?>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;"><?php echo $ang['id_angkatan']; ?></th>
+                                <?php } ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($this->listProv as $prop){ ?>
+                            <?php 
+                                $arrprov=explode("&&&&", $prop);
+                            ?>
+                            <tr>
+                                <td><?php echo $arrprov[1]; ?></td>
+                                <?php foreach($this->listAngkatan as $ang2 ){ ?>
+                                    <td  align="center">
+                                        <?php $n_mhs=0; ?>
+                                        <?php foreach($this->listRepProv as $rep){ 
+                                            if(($rep['kd_prodi'] == $prod['kd_prodi']) and ($rep['id_angkatan'] == $ang2['id_angkatan']) and ($rep['id_propinsi'] == $arrprov[0])){
+                                                $n_mhs = $rep['n_mahasiswa'];
+                                            }
+                                        }
+                                        echo $n_mhs;
+                                        ?>
+                                    </td>
+                                <?php } ?>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                <br>
+            <?php } ?>
+            </div>
+        </div>
+    <?php } ?>
+</div>

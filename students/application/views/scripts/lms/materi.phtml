@@ -1,0 +1,59 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data Materi Ajar</h3>
+</div>
+<div class="inqbox-content">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Jenis Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->jns_kelas;?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn." (".$this->kd_dsn.")";?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+		</div>
+	</div>
+	<div class="table-responsive">
+		<table id="tbkls" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th width="5%">NO</th>
+					<th width="8%">MINGGU</th>
+					<th>JUDUL</th>
+					<th width="35%">MATERI</th>
+					<th width="20%">KONTRIBUTOR</th>
+					<th width="10%">AKSI</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;foreach ($this->listBahan as $dataBhn) { ?>
+				<tr>
+					<td><?php echo $i; ?></td>
+					<td><?php echo $dataBhn['minggu']; ?></td>
+					<td><?php echo $dataBhn['judul_bahan_ajar']; ?></td>
+					<td>
+						<strong>Keterangan</strong> : <?php echo $dataBhn['keterangan']; ?><br>
+						<strong>Nama File</strong> : <?php echo $dataBhn['nm_file']; ?><br>
+						<strong>Link</strong> : <a href="<?php echo $dataBhn['link']; ?>"><?php echo $dataBhn['link']; ?></a>
+					</td>
+					<td align="center">
+						<?php echo $dataBhn['nm_dosen']." (".$dataBhn['created'].")"; ?>
+					</td>
+					<td align="center">
+						<?php 
+            					    $arrFile=explode(".",$dataBhn['nm_file']);
+        	    				    $ext=end($arrFile);
+	            				?>
+						<button type="button" class="btn btn-info btn-sm" onclick="nav('<?php echo $this->baseUrl;?>/image/anyfile?url=public/file/materi/<?php echo $dataBhn['id_bahan_ajar'].".".$ext?>&newname=<?php echo $dataBhn['nm_file'];?>')"><i class="fa fa-download"></i></button>
+					</td>
+				</tr>
+				<?php $i++; } ?>
+		</table>
+	</div>
+</div>

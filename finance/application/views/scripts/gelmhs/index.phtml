@@ -1,0 +1,47 @@
+<form class="form-horizontal" role="form" id="frm">
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Program Studi</label>
+		<div class="col-sm-9">
+			<select class="col-xs-10 col-sm-5" id="prd">
+				<option disabled selected value="">pilih program studi</option>
+				<?php foreach ($this->listProdi as $dt) { ?>
+				<option value="<?php echo $dt['kd_prodi']?>"><?php echo $dt['nm_prodi']?></option>
+				<?php } ?>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Angkatan</label>
+		<div class="col-sm-9">
+			<select class="col-xs-10 col-sm-5" id="akt">
+				<option disabled selected value="">pilih angkatan</option>
+				<?php foreach ($this->listAkt as $dt) { ?>
+				<option value="<?php echo $dt['id_angkatan']?>"><?php echo $dt['id_angkatan']?></option>
+				<?php } ?>
+			</select>
+		</div>
+	</div>
+	<div class="clearfix form-actions">
+		<div class="col-md-offset-3 col-md-9">
+			<button class="btn btn-info" type="submit"><i class="ace-icon fa fa-search bigger-110"></i>Search</button>
+			&nbsp; &nbsp; &nbsp;
+			<button class="btn" type="reset"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+		</div>
+	</div>
+</form>
+<script src="<?php echo $this->baseUrl;?>/public/js/alert.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $("#frm").submit(function() {
+	  var prd = $("#prd").val();
+	  var akt = $("#akt").val();
+	  	if((prd==null)||(akt==null)){
+	  		alertbox("Program studi dan angkatan tidak boleh kosong");
+	  	}else{
+	  		ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/showmhsgel","/gelmhs/list","s");
+	  	}
+	  	return false;
+	  });
+	});
+</script>

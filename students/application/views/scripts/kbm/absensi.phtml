@@ -1,0 +1,49 @@
+<div class="inqbox-content border-top-danger">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Nama Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->nm_kelas." (".$this->jns_kelas.")";?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn;?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+		</div>
+	</div>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbkur" class="table table-bordered table-hover">
+			<tr>
+				<th width="5%">No</th>
+				<th width="18%">Hari/Tanggal</th>
+				<th width="15%">Tempat</th>
+				<th width="15%">Waktu</th>
+				<th>Materi</th>
+				<th width="10%">Status</th>
+			</tr>
+			<?php $j=1;$nPert=0;$nHdr=0;foreach ($this->listAbsensi as $data) { ?>
+			<?php 
+				if($data['id_hadir']==1){
+					$nHdr++;
+				}
+			?>
+			<tr>
+				<td><?php echo $j;?></td>
+				<td><?php echo $data['hari'].", ".$data['tgl_kuliah_fmt'];?></td>
+				<td><?php echo $data['tempat'];?></td>
+				<td><?php echo $data['start_time']." s/d ".$data['end_time'];?></td>
+				<td><?php echo $data['materi'];?></td>
+				<td align="center"><?php echo $data['ket'];?></td>
+			</tr>
+			<?php $nPert++; $j++; } ?>
+			<tr>
+				<td colspan="5">Persentase Kehadiran</td>
+				<td align="center"><?php echo number_format((($nHdr/$nPert)*100),2,',','.')."%";?></td>
+			</tr>
+		</table>
+	</div>
+</div>

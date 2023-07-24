@@ -1,0 +1,191 @@
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data RPS</h3>
+</div>
+<div class="inqbox-content col-sm-12">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Jenis Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->jns_kelas;?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn." (".$this->kd_dsn.")";?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+		</div>
+	</div>
+	<?php if($this->id_rps==''){ ?>
+	<h5 class="alert alert-danger"><i class="icon fa fa-warning"></i>&nbsp;&nbsp;Silakan menambahkan Capaian pembelajaran sebelum menambahkan detil pembelajaran per minggu</h5>
+	<div class="panel-body">
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Capaian Pembelajaran</label>
+					<div class="col-sm-8">
+						<input type="hidden" id="mk_kur" value="<?php echo $this->id_mk_kur;?>">
+						<input type="hidden" id="per" value="<?php echo $this->kd_per;?>">
+						<input type="text" class="form-control" id="capaian" placeholder="capaian pembelajaran">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="box-footer col-sm-6">
+					<button type="submit" class="btn btn-primary pull-right col-sm-4" id="btnsbm">Tambah</button>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-4" id="btnres">Reset</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="table-responsive">
+		<table id="tbkul" class="table table-bordered table-hover">
+			<thead>
+			<tr>
+				<th>Capaian Pembelajaran</th>
+				<th width="8%">Aksi</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php foreach ($this->listRps as $dataRps){ ?>
+			<tr>
+				<td><?php echo $dataRps['capaian']; ?></td>
+				<td align="center">
+					<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/rps/edit?id=<?php echo $dataRps['id_rps'];?>')"><i class="fa fa-pencil"></i></button>
+					<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus data ini?','<?php echo $this->baseUrl;?>','/ajax/delrps',new Array('<?php echo $dataRps['id_rps'];?>'))"><i class="fa fa-remove"></i></button>
+				</td>
+			</tr>
+			<?php $i++;} ?>
+			</tbody>
+		</table>
+	</div>
+	<?php }else{?>
+	<div class="table-responsive">
+		<table id="tbkul" class="table table-bordered table-hover">
+			<thead>
+			<tr>
+				<th>Capaian Pembelajaran</th>
+				<th width="8%">Aksi</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php foreach ($this->listRps as $dataRps){ ?>
+			<tr>
+				<td><?php echo $dataRps['capaian']; ?></td>
+				<td align="center">
+					<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/rps/edit?id=<?php echo $dataRps['id_rps'];?>&kls=<?php echo $this->kd_kls;?>')"><i class="fa fa-pencil"></i></button>
+					<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus data ini?','<?php echo $this->baseUrl;?>','/ajax/delrps',new Array('<?php echo $dataRps['id_rps'];?>'))"><i class="fa fa-remove"></i></button>
+				</td>
+			</tr>
+			<?php $i++;} ?>
+			</tbody>
+		</table>
+	</div>
+	<div class="panel-body">
+		<form class="form-horizontal" method="post" id="frm2">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Minggu Ke</label>
+					<div class="col-sm-8">
+						<input type="hidden" id="id_rps" value="<?php echo $this->id_rps;?>">
+						<input type="number" class="form-control" id="mg" placeholder="minggu" min="1" max="16">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Sub-CPMK (Kemampuan Akhir diharapkan)</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" rows="2" placeholder="kemampuan akhir" id="kmp"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Materi Pembelajaran (Pustaka)</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" rows="2" placeholder="materi pembelajaran" id="bhn"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Indikator</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" rows="2" placeholder="indikator" id="ind"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Metode Pembelajaran (Estimasi Waktu)</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" rows="2" placeholder="metode pembelajaran" id="bnt"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kriteria dan bentuk Penilaian</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" rows="2" placeholder="kriteria dan bentuk penilaian" id="krt"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Bobot Penilaian (%)</label>
+					<div class="col-sm-8">
+						<input type="number" class="form-control" id="bbt" placeholder="bobot" min="1" max="100">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="box-footer col-sm-6">
+					<button type="submit" class="btn btn-primary pull-right col-sm-4" id="btnsbm">Tambah</button>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-4" id="btnres">Reset</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="table-responsive">
+		<table id="tbkul" class="table table-bordered table-hover" style="width:1420px; table-layout:fixed;">
+			<thead>
+			<tr>
+				<th width="5%">Minggu</th>
+				<th>Kemampuan Akhir</th>
+				<th>Indikator</th>
+				<th>Kriteria & Bentuk Penilaian</th>
+				<th>Metode Pembelajaran</th>
+				<th>Materi Pembelajaran</th>
+				<th>Bobot Penilaian</th>
+				<th width="8%">Aksi</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php foreach ($this->listRpsDetil as $dataRpsDtl){ ?>
+			<tr>
+				<td align="center"><?php echo $dataRpsDtl['minggu'];?></td>
+				<td><?php echo $dataRpsDtl['kemampuan_akhir'];?></td>
+				<td><?php echo $dataRpsDtl['indikator'];?></td>
+				<td><?php echo $dataRpsDtl['kriteria_penilaian'];?></td>
+				<td><?php echo $dataRpsDtl['bentuk_ajar'];?></td>
+				<td><?php echo $dataRpsDtl['bahan_ajar'];?></td>
+				<td align="center"><?php echo $dataRpsDtl['bobot_penilaian'];?>%</td>
+				<td align="center">
+					<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus Detil RPS ini? Minggu ke : <strong><?php echo str_replace("'", "\'", $dataRpsDtl['minggu']);?></strong>','<?php echo $this->baseUrl;?>','/ajax/delrpsdetil',new Array('<?php echo $dataRpsDtl['id_rps_detil'];?>'))"><i class="fa fa-remove"></i></button>
+				</td>
+			</tr>
+			<?php $i++;} ?>
+			</tbody>
+		</table>
+	</div>
+	<?php } ?>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/insrps","/rps/index?id=<?php echo $this->kd_kls;?>&new=","u");
+	  return false;
+	});
+</script>
+<script>
+	$("#frm2").submit(function() {
+	  ajaxSubmit("frm2","<?php echo $this->baseUrl;?>","/ajax/insrpsdetil","/rps/index?id=<?php echo $this->kd_kls;?>&new=","u");
+	  return false;
+	});
+</script>

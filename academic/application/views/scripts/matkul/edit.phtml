@@ -1,0 +1,46 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Mata Kuliah</h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nama Mata Kuliah</label>
+				<div class="col-sm-4">
+					<input type="hidden" id="id_mk" value="<?php echo $this->id_mk;?>">
+					<input type="text" class="form-control" id="nm_mk" placeholder="nama mata kuliah" maxlength="200" value="<?php echo $this->nm_mk;?>">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Program Studi Penanggung Jawab</label>
+				<div class="col-sm-4">
+					<select id="prd" class="form-control" name="prd">
+						<option disabled value="">pilih program studi</option>
+						<?php foreach ($this->listProdi as $dataProdi) { ?>
+						<?php 
+							if($dataProdi['kd_prodi']==$this->kd_prodi){
+							  $sel_prodi="selected";
+							}else{
+							  $sel_prodi="";
+							}
+							?>
+						<option value="<?php echo $dataProdi['kd_prodi'] ?>" <?php echo $sel_prodi;?> ><?php echo $dataProdi['nm_prodi']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+				<button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  prodi = $('#prd').val();
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/updmatkul","/matkul/list?prd="+prodi+"&new=","u");
+	  return false;
+	});
+</script>

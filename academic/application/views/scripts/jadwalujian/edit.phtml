@@ -1,0 +1,87 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker-bs3.css">
+<div class="box box-info">
+	<div class="box-body">
+		<form method="post" id="frm">
+			<div class="table-responsive">
+				<table id="tbper" class="table table-bordered table-hover" style="width:800px">
+					<thead align="center">
+						<tr>
+							<th>Keterangan</th>
+							<th>Jadwal Lama</th>
+							<th>Jadwal Baru</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($this->listJadwal as $data){ ?>
+						<tr>
+							<td>Periode Akademik</td>
+							<td><?php echo $data['kd_periode'] ?></td>
+							<td><input type="hidden" id="per" value="<?php echo $data['kd_periode'] ?>"><?php echo $data['kd_periode'] ?></td>
+						</tr>
+						<tr>
+							<td>Nama Kelas</td>
+							<td><?php echo $data['nm_kelas'] ?></td>
+							<td><input type="hidden" id="paket" value="<?php echo $data['kd_paket_kelas'] ?>"><?php echo $data['nm_kelas'] ?></td>
+						</tr>
+						<tr>
+							<td>Dosen</td>
+							<td><?php echo $data['nm_dosen'] ?></td>
+							<td><?php echo $data['nm_dosen'] ?></td>
+						</tr>
+						<tr>
+							<td>Mata Kuliah</td>
+							<td><?php echo $data['nm_mk'] ?></td>
+							<td><?php echo $data['nm_mk'] ?></td>
+						</tr>
+						<tr>
+							<td>Tanggal</td>
+							<td><input type="hidden" id="old_tgl" value="<?php echo $data['tanggal_fmt'] ?>"><?php echo $data['tanggal_fmt'] ?></td>
+							<td>
+								<input type="text" class="form-control" id="new_tgl" placeholder="tanggal" readonly>
+							</td>
+						</tr>
+						<tr>
+							<td>Waktu(Slot)</td>
+							<td><input type="hidden" id="old_sl" value="<?php echo $data['id_slot_ujian'] ?>"><?php echo $data['start_time']." s/d ".$data['end_time'] ?></td>
+							<td>
+								<input type="text" id="new_sl" style="display:none;">
+								<input type="text" class="form-control" id="slot" placeholder="Klik untuk memilih slot jadwal" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/slotujian',new Array('new_sl','slot'))">
+							</td>
+						</tr>
+						<tr>
+							<td>Ruangan</td>
+							<td><input type="hidden" id="old_ro" value="<?php echo $data['kd_ruangan'] ?>"><?php echo $data['nm_ruangan'] ?></td>
+							<td>
+								<input type="text" id="new_ro" style="display:none;">
+								<input type="text" class="form-control" id="nm_room" placeholder="Klik untuk memilih ruangan" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/ruangan',new Array('new_ro','nm_room'))">
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" align="center">
+								<button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+								<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/moment.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/daterangepicker/daterangepicker.js"></script>
+<script>
+	$(function () {
+	  $('#new_tgl').daterangepicker({singleDatePicker:true,format:'DD MMMM YYYY'});
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+     var tgl=$('#new_tgl').val();
+	 ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax2/updjdwlujian","/jadwalujian/list?id=<?php echo $data['kd_periode'];?>&u=<?php echo $this->u;?>&t="+tgl+"&new=","u");
+	  return false;
+	});
+</script>
+<?php } ?>

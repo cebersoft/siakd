@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Indeks Nilai</h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Indeks</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="indeks" placeholder="indeks" maxlength="5">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Bobot Indeks</label>
+				<div class="col-sm-4">
+					<input type="number" class="form-control" id="bbt" placeholder="bobot" max="4" min="0" step="0.05">
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+				<button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+			</div>
+		</div>
+	</form>
+	<div class="box-body">
+		<div class="table-responsive col-sm-6">
+			<table id="tbakt" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>NO</th>
+						<th>INDEKS</th>
+						<th>BOBOT INDEKS</th>
+						<th>AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listIndeks as $data) { ?>
+					<tr>
+						<td><?php echo $i; ?></td>
+						<td align="center"><?php echo $data['indeks']; ?></td>
+						<td align="center"><?php echo $data['bobot']; ?></td>
+						<td align="center">
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus indeks nilai ini ?','<?php echo $this->baseUrl;?>','/ajax2/delidx',new Array('<?php echo $data['id_indeks'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbakt',true,true,true,true,true,false);});</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax2/insidx","/indeks/index?new=","u");
+	  return false;
+	});
+</script>

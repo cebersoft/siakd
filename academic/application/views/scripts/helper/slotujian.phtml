@@ -1,0 +1,25 @@
+<?php echo $this->render('helper/function.phtml');?>
+<div class="box  box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbslot" class="table table-bordered table-hover" style="cursor: pointer;">
+				<thead align="center">
+					<tr>
+						<th>KODE SLOT</th>
+						<th>WAKTU MULAI</th>
+						<th>WAKTU SELESAI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listSlot as $data) { ?>
+					<tr onclick="insVal('<?php echo $this->readyCaller;?>', new Array('<?php echo escQuoteJS($data['id_slot_ujian']);?>','<?php echo escQuoteJS($data['start_time']."-".$data['end_time']);?>'))">
+						<td><?php echo $data['id_slot_ujian']; ?></td>
+						<td><?php echo $data['start_time']; ?></td>
+						<td><?php echo $data['end_time']; ?></td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script>$(function () {tabel('tbslot',true,true,true,true,true,true);});</script>

@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker-bs3.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Kalender Akademik Periode <?php echo $this->per; ?></h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Agenda Akademik</label>
+				<div class="col-sm-4">
+					<input type="hidden" id="per" value="<?php echo $this->per;?>">
+					<input type="hidden" id="aktAkd" value="<?php echo $this->kd_akt;?>">
+					<input type="text" class="form-control" id="desk" value="<?php echo $this->desk_akt;?>" readonly>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Tanggal Mulai</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="startdate" placeholder="tanggal mulai" value="<?php echo $this->startdate;?>" readonly tgl>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Tanggal Selesai</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="enddate" placeholder="tanggal selesai" value="<?php echo $this->enddate;?>" readonly tgl>
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+				<button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/moment.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker.js"></script>
+<script>
+	$(function () {
+		$(function(){$("[tgl]").daterangepicker({singleDatePicker:true,format:'DD MMMM YYYY'});});
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax2/updkal","/kalender/index?id=<?php echo $this->per;?>&new=","u");
+	  return false;
+	});
+</script>

@@ -1,0 +1,61 @@
+<div class="table-header">
+	Daftar Gelombang Masuk Mahasiswa
+</div>
+<div>
+	<table id="tbl" class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<th class="center">Nama Bank</th>
+				<th class="center">No.Rekening</th>
+				<th class="center">Nama Akun</th>
+				<th class="center">Status</th>
+				<th class="center">Aksi</th>
+				<th class="center">Ubah Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach ($this->listBank as $dtBank){?>
+			<tr>
+				<td class="center"><?php echo $dtBank['nm_bank'];?></td>
+				<td class="center"><?php echo $dtBank['no_rek'];?></td>
+				<td class="center"><?php echo $dtBank['nm_akun'];?></td>
+				<td class="center">
+					<?php 
+						if($dtBank['status']=='t'){
+							echo "AKTIF";
+						}else{
+							echo "TIDAK AKTIF";
+						}
+					?>
+				</td>			
+				<td class="center">
+					<div class="hidden-sm hidden-xs action-buttons">
+						<a class="green" onclick="nav('<?php echo $this->baseUrl;?>/bank/edit?id=<?php echo $dtBank['id_bank'];?>')"><i class="ace-icon fa fa-pencil bigger-130"></i></a>
+						<a class="red" onclick="confirm('Apakah Anda yakin akan menghapus master bank ini ? <strong><?php echo str_replace("'", "\'", $dtBank['nm_bank']."/".$dtBank['no_rek']);?></strong>','<?php echo $this->baseUrl;?>','/ajax/delbank',new Array('<?php echo $dtBank['id_bank'];?>'))"><i class="ace-icon fa fa-trash-o bigger-130"></i></a>
+					</div>
+				</td>
+				<td class="center">
+					<div class="hidden-sm hidden-xs action-buttons">
+						<?php 
+							if($dtBank['status']=='t'){
+								$st='f';
+								$app='remove';
+							}else{
+								$st='t';
+								$app='check';
+							}
+						?>
+						<a class="red" onclick="confirm('Apakah Anda yakin akan mengubah status data bank ini ? <strong><?php echo str_replace("'", "\'", $dtBank['nm_bank']."/".$dtBank['no_rek']);?></strong>','<?php echo $this->baseUrl;?>','/ajax/updstatbank',new Array('<?php echo $dtBank['id_bank'];?>','<?php echo $st;?>'))"><i class="ace-icon fa fa-<?php echo $app;?> bigger-130"></i></a>
+					</div>
+				</td>
+			</tr>
+			<?php }?>
+		</tbody>
+	</table>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/tabel.js"></script>
+<script>
+	$(function(){tabel('tbl')});
+</script>

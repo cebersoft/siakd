@@ -1,0 +1,64 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-content">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-8">
+				<strong>
+				ANGKATAN : <?php echo $this->akt; ?>
+				</strong>
+			</div>
+			<div class="col-sm-8">
+				<strong>
+				PROGRAM STUDI : <?php echo $this->prd; ?>
+				</strong>
+			</div>
+			<div class="col-sm-8">
+				<strong>
+				STATUS MAHASISWA : <?php  echo $this->stat; ?>
+				</strong>
+			</div>
+		</div>
+	</div>
+	<div class="table-responsive">
+		<table id="tbmhs" class="table table-bordered table-hover table-striped">
+			<thead align="center">
+				<tr>
+					<th>NIM</th>
+					<th>NAMA MAHASISWA</th>
+					<th>ANGKATAN</th>
+					<th>PROGRAM STUDI</th>
+					<th>STATUS</th>
+					<th>KRS</th>
+					<th>KHS</th>
+					<th>TRANSKRIP</th>
+					<th>KEUANGAN</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ($this->listMhs as $dataMhs) { ?>
+				<tr>
+					<td><?php echo $dataMhs['nim']; ?></td>
+					<td><a onclick="nav('<?php echo $this->baseUrl?>/mhswali/detil?id=<?php echo $dataMhs['id_mhs']; ?>')" style="cursor: pointer;"><?php echo $dataMhs['nm_mhs']; ?></a></td>
+					<td align="center"><?php echo $dataMhs['id_angkatan']; ?></td>
+					<td><?php echo $dataMhs['nm_prodi']; ?></td>
+					<td align="center"><?php echo $dataMhs['status_mhs']; ?></td>
+					<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/mhswali/register?nim=<?php echo $dataMhs['nim']; ?>')"><i class="fa fa-list"></i></button></td>
+					<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/mhswali/khs?nim=<?php echo $dataMhs['nim']; ?>')"><i class="fa fa-list"></i></button></td>
+					<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/mhswali/transkrip?nim=<?php echo $dataMhs['nim']; ?>')"><i class="fa fa-list"></i></button></td>
+					<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/mhswali/keuangan?nim=<?php echo $dataMhs['nim']; ?>')"><i class="fa fa-list"></i></button></td>
+				</tr>
+				<?php } ?>
+		</table>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.responsive.js">
+</script><script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script>
+$('#tbmhs').dataTable({
+    responsive: true
+});
+</script>

@@ -1,0 +1,188 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box  box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbreg" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th style="width:2px;"></th>
+						<th>NIM</th>
+						<th>NAMA MAHASISWA</th>
+						<th>STATUS</th>
+						<th>STATUS REGISTRASI</th>
+						<th>KRS</th>
+						<th>SKS APP</th>
+						<th>PKRS</th>
+						<th>PKRS APP</th>
+						<th>AKSI</th>
+						<th>LOG</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listRegister as $dataReg) { ?>
+					<?php
+						if($dataReg['kd_status_reg']==null){
+							if($dataReg['id_jns_keluar']==''){
+								$stat_reg="Unregistered";
+								$aksi="Register";
+								$warna="orange";
+								$class="primary";
+							}else{
+								$stat_reg="-";
+								$aksi="-";
+								$warna="default";
+								$class="default";
+							}
+						}else{
+							$stat_reg=$dataReg['status_reg']."(".$dataReg['status_mhs_periode'].")";
+							$aksi="Cancel";
+							$warna="teal";
+							$class="warning";
+						}
+						
+						if(($dataReg['krs']=='f')or($dataReg['krs']==null)){
+							$krs="disabled";
+						}else{
+							$krs="";
+						}
+						?>
+					<tr>
+						<td class=" bg-<?php echo $warna;?>"></td>
+						<td><?php echo $dataReg['nim']; ?></td>
+						<td><?php echo $dataReg['nm_mhs']; ?></a></td>
+						<td align="center"><?php echo $dataReg['status_mhs']; ?></td>
+						<td align="center"><?php echo $stat_reg; ?></td>
+						<?php 
+							if($dataReg['sks_app']!=$dataReg['sks_krs']){
+								$warnaSKS="warning";
+							}else{
+								$warnaSKS="default";
+							}
+							if(($dataReg['krs']=='t')and($dataReg['sks_krs']==0)){
+								$warnaSKS="danger";
+							}
+							if($dataReg['n_pkrs']!=$dataReg['n_pkrs_exec']){
+								$warnaPkrs="warning";
+							}else{
+								$warnaPkrs="default";
+							}
+						?>
+						<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/krs/index?nim=<?php echo $dataReg['nim'];?>&per=<?php echo $this->kd_periode;?>')" <?php echo $krs;?>><i class="fa fa-eye"></i></button></td>
+						<td align="center"><span class="label label-<?php echo $warnaSKS;?>"><?php echo $dataReg['sks_app']."/".$dataReg['sks_krs']; ?></span></td>
+						<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/pkrs/index?nim=<?php echo $dataReg['nim'];?>&per=<?php echo $this->kd_periode;?>')" <?php echo $krs;?>><i class="fa fa-eye"></i></button></td>
+						<td align="center"><span class="label label-<?php echo $warnaPkrs;?>"><?php echo $dataReg['n_pkrs']."/".$dataReg['n_pkrs_exec']; ?></span></td>
+						<?php if(($dataReg['kd_status_reg']==null)and($dataReg['id_jns_keluar']=='')){ ?>
+						<td align="center"><button type="button" class="btn btn-<?php echo $class;?> btn-xs" value="<?php echo $dataReg['nim'];?>" reg><?php echo $aksi; ?></button></td>
+						<?php }else{ ?>
+						<?php if($dataReg['id_jns_keluar']==''){ ?>
+						<td align="center">
+							<button type="button" class="btn btn-<?php echo $class;?> btn-xs" value="<?php echo $dataReg['nim'];?>" upd><i class="fa fa-pencil"></i></button>
+							<button type="button" class="btn btn-<?php echo $class;?> btn-xs"onclick="confirm('Apakah Anda yakin membatalkan registrasi mahasiswa ini? NIM: <?php echo $dataReg['nim'];?>','<?php echo $this->baseUrl;?>','/ajax3/delreg', new Array ('<?php echo $dataReg['nim'];?>','<?php echo $dataReg['kd_periode'];?>'))"><?php echo $aksi; ?></button>
+						</td>
+						<?php }else{ ?>
+						<td align="center">-</td>
+						<?php } ?>
+						<?php } ?>
+						<td align="center">
+							<?php if($dataReg['kd_status_reg']!=null){ ?>
+							<button type="button" class="btn btn-success btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/register/log?nim=<?php echo $dataReg['nim'];?>&per=<?php echo $this->kd_periode;?>')"><i class="fa fa-eye"></i></button>
+							<?php }?>
+						</td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<div id="frmreg" style="display:none;">
+	<form class="form-horizontal" method="post" id="frm_o">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-4 control-label">Status registrasi </label>
+				<div class="col-sm-8">
+					<input type="text" id="per_o" value="<?php echo $this->kd_periode;?>" style="display:none;">
+					<input type="text" id="nim_o" style="display:none;">
+					<select id="kd_reg_o" class="form-control">
+						<?php foreach ($this->listStatReg as $dtStat) { ?>
+						<option value="<?php echo $dtStat['kd_status_reg'];?>" ><?php echo $dtStat['status_reg'];?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="box-footer">
+				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+				<button type="submit" id="sb" class="btn btn-primary pull-right col-sm-2">Register</button>
+			</div>
+		</div>
+	</form>
+</div>
+<div id="frmereg" style="display:none;">
+	<form class="form-horizontal" method="post" id="frm_e">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-4 control-label">Status registrasi </label>
+				<div class="col-sm-8">
+					<input type="text" id="per_e" value="<?php echo $this->kd_periode;?>" style="display:none;">
+					<input type="text" id="nim_e" style="display:none;">
+					<select id="kd_reg_e" class="form-control">
+						<?php foreach ($this->listStatReg as $dtStat) { ?>
+						<option value="<?php echo $dtStat['kd_status_reg'];?>" ><?php echo $dtStat['status_reg'];?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="box-footer">
+				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+				<button type="submit" id="ub" class="btn btn-primary pull-right col-sm-2">Ubah</button>
+			</div>
+		</div>
+	</form>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbreg',true,true,true,true,true,false);});</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("[reg]").on('click',(function() {
+	 x=$(this).val();
+	 $("#myModal").modal('show');
+	 form=$("#frmreg").html();
+	 $("#myModal").find('.modal-body').html("Silakan pilih status registrasi untuk NIM : "+x+"<br>"+form);
+	 $("#myModal").find("#frm_o").attr('id','frm');
+	 $("#myModal").find("#per_o").attr('id','per');
+	 $("#myModal").find("#nim_o").attr('id','nim');
+	 $("#myModal").find("#sb").attr('id','sb1');
+	 $("#myModal").find("#kd_reg_o").attr('id','kd_reg');
+	 $("#sb1").on('click',(function() {
+	 		$('#nim_o').val(x);
+	 		$('#per_o').val($("#myModal").find('#per').val());
+	 		$('#kd_reg_o').val($("#myModal").find('#kd_reg').val());
+	   ajaxSubmit("frm_o","<?php echo $this->baseUrl;?>","/ajax3/insreg","/register/list?new=","u");
+	   return false;
+	 }));
+	 return false;
+	}));
+</script>
+<script>
+	$("[upd]").on('click',(function() {
+	 x=$(this).val();
+	 $("#myModal").modal('show');
+	 form=$("#frmereg").html();
+	 $("#myModal").find('.modal-body').html("Silakan pilih status registrasi untuk NIM : "+x+"<br>"+form);
+	 $("#myModal").find("#frm_e").attr('id','frm');
+	 $("#myModal").find("#per_e").attr('id','per');
+	 $("#myModal").find("#nim_e").attr('id','nim');
+	 $("#myModal").find("#ub").attr('id','ub');
+	 $("#myModal").find("#kd_reg_e").attr('id','kd_reg');
+	 $("#ub").on('click',(function() {
+	 		$('#nim_e').val(x);
+	 		$('#per_e').val($("#myModal").find('#per').val());
+	 		$('#kd_reg_e').val($("#myModal").find('#kd_reg').val());
+	   ajaxSubmit("frm_e","<?php echo $this->baseUrl;?>","/ajax3/updreg","/register/list?new=","u");
+	   return false;
+	 }));
+	 return false;
+	}));
+</script>

@@ -1,0 +1,59 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/assets/css/chosen.min.css" />
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/assets/css/datepicker.min.css" />
+<form class="form-horizontal" role="form" id="frm">
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Angkatan </label>
+		<div class="col-sm-9">
+			<select id="akt"  multiple="multiple" class="chosen-select col-xs-10 col-sm-5" data-placeholder="pilih angkatan" name="akt">
+				<?php foreach ($this->listAkt as $dataAngkatan) { ?>
+				<option value="<?php echo $dataAngkatan['id_angkatan']; ?>"><?php echo $dataAngkatan['id_angkatan']; ?></option>
+				<?php } ?>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Program Studi </label>
+		<div class="col-sm-9">
+			<select id="prd"  multiple="multiple" class="chosen-select col-xs-10 col-sm-5" data-placeholder="pilih program studi" name="prd">
+				<?php foreach ($this->listProdi as $dtProdi) { ?>
+				<option value="<?php echo $dtProdi['kd_prodi']; ?>"><?php echo $dtProdi['nm_prodi']; ?></option>
+				<?php } ?>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Dari Tanggal </label>
+		<div class="col-sm-9">
+			<input class="date-picker col-xs-10 col-sm-5" id="tgl1" readonly="readonly" type="text" data-date-format="dd MM yyyy">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Sampai Tanggal </label>
+		<div class="col-sm-9">
+			<input class="date-picker col-xs-10 col-sm-5" id="tgl2" readonly="readonly" type="text" data-date-format="dd MM yyyy">
+		</div>
+	</div>
+	<div class="clearfix form-actions">
+		<div class="col-md-offset-3 col-md-9">
+			<button class="btn btn-info" type="submit"><i class="ace-icon fa fa-search bigger-110"></i>Show</button>
+		</div>
+	</div>
+</form>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/bootstrap-datepicker.min.js"></script>
+<script>
+$('.date-picker').datepicker({
+	autoclose: true,
+	todayHighlight: true
+})
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/chosen.jquery.min.js"></script>
+<script type="text/javascript">$('.chosen-select').chosen({allow_single_deselect:true});</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $("#frm").submit(function() {
+	    ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/showreport5?t=","/report/show5","s");
+	    return false;
+	  });
+	});
+</script>

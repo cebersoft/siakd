@@ -1,0 +1,111 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker-bs3.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Alumni</h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<h5 class="callout callout-info">
+				<i class="icon fa fa-info-circle"></i>&nbsp;&nbsp;Mahasiswa yang dapat diluluskan adalah mahasiswa berstatus AKTIF
+			</h5>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Angkatan</label>
+				<div class="col-sm-4">
+					<select class="form-control select2" id="akt" sel-2>
+						<option disabled selected value="">pilih angkatan</option>
+						<?php foreach ($this->listAkt as $dt) { ?>
+						<option value="<?php echo $dt['id_angkatan']?>"><?php echo $dt['id_angkatan']?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Program Studi</label>
+				<div class="col-sm-4">
+					<select class="form-control" id="prd">
+						<option disabled selected value="">pilih program studi</option>
+						<?php foreach ($this->listProdi as $dt) { ?>
+						<option value="<?php echo $dt['kd_prodi']?>"><?php echo $dt['nm_prodi']?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">NIM</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="nim" placeholder="klik untuk pilih mahasiswa" maxlength="20" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/mahasiswa?st=A',new Array('nim','nm_mhs'), new Array('akt','prd'))">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nama Mahasiswa</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="nm_mhs" placeholder="terisi otomatis dari pilihan mahasiswa" readonly>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Tanggal Lulus</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="tgllulus" placeholder="tanggal lulus" readonly tgl>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nomor SK Yudisium</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="nosk" placeholder="nomor sk yudisium">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Tanggal SK Yudisium</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="tglsk" placeholder="tanggal sk yudisium" readonly tgl>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nomor Seri Ijazah</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="noijz" placeholder="nomor ijazah">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Judul Skripsi</label>
+				<div class="col-sm-4">
+					<textarea class="form-control" rows="5" placeholder="judul skripsi" id="judul"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">IPK Kelulusan</label>
+				<div class="col-sm-4">
+					<input type="number" class="form-control" id="ipk" placeholder="ipk lulus" min="0" max="4" step="0.01">
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+				<button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/moment.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker.js"></script>
+<script>
+	$(function(){$("[tgl]").daterangepicker({singleDatePicker:true,format:'DD MMMM YYYY'});});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.full.min.js"></script>
+<script>
+	$("#akt").select2({
+	  placeholder: "pilih angkatan"
+	});
+	$("#btnres").click(function(){
+	  $("#akt").select2('val', '');
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/alert.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax3/insalm","/alumni/list?new=","i");
+	  return false;
+	});
+</script>

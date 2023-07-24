@@ -1,0 +1,69 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data Quiz</h3>
+</div>
+<div class="inqbox-content">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Jenis Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->jns_kelas;?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn." (".$this->kd_dsn.")";?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+			<div class="col-sm-4">Nama Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->nm_kelas;?></div>
+		</div>
+	</div>
+	<div class="table-responsive">
+		<table id="tbkls" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th width="5%">NO</th>
+					<th width="8%">MINGGU</th>
+					<th>QUIZ</th>
+					<th width="12%">TANGGAL</th>
+					<th width="12%">WAKTU</th>
+					<th width="15%">KONTRIBUTOR</th>
+					<th width="10%">SOAL/BENAR</th>
+					<th width="8%">NILAI</th>
+					<th width="10%">AKSI</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;foreach ($this->listQuiz as $dataQuiz) { ?>
+				<tr>
+					<td><?php echo $i; ?></td>
+					<td><?php echo $dataQuiz['minggu']; ?></td>
+					<td>
+						<strong>Nama Quiz</strong> : <?php echo $dataQuiz['nama_quiz']; ?><br>
+						<strong>Parameter</strong> : <?php echo $dataQuiz['param_nilai']; ?>
+					</td>
+					<td align="center"><?php echo $dataQuiz['published_fmt']; ?></td>
+					<td align="center"><?php echo $dataQuiz['start_time']." s/d ".$dataQuiz['end_time']; ?></td>
+					<td align="center">
+						<?php echo $dataQuiz['nm_dosen']; ?>
+					</td>
+					<td align="center"><?php echo $dataQuiz['n_quiz_mhs1']." / ".$dataQuiz['n_quiz_mhs1_correct']; ?></td>
+					<td align="center">
+						<?php echo $dataQuiz['nilai']; ?>
+					</td>
+					<td align="center">
+						<?php if($dataQuiz['id_quiz_mhs0']==''){?>
+						<button type="button" class="btn btn-danger btn-sm" onclick="confirm('Apakah Anda yakin akan generate quiz ini? ','','/ajax/genquizmhs',new Array('<?php echo $this->kd_kuliah?>','<?php echo $dataQuiz['id_quiz0'];?>'))"><i class="fa fa-gear">&nbsp;Generate Soal</i></button>
+						<?php }else{ ?>
+						<a onclick="nav('<?php echo $this->baseUrl;?>/lms/oltest?id=<?php echo $data['id_quiz_mhs0'];?>')" class="btn btn-warning btn-sm">Link Soal</a><br><br>
+						<button type="button" class="btn btn-danger btn-sm" onclick="confirm('Apakah Anda yakin akan menghapus soal-soal quiz ini? ','','/ajax/delquizmhs',new Array('<?php echo $dataQuiz['id_quiz_mhs0'];?>'))"><i class="fa fa-remove">&nbsp;Hapus Soal</i></button>
+						<?php } ?>
+					</td>
+				</tr>
+				<?php $i++; } ?>
+		</table>
+	</div>
+</div>

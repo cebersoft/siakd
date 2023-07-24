@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Daftar Mata Kuliah</h3>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbpkls" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>NO</th>
+						<th>SMT</th>
+						<th>KODE MK</th>
+						<th>NAMA MK</th>
+						<th width="20%">VERIFIKASI AKADEMIK</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listPaketTA as $dataPkt) { ?>
+					<tr>
+						<td><?php echo $i; ?></td>
+						<td><?php echo $dataPkt['smt_def'];?></td>
+						<td><?php echo $dataPkt['kode_mk']; ?></td>
+						<td><?php echo $dataPkt['nm_mk']; ?></td>
+						<td align="center">
+							<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/verifyta/detil?id=<?php echo $dataPkt['kd_paket_kelas'];?>')"><i class="fa fa-list"></i></button>
+						</td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbpkls',true,true,true,true,true,false);});</script>

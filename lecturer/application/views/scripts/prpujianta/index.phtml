@@ -1,0 +1,93 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Filter Periode Akademik</h3>
+</div>
+<div class="inqbox-content">
+	<form id="frm" class="form-horizontal">
+		<div class="form-group">
+			<div class="col-sm-4">
+				<select id="sel_per" class="form-control">
+					<option value="" disabled="disabled" selected="selected">pilih periode akademik</option>
+					<?php foreach ($this->listPer as $dtPer){?>
+					<?php 
+						$per="";
+						if($dtPer['kd_periode']==$this->per){
+							$per="selected";
+						}
+					?>
+					<option value="<?php echo $dtPer['kd_periode'];?>" <?php echo $per;?> ><?php echo $dtPer['kd_periode'];?></option>
+					<?php }?>
+				</select>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbkur" class="table table-bordered table-hover">
+			<tr>
+				<th width="5%">No</th>
+				<th width="15%">Tanggal Diajukan</th>
+				<th>MK/Kelompok Keilmuan (Lembar Pengesahan)</th>
+				<th width="12%">Ttd Pemb 1</th>
+				<th width="12%">Ttd Pemb 2</th>
+				<th width="12%">Ttd Pemb 3</th>
+				<th width="8%">Status</th>
+				<th width="17%">Catatan Verifikasi</th>
+				<th width="5%">Ver</th>
+			</tr>
+			<?php $j=1; foreach ($this->listPrp as $data) { ?>
+			<tr>
+				<td><?php echo $j;?></td>
+				<td><?php echo $data['tgl_prp_ujian_ta0_fmt'];?></td>
+				<td>
+					<?php 
+            					$arrFile=explode(".",$data['nm_doc']);
+        	    				$ext=end($arrFile);
+	            			?>
+					<?php echo $data['nm_mk']." / ".$data['nm_kelompok_keilmuan'];?><br>
+					<a class="btn btn-success btn-xs" href="<?php echo $this->baseUrl;?>/image/anyfile?url=public/file/ta/<?php echo $data['id_prp_ujian_ta0'].".".$ext?>&newname=<?php echo $data['nm_doc'];?>"><i class="fa fa-download">&nbsp;</i><?php echo $data['nm_doc'];?></a>
+				</td>
+				<td align="center">
+					<?php if(($data['kd_dosen_pemb1']==$this->kd_dsn) and ($data['tgl_mengetahui_pemb1_fmt']=='')){ ?>
+					<button type="button" class="btn btn-success btn-xs" onclick="confirm('Apakah Anda yakin approve pengajuan ini?','<?php echo $this->baseUrl;?>','/ajax/appprpujianta', new Array ('<?php echo $data['id_prp_ujian_ta0'];?>','1'))" >Approve</button>
+					<?php } ?>
+					<?php echo $data['tgl_mengetahui_pemb1_fmt'];?>
+				</td>
+				<td align="center">
+					<?php if(($data['kd_dosen_pemb2']==$this->kd_dsn) and ($data['tgl_mengetahui_pemb2_fmt']=='')){ ?>
+					<button type="button" class="btn btn-success btn-xs" onclick="confirm('Apakah Anda yakin approve pengajuan ini?','<?php echo $this->baseUrl;?>','/ajax/appprpujianta', new Array ('<?php echo $data['id_prp_ujian_ta0'];?>','2'))" >Approve</button>
+					<?php } ?>
+					<?php echo $data['tgl_mengetahui_pemb2_fmt'];?>
+				</td>
+				<td align="center">
+					<?php if(($data['kd_dosen_pemb3']==$this->kd_dsn) and ($data['tgl_mengetahui_pemb3_fmt']=='')){ ?>
+					<button type="button" class="btn btn-success btn-xs" onclick="confirm('Apakah Anda yakin approve pengajuan ini?','<?php echo $this->baseUrl;?>','/ajax/appprpujianta', new Array ('<?php echo $data['id_prp_ujian_ta0'];?>','3'))" >Approve</button>
+					<?php } ?>
+					<?php echo $data['tgl_mengetahui_pemb3_fmt'];?>
+				</td>
+				<td>
+					<?php 
+						if(($data['n_approved']==$data['n_approver']) and ($data['n_approved']>0)){
+							echo "APPROVED";
+						}else{
+							echo "PENDING";
+						}
+					?>
+				</td>
+				<td><?php echo $data['arr_note'];?></td>
+				<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/prpujianta/detil?id=<?php echo $data['id_prp_ujian_ta0']; ?>')"><i class="fa fa-list"></i></button></td>
+			</tr>
+			<?php $j++; } ?>
+		</table>
+	</div>
+</div>
+<script>
+	$('#sel_per').on('change',(function() {
+		per=$('#sel_per').val();
+		nav('<?php echo $this->baseUrl;?>/prpujianta/index?id='+per);
+	}))
+</script>

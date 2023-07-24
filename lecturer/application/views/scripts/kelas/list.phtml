@@ -1,0 +1,90 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Daftar Kelas</h3>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<h5 class="alert alert-info">
+		<i class="icon fa fa-info-circle"></i>
+		<ul>
+			<li>Klik pada tombol pada kolom RPS [ <button class="btn btn-primary btn-xs"><i class="fa fa-calendar"></i></button> ]untuk menambahkan Rencana Pembelajaran Semester / RPS</li>
+			<li>Klik tombol <button class="btn btn-primary btn-xs"><i class="fa fa-sort-alpha-asc"></i></button> di kolom ATUR PARAMETER untuk mengatur parameter komponen nilai</li>
+			<li>Untuk menginputkan data nilai mahasiswa dan membuat berita acara perkuliahan serta absensi klik tombol <button class="btn btn-primary btn-xs"><i class="fa fa-list"></i></button> pada kolom PERKULIAHAN & NILAI</li>
+		</ul>	
+		</h5>
+		<h5>Sebagai Dosen Penanggung Jawab</h5>
+		<table id="tbkls" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th>NO</th>
+					<th>SMT</th>
+					<th>KODE MK</th>
+					<th>NAMA MK</th>
+					<th>NAMA DOSEN PJ</th>
+					<th>RENCANA TM</th>
+					<th>RPS</th>
+					<th>ATUR PARAMETER</th>
+					<th>PERKULIAHAN & NILAI</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;foreach ($this->listKelas as $dataKls) { ?>
+				<tr>
+					<td><?php echo $i; ?></td>
+					<td align="center"><?php echo $dataKls['smt_def'];?></td>
+					<td><?php echo $dataKls['kode_mk']; ?></td>
+					<td><?php echo $dataKls['nm_mk']; ?></td>
+					<td><?php echo $dataKls['nm_dosen']; ?></td>
+					<td align="center"><?php echo $dataKls['tatap_muka'];?></td>
+					<td align="center">
+						<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/rps/index?id=<?php echo $dataKls['kd_kelas']; ?>')"><i class="fa fa-calendar"></i></button>
+					</td>
+					<td align="center">
+						<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/kelas/detil?id=<?php echo $dataKls['kd_kelas']; ?>')"><i class="fa fa-sort-alpha-asc"></i></button>
+					</td>
+					<td align="center">
+						<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/paketkelas/index?kd=<?php echo $dataKls['kd_kelas']; ?>')"><i class="fa fa-list"></i></button>
+					</td>
+				</tr>
+				<?php $i++; } ?>
+		</table>
+		<h5>Sebagai Dosen Tim Teaching</h5>
+		<table id="tbkls" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th>NO</th>
+					<th>SMT</th>
+					<th>KODE MK</th>
+					<th>NAMA MK</th>
+					<th>NAMA DOSEN PJ</th>
+					<th>RENCANA TM</th>
+					<th>RPS</th>
+					<th>ATUR PARAMETER</th>
+					<th>PERKULIAHAN & NILAI</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;foreach ($this->listKelasTt as $dataKls) { ?>
+				<tr>
+					<td><?php echo $i; ?></td>
+					<td align="center"><?php echo $dataKls['smt_def'];?></td>
+					<td><?php echo $dataKls['kode_mk']; ?></td>
+					<td><?php echo $dataKls['nm_mk']; ?></td>
+					<td><?php echo $dataKls['nm_dosen_pj']; ?></td>
+					<td align="center"><?php echo $dataKls['tatap_muka'];?></td>
+					<td align="center">
+						<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/rps/index?id=<?php echo $dataKls['kd_kelas']; ?>')"><i class="fa fa-calendar"></i></button>
+					</td>
+					<td align="center">
+						<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/kelas/detil?id=<?php echo $dataKls['kd_kelas']; ?>')"><i class="fa fa-sort-alpha-asc"></i></button>
+					</td>
+					<td align="center">
+						<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/paketkelas/index?kd=<?php echo $dataKls['kd_kelas']; ?>')"><i class="fa fa-list"></i></button>
+					</td>
+				</tr>
+				<?php $i++; } ?>
+		</table>
+	</div>
+</div>

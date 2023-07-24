@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/assets/css/datepicker.min.css" />
+<div>
+	<form class="form-horizontal" role="form" id="frm">
+		<div class="form-group">
+			<input type="hidden" id="per" value="<?php echo $this->per;?>">
+			<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Aktivitas Keuangan</label>
+			<div class="col-sm-9">
+				<select class="col-xs-10 col-sm-5" id="aktFin">
+					<option value="" disabled="disabled" selected>pilih agenda keuangan</option>
+					<?php foreach ($this->listAktFin as $dtAktFin){ ?>
+					<option value="<?php echo $dtAktFin['kd_aktivitas']?>"><?php echo $dtAktFin['deskripsi']?></option>
+					<?php } ?>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Tanggal Mulai </label>
+			<div class="col-sm-9">
+				<input class="date-picker col-xs-10 col-sm-5" id="tgl1" readonly="readonly" type="text" data-date-format="dd MM yyyy">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Tanggal Selesai </label>
+			<div class="col-sm-9">
+				<input class="date-picker col-xs-10 col-sm-5" id="tgl2" readonly="readonly" type="text" data-date-format="dd MM yyyy">
+			</div>
+		</div>
+		<div class="clearfix form-actions">
+			<div class="col-md-offset-3 col-md-9">
+				<button class="btn btn-info" type="submit" sb><i class="ace-icon fa fa-check bigger-110"></i>Submit</button>
+				&nbsp; &nbsp; &nbsp;
+				<button class="btn" type="reset" id="reset"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="table-header">
+	Daftar Agenda Keuangan
+</div>
+<div>
+	<table class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<th width="35%">TANGGAL</th>
+				<th>AGENDA KEUANGAN</th>
+				<th width="10%">AKSI</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php $i=1;foreach ($this->listKalender as $data) { ?>
+			<tr>
+				<td><?php echo $data['start_date_fmt']." s/d ".$data['end_date_fmt']; ?></td>
+				<td><?php echo $data['deskripsi']; ?></td>
+				<td align="center">
+					<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus agenda akademik ini ? <strong><?php echo $data['deskripsi'];?></strong>','<?php echo $this->baseUrl;?>','/ajax/delkal',new Array('<?php echo $data['kd_periode'];?>','<?php echo $data['kd_aktivitas'];?>'))"><i class="fa fa-remove"></i></button>
+				</td>
+			</tr>
+			<?php $i++; } ?>		
+		</tbody>
+	</table>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/bootstrap-datepicker.min.js"></script>
+<script>
+$('.date-picker').datepicker({
+	autoclose: true,
+	todayHighlight: true
+})
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("[sb]").on('click',(function() {
+	 ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/inskal","/kalender/detil?id=<?php echo $this->per;?>&new=","u");
+	 return false;
+	}));
+</script>

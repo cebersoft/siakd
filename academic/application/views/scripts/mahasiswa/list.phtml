@@ -1,0 +1,62 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<div class="col-sm-8">
+			<strong>
+			ANGKATAN : <?php echo $this->akt; ?>
+			</strong>
+		</div>
+		<div class="col-sm-8">
+			<strong>
+			PROGRAM STUDI : <?php echo $this->prd; ?>
+			</strong>
+		</div>
+		<div class="col-sm-8">
+			<strong>
+			STATUS MAHASISWA : <?php  echo $this->stat; ?>
+			</strong>
+		</div>
+	</div>
+	<div class="box-body">
+		<h5 class="callout callout-info">
+			<i class="icon fa fa-info-circle"></i>
+			Klik <strong>NIM</strong> untuk melihat Histori Kuliah Mahasiswa.
+			 Sedangkan untuk melihat Profil Mahasiswa, klik <strong>NAMA MAHASISWA</strong>
+		</h5>
+		<div class="table-responsive">
+			<table id="tbmhs" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>NIM</th>
+						<th>NAMA MAHASISWA</th>
+						<th>ANGKATAN</th>
+						<th>PROGRAM STUDI</th>
+						<th>MASUK</th>
+						<th>STATUS</th>
+						<th>AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listMhs as $dataMhs) { ?>
+					<tr>
+						<td><a onclick="nav('<?php echo $this->baseUrl?>/mahasiswa/detilpt?nim=<?php echo $dataMhs['nim']; ?>')" style="cursor: pointer;"><?php echo $dataMhs['nim']; ?></a></td>
+						<td><a onclick="nav('<?php echo $this->baseUrl?>/mahasiswa/detil?id=<?php echo $dataMhs['id_mhs']; ?>')" style="cursor: pointer;"><?php echo $dataMhs['nm_mhs']; ?></a></td>
+						<td align="center"><?php echo $dataMhs['id_angkatan']; ?></td>
+						<td><?php echo $dataMhs['nm_prodi']; ?></td>
+						<td align="center"><?php echo $dataMhs['ket_masuk']; ?></td>
+						<td align="center"><?php echo $dataMhs['status_mhs']; ?></td>
+						<td align="center">
+							<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/mahasiswa/edit?nim=<?php echo $dataMhs['nim'];?>')"><i class="fa fa-pencil"></i></button>
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus mahasiswa ini? <strong><?php echo str_replace("'", "\'", $dataMhs['nm_mhs']);?></strong>','<?php echo $this->baseUrl;?>','/ajax/delmhs',new Array('<?php echo $dataMhs['id_mhs'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbmhs',true,true,true,true,true,false);});</script>

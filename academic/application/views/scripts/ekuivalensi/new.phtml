@@ -1,0 +1,46 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Mata Kuliah</h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Program Studi</label>
+				<div class="col-sm-4">
+					<select id="prd" class="form-control" name="prd">
+						<option disabled selected value="">pilih program studi</option>
+						<?php foreach ($this->listProdi as $dataProdi) { ?>
+						<option value="<?php echo $dataProdi['kd_prodi'] ?>"><?php echo $dataProdi['nm_prodi']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Kurikulum Lama</label>
+				<div class="col-sm-4">
+					<input type="text" id="id_kur_lm" style="display: none;">
+					<input type="text" class="form-control" id="nm_kur_lm" placeholder="klik untuk pilih kurikulum dari prodi di atas" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/kurikulum',new Array('id_kur_lm','nm_kur_lm'),new Array('prd'))">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Kurikulum Baru</label>
+				<div class="col-sm-4">
+					<input type="text" id="id_kur_br" style="display: none;">
+					<input type="text" class="form-control" id="nm_kur_br" placeholder="klik untuk pilih kurikulum dari prodi di atas" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/kurikulum',new Array('id_kur_br','nm_kur_br'),new Array('prd'))">
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+				<button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  prodi = $('#prd').val();
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/insekv","/ekuivalensi?new=","i");
+	  return false;
+	});
+</script>

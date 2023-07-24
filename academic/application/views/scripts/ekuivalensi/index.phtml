@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbkur" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>PRODI</th>
+						<th width="15%">KURIKULUM LAMA</th>
+						<th width="12%">BERLAKU</th>
+						<th width="15%">KURIKULUM BARU</th>
+						<th width="12%">BERLAKU</th>
+						<th width="15%">TRANSFORMASI MK</th>
+						<th width="5%">AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listEkuivalensi as $dataEkv) { ?>
+					<tr>
+						<td><?php echo $dataEkv['nm_prodi_kur_lm']; ?></td>
+						<td><?php echo $dataEkv['nm_kurikulum_lama']; ?></td>
+						<td><?php echo $dataEkv['kd_periode_berlaku_lama']; ?></td>
+						<td><?php echo $dataEkv['nm_kurikulum_baru']; ?></td>
+						<td><?php echo $dataEkv['kd_periode_berlaku_baru']; ?></td>
+						<td align="center"><button type="button" class="btn btn-info btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/ekuivalensi/detil?id=<?php echo $dataEkv['id_ekuivalensi'];?>')"><i class="fa fa-eye"></i></button></td>
+						<td align="center"><button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus ekuivalensi kurikulum ini? Menghapus ekuivalensi akan menghapus transformasi mata kuliah di dalamanya.','<?php echo $this->baseUrl;?>','/ajax/delekv',new Array('<?php echo $dataEkv['id_ekuivalensi'];?>'))"><i class="fa fa-remove"></i></button></td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbkur',true,true,true,false,true,false);});</script>

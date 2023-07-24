@@ -1,0 +1,80 @@
+<div class="inqbox-content">
+	<div class="row">
+		<div class="col-sm-8">
+			<div class="col-sm-4">Nama (NIM)</div>
+			<div class="col-sm-8">: <?php echo $this->nm." (".$this->nim.")";?></div>
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prd;?></div>
+			<div class="col-sm-4">Angkatan</div>
+			<div class="col-sm-8">: <?php echo $this->akt;?></div>
+			<div class="col-sm-4">Status Masuk</div>
+			<div class="col-sm-8">: <?php echo $this->stat_msk;?></div>
+			<div class="col-sm-4">Status Registrasi</div>
+			<div class="col-sm-8">: <?php echo $this->stat_reg;?></div>
+			<?php
+				$nm_gel=$this->nm_gel; 
+				if($this->nm_gel==""){
+					$nm_gel="<span class='label label-warning'>Belum Diset</span>";
+				}
+			?>
+			<div class="col-sm-4">Gelombang</div>
+			<div class="col-sm-8">: <?php echo $nm_gel;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->per;?></div>
+		</div>
+	</div>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					<th class="center" width="5%">No</th>
+					<th class="center" width="15%">Komponen Biaya</th>
+					<th class="center" width="12%">Nominal Biaya</th>
+					<th class="center" width="20%">Formulasi Biaya</th>
+					<th class="center" width="12%">Nominal Komponen</th>
+					<th class="center" width="12%">Nominal Kompensasi</th>
+					<th class="center" width="12%">Terbayar</th>
+					<th class="center" width="12%">Tunggakan</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $totBiaya=0;$totKomp=0;$totBayar=0;$i=1;foreach ($this->listMhsBiayaDtl as $dtBiaya) { ?>
+				<tr>
+					<td class="center"><?php echo $i;?></td>
+					<td><?php echo $dtBiaya['nm_komp'];?></td>
+					<td align="right"><?php echo number_format($dtBiaya['nominal_formula'],2,',','.');?></td>
+					<?php 
+						$rule="";
+						if($dtBiaya['id_rule']=='1'){
+							$rule=number_format($dtBiaya['hard_nominal'],2,',','.');
+						}elseif ($dtBiaya['id_rule']=='2'){
+							$rule=$dtBiaya['nm_param'];
+						}elseif ($dtBiaya['id_rule']=='3'){
+							$rule=$dtBiaya['bil_pengali'];
+						}
+					?>
+					<td class="center"><?php echo $dtBiaya['nm_rule'];?> :<?php echo $rule;?></td>
+					<td align="right"><?php echo number_format($dtBiaya['nominal_komp'],2,',','.');?></td>
+					<td align="right"><?php echo number_format($dtBiaya['nominal_kompensasi'],2,',','.');?></td>
+					<td align="right"><?php echo number_format($dtBiaya['nominal_alocate'],2,',','.');?></td>
+					<td align="right"><?php echo number_format(($dtBiaya['nominal_komp']-$dtBiaya['nominal_kompensasi']-$dtBiaya['nominal_alocate']),2,',','.');?></td>
+				</tr>
+				<?php 
+					$i++;
+					$totBiaya=$totBiaya+$dtBiaya['nominal_komp'];
+					$totKomp=$totKomp+$dtBiaya['nominal_kompensasi'];
+					$totBayar=$totBayar+$dtBiaya['nominal_alocate'];
+				}?>
+				<tr>
+					<td colspan="4" class="center"><strong>TOTAL</strong></td>
+					<td align="right"><strong><?php echo number_format($totBiaya,2,',','.');?></strong></td>
+					<td align="right"><strong><?php echo number_format($totKomp,2,',','.');?></strong></td>
+					<td align="right"><strong><?php echo number_format($totBayar,2,',','.');?></strong></td>
+					<td align="right"><strong><?php echo number_format(($totBiaya-$totKomp-$totBayar),2,',','.');?></strong></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

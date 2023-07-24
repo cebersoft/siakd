@@ -1,0 +1,105 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbreg" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th style="width:2px;"></th>
+					<th>NIM</th>
+					<th>NAMA MAHASISWA</th>
+					<th>STATUS</th>
+					<th>STATUS REGISTRASI</th>
+					<th>KRS</th>
+					<th>SKS APPROVED</th>
+					<th>PKRS</th>
+					<th>PKRS APPROVED</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ($this->listRegister as $dataReg) { ?>
+				<?php if($dataReg['kd_dosen_wali']==$this->kddsn){ ?>
+				<?php
+					if($dataReg['kd_status_reg']==null){
+						$stat_reg="Unregistered";
+						$aksi="Register";
+						$warna="warning";
+						$class="primary";
+					}else{
+						$stat_reg=$dataReg['status_reg']."(".$dataReg['status_mhs_periode'].")";
+						$aksi="Cancel";
+						$warna="";
+						$class="warning";
+					}
+					
+					if(($dataReg['krs']=='f')or($dataReg['krs']==null)){
+						$krs="disabled";
+					}else{
+						$krs="";
+					}
+					?>
+				<tr>
+					<td><button class="btn btn-<?php echo $warna;?>"></button></td>
+					<td><?php echo $dataReg['nim']; ?></td>
+					<td><?php echo $dataReg['nm_mhs']; ?></a></td>
+					<td align="center"><?php echo $dataReg['status_mhs']; ?></td>
+					<td align="center"><?php echo $stat_reg; ?></td>
+					<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/perwalian/new?nim=<?php echo $dataReg['nim'];?>&per=<?php echo $this->kd_periode;?>')" <?php echo $krs;?>><i class="fa fa-list"></i></button></td>
+					<?php 
+						if($dataReg['sks_app']!=$dataReg['sks_krs']){
+							$warnaSKS="warning";
+						}else{
+							$warnaSKS="default";
+						}
+						if(($dataReg['krs']=='t')and($dataReg['sks_krs']==0)){
+							$warnaSKS="danger";
+						}
+					?>
+					<td align="center"><span class="label label-<?php echo $warnaSKS;?>"><?php echo $dataReg['sks_krs']."/".$dataReg['sks_app']; ?></span></td>
+					<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/perwalian/new2?nim=<?php echo $dataReg['nim'];?>&per=<?php echo $this->kd_periode;?>')" <?php echo $krs;?>><i class="fa fa-list"></i></button></td>
+					<?php 
+						if($dataReg['n_pkrs']!=$dataReg['n_pkrs_exec']){
+							$warnaPkrs="warning";
+						}else{
+							$warnaPkrs="default";
+						}
+					?>
+					<td align="center"><span class="label label-<?php echo $warnaPkrs;?>"><?php echo $dataReg['n_pkrs']."/".$dataReg['n_pkrs_exec']; ?></span></td>
+				</tr>
+				<?php } ?>
+				<?php } ?>
+		</table>
+	</div>
+</div>
+<div id="frmreg" style="display:none;">
+	<form class="form-horizontal" method="post" id="frm_o">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-4 control-label">Status registrasi </label>
+				<div class="col-sm-8">
+					<input type="text" id="per_o" value="<?php echo $this->kd_periode;?>" style="display:none;">
+					<input type="text" id="nim_o" style="display:none;">
+					<select id="kd_reg_o" class="form-control">
+						<?php foreach ($this->listStatReg as $dtStat) { ?>
+						<option value="<?php echo $dtStat['kd_status_reg'];?>" ><?php echo $dtStat['status_reg'];?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="box-footer">
+				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+				<button type="submit" id="sb" class="btn btn-primary pull-right col-sm-2">Register</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.responsive.js">
+</script><script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script>
+$('#tbreg').dataTable({
+    responsive: true
+});
+</script>

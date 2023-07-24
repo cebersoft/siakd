@@ -1,0 +1,83 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data Tugas</h3>
+</div>
+<div class="inqbox-content">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Jenis Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->jns_kelas;?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn." (".$this->kd_dsn.")";?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+			<div class="col-sm-4">Nama Kelas/Kelompok</div>
+			<div class="col-sm-8">: <?php echo $this->nm;?></div>
+		</div>
+	</div>
+	<div class="table-responsive">
+		<table id="tbkls" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th width="5%">NO</th>
+					<th width="8%">MINGGU</th>
+					<th>TUGAS</th>
+					<th width="15%">TANGGAL</th>
+					<th width="15%">KONTRIBUTOR</th>
+					<th width="10%">STATUS</th>
+					<th width="10%">NILAI</th>
+					<th width="10%">AKSI</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;foreach ($this->listTugas as $dataTugas) { ?>
+				<tr>
+					<td><?php echo $i; ?></td>
+					<td><?php echo $dataTugas['minggu']; ?></td>
+					<td>
+						<strong>Judul</strong> : <?php echo $dataTugas['judul_tugas']; ?><br>
+						<strong>Instruksi</strong> : <?php echo $dataTugas['konten_tugas']; ?><br>
+						<strong>Nama File</strong> : <?php echo $dataTugas['nm_file']; ?><br>
+						<strong>Link</strong> : <a href="<?php echo $dataTugas['link']; ?>"><?php echo $dataTugas['link']; ?></a><br>
+						<strong>Parameter</strong> : <?php echo $dataTugas['param_nilai']; ?>
+					</td>
+					<td align="center">
+						<strong>Diterbitkan </strong> : <?php echo $dataTugas['published_fmt']; ?><br>
+						<strong>Deadline </strong> : <?php echo $dataTugas['expired_fmt']; ?><br>
+					</td>
+					<td align="center">
+						<?php echo $dataTugas['nm_dosen']." (".$dataTugas['created'].")"; ?>
+					</td>
+					<td align="center">
+						<?php echo $dataTugas['status_tugas'];?><br><br>
+						<span class="label label-<?php echo $dataTugas['warna'];?>"><?php echo $dataTugas['status_done'];?></span>
+					</td>
+					<td align="center">
+						<?php echo $dataTugas['nilai']; ?>
+					</td>
+					<td align="center">
+						<?php 
+            					    $arrFile=explode(".",$dataTugas['nm_file']);
+        	    				    $ext=end($arrFile);
+	            				?>
+						<?php if($dataTugas['status_tugas']=='RUNNING'){?>
+						<button type="button" class="btn btn-primary btn-sm" onclick="nav('<?php echo $this->baseUrl;?>/image/anyfile?url=public/file/tugas/<?php echo $dataTugas['id_tugas'].".".$ext?>&newname=<?php echo $dataTugas['nm_file'];?>')"><i class="fa fa-download">&nbsp;Download Tugas</i></button>
+						<br><br>
+						<?php if($dataTugas['done']=='f'){?>
+						<button type="button" class="btn btn-warning btn-sm" onclick="nav('<?php echo $this->baseUrl;?>/lms/tugasdetil?id=<?php echo $dataTugas['id_tugas'];?>&kul=<?php echo $this->kd_kuliah;?>&a=<?php echo $this->a;?>')"><i class="fa fa-pencil">&nbsp;Kerjakan Tugas</i></button>
+						<?php }else{ ?>
+						<button type="button" class="btn btn-reset btn-sm" onclick="nav('<?php echo $this->baseUrl;?>/lms/tugasdetil?id=<?php echo $dataTugas['id_tugas'];?>&kul=<?php echo $this->kd_kuliah;?>&a=<?php echo $this->a;?>')"><i class="fa fa-eye">&nbsp;Lihat Pekerjaan</i></button>
+						<?php } ?>
+						<?php } ?>
+					</td>
+				</tr>
+				<?php $i++; } ?>
+		</table>
+	</div>
+</div>

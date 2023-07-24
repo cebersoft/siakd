@@ -1,0 +1,232 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/assets/css/datepicker.min.css" />
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data Keuangan Mahasiswa</h3>
+</div>
+<div class="inqbox-content">
+	<div class="row">
+		<div class="col-sm-8">
+			<div class="col-sm-4">Nama (NIM)</div>
+			<div class="col-sm-8">: <?php echo $this->nm." (".$this->nim.")";?></div>
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prd;?></div>
+			<div class="col-sm-4">Angkatan</div>
+			<div class="col-sm-8">: <?php echo $this->akt;?></div>
+			<div class="col-sm-4">Status Masuk</div>
+			<div class="col-sm-8">: <?php echo $this->stat_msk;?></div>
+			<div class="col-sm-4">Gelombang</div>
+			<?php
+				$nm_gel=$this->nm_gel; 
+				if($this->nm_gel==""){
+					$nm_gel="<span class='label label-warning'>Belum Diset</span>";
+				}
+			?>
+			<div class="col-sm-8">: 
+				<?php echo $nm_gel;?>
+				<?php if($this->nm_gel==""){?>
+					<a class="label label-primary" onclick="nav('<?php echo $this->baseUrl; ?>/gelmhs/new?nim=<?php echo $this->nim;?>&src=mhsbi')">Set Disini</a>
+				<?php }?>
+			</div>
+		</div>
+	</div>
+	<div class="inqbox-title border-top-info">
+		<h3 class="box-title">Biaya Periodik Mahasiswa</h3>
+	</div>
+	<div>
+		<table id="tbl" class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					<th align="center" width="5%" rowspan="2">No</th>
+					<th align="center" width="15%" rowspan="2">Periode Akademik</th>
+					<th align="center" rowspan="2">Status Her Registrasi</th>
+					<th align="center" width="8%" rowspan="2">Status Mahasiswa</th>
+					<th align="center" colspan="4">SKS/Jumlah MK</th>
+					<th align="center" width="12%" rowspan="2">Total Biaya</th>
+					<th align="center" width="12%" rowspan="2">Kompensasi</th>
+					<th class="center" width="12%" rowspan="2">Tunggakan/Lebih Bayar</th>
+				</tr>
+				<tr>
+					<th align="center" width="5%">Teori</th>
+					<th align="center" width="5%">Prak</th>
+					<th align="center" width="5%">TA</th>
+					<th align="center" width="5%">Konv</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $totBiaya=0;$totTunggakanPer=0;$i=1;foreach ($this->listMhsBiayaPer as $dtMhsReg){?>
+				<tr>
+					<td align="center"><?php echo $i;?></td>
+					<td align="center"><?php echo $dtMhsReg['kd_periode'];?></td>
+					<td align="center"><?php echo $dtMhsReg['status_reg'];?></td>
+					<td align="center"><?php echo $dtMhsReg['status_mhs_periode'];?></td>
+					<td align="center"><?php echo $dtMhsReg['sks_teori'];?>/<?php echo $dtMhsReg['n_teori'];?></td>
+					<td align="center"><?php echo $dtMhsReg['sks_prak'];?>/<?php echo $dtMhsReg['n_prak'];?></td>
+					<td align="center"><?php echo $dtMhsReg['sks_ta'];?>/<?php echo $dtMhsReg['n_ta'];?></td>
+					<td align="center">
+						<?php 
+							if($dtMhsReg['ada_formula_sks_konv']=='t'){
+								echo $dtMhsReg['sks_konv'];
+							}else{
+								echo "0";
+							}
+						?>
+					</td>
+					<td align="right"><?php echo number_format($dtMhsReg['tot_biaya'],2,',','.');?></td>
+					<td align="right"><?php echo number_format($dtMhsReg['tot_kompensasi'],2,',','.');?></td>
+					<td align="right"><?php echo number_format(($dtMhsReg['tot_biaya']-$dtMhsReg['tot_kompensasi']-$dtMhsReg['tot_nom_bayar_periode']),2,',','.');?></td>
+				</tr>
+				<?php 
+					$totTunggakanPer=$totTunggakanPer+($dtMhsReg['tot_biaya']-$dtMhsReg['tot_kompensasi']-$dtMhsReg['tot_nom_bayar_periode']);
+					$totBiaya=$totBiaya+$dtMhsReg['tot_biaya']-$dtMhsReg['tot_kompensasi'];
+					$i++;
+				}?>
+				<tr>
+					<td colspan="12">
+						<strong>Total Tunggakan / Lebih Bayar Periodik (Kumulatif) : <?php echo number_format(($totBiaya-$this->totBayarPer),2,',','.'); ?></strong>
+						<br>
+						<label class="label label-warning">Nb: Jika Minus berarti lebih bayar</label>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="inqbox-title border-top-info">
+		<h3 class="box-title">Biaya Interval Mahasiswa</h3>
+	</div>
+	<div>
+		<table id="tbl" class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					<th align="center" width="5%" rowspan="2">No</th>
+					<th align="center" width="15%" rowspan="2">Periode Akademik</th>
+					<th align="center">Komponen Biaya</th>
+					<th align="center">Parameter - Indikator Biaya</th>
+					<th align="center">Pariode Berlaku</th>
+					<th align="center" width="12%">Paket Biaya</th>
+					<th align="center" width="12%">Total Biaya</th>
+					<th align="center" width="12%">Tunggakan/Lebih Bayar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $totTunggakanInt=0;$i=1;foreach ($this->listBiayaInterval as $dtBiayaIntv){?>
+				<?php 
+					$nomByrIntv=0;
+					foreach ($this->listBayar as $dtBayarInt) {
+						if(($dtBiayaIntv['kd_periode']==$dtBayarInt['kd_periode'])and($dtBiayaIntv['id_komp']==$dtBayarInt['id_komp'])and($dtBayarInt['id_term']=='3')){
+							$nomByrIntv=$nomByrIntv+$dtBayarInt['nominal'];
+						}
+					}
+					$tunggakan=$dtBiayaIntv['nominal']-$nomByrIntv;
+					$totTunggakanInt=$totTunggakanInt+$tunggakan;
+				?>
+				<tr>
+					<td align="center"><?php echo $i;?></td>
+					<td align="center"><?php echo $dtBiayaIntv['kd_periode'];?></td>
+					<td align="center"><?php echo $dtBiayaIntv['nm_komp'];?></td>
+					<td align="center"><?php echo $dtBiayaIntv['nm_param']."&gt;".$dtBiayaIntv['min_value'];?></td>
+					<td align="center"><?php echo $dtBiayaIntv['kd_periode_berlaku'];?></td>
+					<td align="center"><?php echo $dtBiayaIntv['nm_paket'];?></td>
+					<td align="right"><?php echo number_format($dtBiayaIntv['nominal'],2,',','.');?></td>
+					<td align="right"><?php echo number_format($tunggakan,2,',','.');?></td>
+				</tr>
+				<?php $i++;}?>
+				<tr>
+					<td colspan="7"><strong>Total Tunggakan / Lebih Bayar Biaya Interval</strong></td>
+					<td align="right"><strong><?php echo number_format($totTunggakanInt,2,',','.');?></strong></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="inqbox-title border-top-info">
+		<h3 class="box-title">Sumbangan Mahasiswa</h3>
+	</div>
+	<div>
+		<table id="tbl" class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					<th align="center" width="5%" rowspan="2">No</th>
+					<th align="center" width="15%" rowspan="2">Periode Akademik</th>
+					<th align="center">Komponen Biaya</th>
+					<th align="center" width="12%">Nominal</th>
+					<th align="center" width="12%">Tunggakan/Lebih Bayar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $totTunggakanSumb=0;$i=1;foreach ($this->listSumbangan as $dtSumbangan){?>
+				<?php 
+					$nomByrSumb=0;
+					foreach ($this->listBayar as $dtBayarSumb) {
+						if(($dtSumbangan['kd_periode']==$dtBayarSumb['kd_periode'])and($dtSumbangan['id_komp']==$dtBayarSumb['id_komp'])and($dtBayarSumb['id_term']=='4')){
+							$nomByrSumb=$nomByrSumb+$dtBayarSumb['nominal'];
+						}
+					}
+					$tunggakanSumb=$dtSumbangan['nominal']-$nomByrSumb;
+					$totTunggakanSumb=$totTunggakanSumb+$tunggakanSumb;
+				?>
+				<tr>
+					<td align="center"><?php echo $i;?></td>
+					<td align="center"><?php echo $dtSumbangan['kd_periode'];?></td>
+					<td align="center"><?php echo $dtSumbangan['nm_komp'];?></td>
+					<td align="right"><?php echo number_format($dtSumbangan['nominal'],2,',','.');?></td>
+					<td align="right"><?php echo number_format($tunggakanSumb,2,',','.');?></td>
+				</tr>
+				<?php $i++;}?>
+				<tr>
+					<td colspan="4"><strong>Total Tunggakan / Lebih Bayar Sumbangan</strong></td>
+					<td align="right"><strong><?php echo number_format($totTunggakanSumb,2,',','.');?></strong></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="alert alert-block alert-success">
+		<i class="ace-icon fa fa-info-circle green"></i>
+			Status verified menunjukkan data sudah diverifikasi bagian keuangan institusi. Status validated menunjukkan data sudah divalidasi oleh Yayasan
+		</div>
+	<div class="inqbox-title border-top-info">
+		<h3 class="box-title">Histori Pembayaran Mahasiswa</h3>
+	</div>
+	<div>
+		<table id="tbl" class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					<th align="center" width="5%" rowspan="2">No</th>
+					<th align="center" width="12%" rowspan="2">Kode Pembayaran</th>
+					<th align="center" width="15%" rowspan="2">Tanggal Bayar</th>
+					<th align="center" width="15%" rowspan="2">Proses Pembayaran</th>
+					<th align="center" width="15%" rowspan="2">Term Bayar</th>
+					<th align="center" colspan="2">Tujuan Pembayaran</th>
+					<th align="center" width="12%" rowspan="2">Jumlah Bayar</th>
+					<th align="center" width="5%" rowspan="2">Status</th>
+				</tr>
+				<tr>
+					<th align="center">Periode Akademik</th>
+					<th align="center">Komponen Biaya</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;foreach ($this->listBayar as $dtBayar){?>
+				<tr>
+					<td align="center"><?php echo $i;?></td>
+					<td><?php echo $dtBayar['no_trans'];?></td>
+					<td><?php echo $dtBayar['tgl_bayar_fmt'];?></td>
+					<td><?php echo $dtBayar['via']." ke ".$dtBayar['nm_bank']." (".$dtBayar['no_rek'].") - ".$dtBayar['no_bukti'];?></td>
+					<td align="center"><?php echo $dtBayar['nm_term'];?></td>
+					<td align="center"><?php echo $dtBayar['kd_periode'];?></td>
+					<td align="center"><?php echo $dtBayar['nm_komp'];?></td>
+					<td align="right"><?php echo number_format($dtBayar['nominal'],2,',','.');?></td>
+					<?php 
+						$stat="Undefined";
+						if($dtBayar['status_bayar']==0){
+							$stat="Not Verified";
+						}elseif ($dtBayar['status_bayar']==1){
+							$stat="Verified";
+						}elseif ($dtBayar['status_bayar']==2){
+							$stat="Validated";
+						}
+					?>
+					<td align="center"><?php echo $stat;?></td>
+				</tr>
+				<?php $i++;}?>
+			</tbody>
+		</table>
+	</div>
+</div>

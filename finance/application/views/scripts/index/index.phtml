@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title><?php echo $this->title;?></title>
+		<link rel="shortcut icon" href="<?php echo $this->baseUrl;?>/image/png?url=public/img/logo.png">
+		<meta name="description" content="User login" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/assets/font-awesome/4.2.0/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/assets/fonts/fonts.googleapis.com.css" />
+		<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/assets/css/ace.min.css" />
+		<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/assets/css/ace-rtl.min.css" />
+	</head>
+	<body class="login-layout" background="<?php echo $this->baseUrl;?>/image/png?url=public/img/bg4.png">
+		<div class="main-container">
+			<div class="main-content">
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1">
+						<div class="login-container">
+							<div class="center">
+								<h1>
+									<span class="white">SI Keuangan Mahasiswa</span>
+								</h1>
+								<h5 class="white"><?php echo $this->nm_pt;?></h5>
+							</div>
+							<div class="space-6"></div>
+							<div class="position-relative">
+								<div id="login-box" class="login-box visible widget-box no-border">
+									<div class="widget-body">
+										<div class="widget-main">
+											<div class="center">
+												<img alt="<?php echo $this->nm_pt;?>" src="<?php echo $this->baseUrl;?>/image/png?url=public/img/logo.png" width="80px">
+												<h4 class="header blue lighter bigger">
+													Sign in SI Keuangan Mahasiswa
+												</h4>
+											</div>
+											<div class="space-6"></div>
+											<form method="post">
+												<fieldset>
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input type="text" class="form-control" placeholder="Username" name="txtUsername"  autofocus="autofocus" />
+															<i class="ace-icon fa fa-user"></i>
+														</span>
+													</label>
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input type="password" class="form-control" placeholder="Password" name="txtPass" />
+															<i class="ace-icon fa fa-lock"></i>
+														</span>
+													</label>
+													<div class="space"></div>
+													<?php echo $this->message;?>
+													<div class="clearfix">
+														<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+															<i class="ace-icon fa fa-key"></i>
+															<span class="bigger-110">Login</span>
+														</button>
+													</div>
+													<div class="space-4"></div>
+												</fieldset>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

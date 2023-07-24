@@ -1,0 +1,49 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	 <h5>Histori Her-Registrasi</h5>
+</div>
+<div class="inqbox-content">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">NIM</div>
+			<div class="col-sm-8">: <?php echo $this->nim;?></div>
+			<div class="col-sm-4">Nama</div>
+			<div class="col-sm-8">: <?php echo $this->nm;?></div>
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Angkatan</div>
+			<div class="col-sm-8">: <?php echo $this->akt;?></div>
+		</div>
+	</div>
+	<div class="table-responsive">
+		<table class="table table-striped table-bordered table-hover" id="tbreg">
+			<thead align="center">
+				<tr>
+					<th>NO</th>
+					<th>PERIODE AKADEMIK</th>
+					<th>STATUS REGISTRASI</th>
+					<th>KRS</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $n=1;foreach ($this->listRegister as $dataReg) { ?>
+				<?php
+					$stat_reg=$dataReg['status_reg']."(".$dataReg['status_mhs_periode'].")";
+					if(($dataReg['krs']=='f')or($dataReg['krs']==null)){
+						$krs="disabled";
+					}else{
+						$krs="";
+					}
+					?>
+				<tr>
+					<td align="center"><?php echo $n; ?></td>
+					<td align="center"><?php echo $dataReg['kd_periode']; ?></td>
+					<td align="center"><?php echo $stat_reg; ?></td>
+					<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/mhswali/krs?nim=<?php echo $this->nim;?>&per=<?php echo $dataReg['kd_periode'];?>')" <?php echo $krs;?>><i class="fa fa-list"></i></button></td>
+				</tr>
+				<?php $n++;} ?>
+		</table>
+	</div>
+</div>

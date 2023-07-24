@@ -1,0 +1,27 @@
+<?php echo $this->render('helper/function.phtml');?>
+<div class="box  box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbajar" class="table table-bordered table-hover" style="cursor: pointer;">
+				<thead align="center">
+					<tr>
+						<th>SEMESTER</th>
+						<th>KODE MK</th>
+						<th>NAMA MK</th>
+						<th>DOSEN</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listAjar as $dataAjar) { ?>
+					<tr onclick="insVal('<?php echo $this->readyCaller;?>', new Array('<?php echo escQuoteJS($dataAjar['id_ajar']);?>','<?php echo escQuoteJS($dataAjar['kd_dosen']);?>','<?php echo escQuoteJS($dataAjar['nm_dosen']);?>','<?php echo escQuoteJS($dataAjar['kode_mk']);?>','<?php echo escQuoteJS($dataAjar['nm_mk']);?>'))">
+						<td><?php echo $dataAjar['smt_def']; ?></td>
+						<td><?php echo $dataAjar['kode_mk']; ?></td>
+						<td><?php echo $dataAjar['nm_mk']; ?></td>
+						<td><?php echo $dataAjar['nm_dosen']; ?></td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script>$(function () {tabel('tbajar',true,true,true,true,true,true);});</script>

@@ -1,0 +1,178 @@
+<link href="<?php echo $this->baseUrl; ?>/public/css/plugins/chosen/chosen.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	 <h5>Form Tracer ID</h5>
+</div>
+<div class="inqbox-content">
+	<form id="frm" method="post">
+		<input type="hidden" id="id0" value="<?php echo $this->id0;?>">
+		<table class='table table-striped table-responsive'>
+			<tr>
+				<td class='i'>Identitas<br /><span class='h'>f1</span></td>
+				<td> Nomor Induk Mahasiswa</td><td>:</td><td><input type='text'  id='nimhsmsmh'  name='nimhsmsmh' value='<?php echo $this->nim_mhs;?>' size='20' readonly="readonly"></td>
+			</tr>
+			<tr>
+				<td class='h'><span class='h'></span></td><td>Kode PT</td>
+				<td>:</td><td><input type='text' value='<?php echo $this->kd_pt;?>'  id='kdptimsmh'  name='kdptimsmh' size='20' readonly></td>
+			</tr>
+			<tr>
+				<td class='h'><span class='h'></span></td><td>Tahun Lulus *</td>
+				<td>:</td><td><input type='text' value='<?php echo $this->thn_keluar;?>'  id='tahun_lulus'  name='tahun_lulus' size='20' readonly="readonly"></td>
+			</tr>
+			<tr>
+				<td class='h'><span class='h'></span></td>
+				<td>Kode Prodi</td><td>:</td><td><input type='text' value='<?php echo $this->kd_prodi;?>'  id='kdpstmsmh'  name='kdpstmsmh' size='20' readonly="readonly"></td>
+			</tr>
+			<tr>
+				<td class='h'><span class='h'></span></td>
+				<td>Nama</td><td>:</td><td><input type='text' value='<?php echo $this->nama_mhs;?>'  id='nmmhsmsmh'  name='nmmhsmsmh' size='20' readonly="readonly"></td>
+			</tr>
+			<tr>
+				<td class='h'><span class='h'></span></td>
+				<td>Nomor Telepon/HP *</td><td>:</td><td><input type='text' value='<?php echo $this->large_kontak;?>'  id='telpomsmh'  name='telpomsmh' size='20'></td></tr><tr><td class='h'><span class='h'></span></td><td>Alamat Email *</td><td>:</td><td><input type='text' value='<?php echo $this->email;?>'  id='emailmsmh'  name='emailmsmh' size='40'></td>
+			</tr>
+			<tr>
+				<td class='h'><span class='h'></span></td>
+				<td>NIK *</td><td>:</td><td><input type='text' value='<?php echo $this->nik;?>'  id='nik'  name='nik' size='30' readonly="readonly"></td>
+			</tr>
+			<tr>
+				<td class='h'><span class='h'></span></td>
+				<td>NPWP </td><td>:</td><td><input type='text' value=''  id='npwp'  name='npwp' size='30'></td>
+			</tr>
+		</table>
+		<table class='table table-striped table-responsive'>
+			<?php $n=1;foreach($this->listKuis as $dtKuis){ ?>
+			<tr>
+				<td width="5%"><?php echo $n;?>.</td>
+				<td><?php echo $dtKuis['question1_text'];?></td>
+			</tr>
+			<?php if($dtKuis['question1_type']=='RB'){ ?>
+			<input class="hidden" type="text" id="y_<?php echo $dtKuis['question1_code'];?>">
+			<?php } ?>
+			<?php if($dtKuis['question1_type']=='DD'){ ?>
+			<td></td>
+			<td>
+				<select name="<?php echo $dtKuis['question1_code'];?>" id="y_<?php echo $dtKuis['question1_code'];?>" class="form-control select2">
+				<option value="">Silakan Pilih</option>
+				<?php foreach($this->listChoice as $dtChoice){ ?>
+				<?php if($dtChoice['question1_id']==$dtKuis['question1_id']){ ?>
+				<option value="<?php echo $dtChoice['choice_value'];?>"><?php echo $dtChoice['choice_label'];?></option>
+				<?php } ?>
+			<?php } ?>
+				</select>
+			</td>
+			<?php }else{ ?>
+			<?php foreach($this->listChoice as $dtChoice){ ?>
+			<?php if($dtChoice['question1_id']==$dtKuis['question1_id']){ ?>
+			<tr>
+				<td></td>
+				<?php if($dtKuis['question1_type']=='RB'){ ?>
+				<td>
+					<input type="radio" class="rb" required="required" name="<?php echo $dtChoice['choice_code'];?>" id="x_<?php echo $dtChoice['choice_code'];?>" value="<?php echo $dtChoice['choice_value'];?>">&nbsp;&nbsp;<?php echo $dtChoice['choice_label'];?>
+					<?php if($dtChoice['choice_ext']=='t'){ ?>
+					<input type="text" name="<?php echo $dtChoice['choice_ext_code'];?>" id="y_<?php echo $dtChoice['choice_ext_code'];?>" placeholder="<?php echo $dtChoice['choice_ext_code'];?>">
+					<?php } ?>
+				</td>
+				<?php } ?>
+				<?php if($dtKuis['question1_type']=='CB'){ ?>
+				<td>
+					<input type="checkbox" class="cb" name="<?php echo $dtChoice['choice_code'];?>" id="x_<?php echo $dtChoice['choice_code'];?>" value="<?php echo $dtChoice['choice_value'];?>">&nbsp;&nbsp;<?php echo $dtChoice['choice_label'];?> (<?php echo $dtChoice['choice_code'];?>)
+					<input class="hidden" type="text" id="y_<?php echo $dtChoice['choice_code'];?>">
+					<?php if($dtChoice['choice_ext']=='t'){ ?>
+					<input type="text" name="<?php echo $dtChoice['choice_ext_code'];?>" id="y_<?php echo $dtChoice['choice_ext_code'];?>" placeholder="<?php echo $dtChoice['choice_ext_code'];?>">
+					<?php } ?>
+				</td>
+				<?php } ?>
+				<?php if($dtKuis['question1_type']=='NM'){ ?>
+				<td><input type="number" class="form-control" name="<?php echo $dtChoice['choice_code'];?>" id="y_<?php echo $dtChoice['choice_code'];?>"></td>
+				<?php } ?>
+				<?php if($dtKuis['question1_type']=='TX'){ ?>
+				<td><input type="text" class="form-control" name="<?php echo $dtChoice['choice_code'];?>" id="y_<?php echo $dtChoice['choice_code'];?>"></td>
+				<?php } ?>
+				<?php if($dtKuis['question1_type']=='DT'){ ?>
+				<td><input type="date" class="form-control" name="<?php echo $dtChoice['choice_code'];?>" id="y_<?php echo $dtChoice['choice_code'];?>"></td>
+				<?php } ?>
+				<?php if($dtKuis['question1_type']=='SC2'){ ?>
+				<td>
+					<table width="100%">
+						<tr>
+							<td width="30%">
+								<?php echo $dtChoice['choice_label'];?> <?php echo $dtChoice['choice_code'];?>
+							</td>
+							<td align="center">
+								<input type="radio" required="required" class="rb" value="1" name="<?php echo $dtChoice['choice_code'];?>" id="x_<?php echo $dtChoice['choice_code'];?>"> 1
+								<input type="radio" required="required" class="rb" value="2" name="<?php echo $dtChoice['choice_code'];?>" id="x_<?php echo $dtChoice['choice_code'];?>"> 2
+								<input type="radio" required="required" class="rb" value="3" name="<?php echo $dtChoice['choice_code'];?>" id="x_<?php echo $dtChoice['choice_code'];?>"> 3
+								<input type="radio" required="required" class="rb" value="4" name="<?php echo $dtChoice['choice_code'];?>" id="x_<?php echo $dtChoice['choice_code'];?>"> 4
+								<input type="radio" required="required" class="rb" value="5" name="<?php echo $dtChoice['choice_code'];?>" id="x_<?php echo $dtChoice['choice_code'];?>"> 5
+								<input class="hidden" type="text" id="y_<?php echo $dtChoice['choice_code'];?>">
+							</td>
+						</tr>
+					</table>
+				</td>
+				<?php } ?>
+				<?php if($dtKuis['question1_type']=='SC1'){ ?>
+				<td>
+					<table width="100%">
+						<tr>
+							<td width="30%">
+								<?php echo $dtChoice['choice_label'];?> <?php echo $dtChoice['choice_code'];?>
+							</td>
+							<td align="center">
+								<input type="radio" required="required" class="rb" value="1" name="<?php echo $dtChoice['choice_code'];?>" id="x_<?php echo $dtChoice['choice_code'];?>"> Sangat Besar
+								<input type="radio" required="required" class="rb" value="2" name="<?php echo $dtChoice['choice_code'];?>" id="x_<?php echo $dtChoice['choice_code'];?>"> Besar
+								<input type="radio" required="required" class="rb" value="3" name="<?php echo $dtChoice['choice_code'];?>" id="x_<?php echo $dtChoice['choice_code'];?>"> Cukup Besar
+								<input type="radio" required="required" class="rb" value="4" name="<?php echo $dtChoice['choice_code'];?>" id="x_<?php echo $dtChoice['choice_code'];?>"> Kurang Besar
+								<input type="radio" required="required" class="rb" value="5" name="<?php echo $dtChoice['choice_code'];?>" id="x_<?php echo $dtChoice['choice_code'];?>"> Tidak sama sekali
+								<input class="hidden" type="text" id="y_<?php echo $dtChoice['choice_code'];?>">
+							</td>
+						</tr>
+					</table>
+				</td>
+				<?php } ?>
+			</tr>
+			<?php } ?>
+			<?php } ?>
+			<?php } ?>
+			<tr><td colspan="2"><br></td></tr>
+			<?php $n++;} ?>
+			<tr>
+				<td width="100%" colspan="2">
+					<div class="col-sm-12 col-sm-offset-3">
+ 						<button class="btn btn-primary col-sm-6" type="submit">KIRIM</button>
+ 					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+<script src="<?php echo $this->baseUrl; ?>/public/js/plugins/chosen/chosen.jquery.js"></script>
+<script>
+	$(".select2").chosen();
+</script>
+<script>
+	$(".cb").on('change',(function() {
+		id=$(this).attr('id');
+		n= id.split('_');
+		if($(this).is(':checked')){
+			$("#y_"+n[1]).val($(this).val());
+		}else{
+			$("#y_"+n[1]).val('');
+		}
+	}));
+	$(".rb").on('change',(function() {
+		id=$(this).attr('id');
+		n= id.split('_');
+		if($(this).is(':checked')){
+			$("#y_"+n[1]).val($(this).val());
+		}else{
+			$("#y_"+n[1]).val('');
+		}
+	}));
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+		ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax2/inskuis3","/tracerid/index4?new=","u");
+	  	return false;
+	});
+</script>

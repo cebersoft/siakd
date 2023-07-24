@@ -1,0 +1,153 @@
+<div class="inqbox float-e-margins">
+	<div class="inqbox-content">
+		<div class="page-heading">
+			<div class="media clearfix">
+				<div class="media-left pr30">
+					<img class="media-object mw150" src="<?php echo $this->baseUrl;?>/image/jpg?url=public/file/dsn/foto/<?php echo $this->kddsn;?>.jpg" alt="Foto Dosen" onerror="this.src='<?php echo $this->baseUrl;?>/image/png?url=public/file/dsn/foto/default.jpg'" width="120px" height="160px">
+				</div>
+				<div class="media-body va-m">
+					<h2 class="media-heading">
+						<?php echo $this->nm_dosen; ?>
+					</h2>
+					<p class="lead">
+						DOSEN <?php echo strtoupper($this->nm_pt);?>
+					</p>
+					<div class="alert alert-info">
+						Informasikan ke Bag. Layanan Akademik jika ada data yang tidak benar
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="tab-block">
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a href="#tab1" data-toggle="tab">Data Akademik</a>
+				</li>
+				<li>
+					<a href="#tab2" data-toggle="tab">Data Pribadi</a>
+				</li>
+				<li>
+					<a href="#tab3" data-toggle="tab">Riwayat Pendidikan</a>
+				</li>
+			</ul>
+			<div class="tab-content p30" style="height: 600px;">
+				<div id="tab1" class="tab-pane active">
+					<table class="table  table-striped">
+						<tbody>
+							<tr>
+								<th>Kode Dosen</th>
+								<td><?php echo $this->kd_dosen;?></td>
+							</tr>
+							<tr>
+								<th>Gelar Depan - Gelar Belakang</th>
+								<td><?php echo $this->g_dpn." - ".$this->g_blk;?></td>
+							</tr>
+							<tr>
+								<th>Status Dosen</th>
+								<td><?php echo $this->aktif;?></td>
+							</tr>
+							<tr>
+								<th>Dosen Homebase ?</th>
+								<td><?php echo $this->a_hb;?></td>
+							</tr>
+							<tr>
+								<th>Dosen Wali ?</th>
+								<td><?php echo $this->a_dw;?></td>
+							</tr>
+							<tr>
+								<th>NIDN</th>
+								<td><?php echo $this->nidn;?></td>
+							</tr>
+							<tr>
+								<th>Kelompok</th>
+								<td><?php echo $this->kategori_dosen;?></td>
+							</tr>
+							<tr>
+								<th>Jabatan</th>
+								<td><?php echo $this->jab;?></td>
+							</tr>
+							<tr>
+								<th>Pangkat</th>
+								<td><?php echo $this->pang;?></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="tab2" class="tab-pane">
+					<table class="table  table-striped">
+						<tbody>
+							<tr>
+								<th width="35%">Nama Lengkap</th>
+								<td><?php echo $this->nm_dosen;?></td>
+							</tr>
+							<tr>
+								<th>Tempat, Tanggal Lahir</th>
+								<td><?php echo $this->tempat_lahir.", ".$this->tanggal_lahir;?></td>
+							</tr>
+							<tr>
+								<th>Jenis Kelamin</th>
+								<td><?php echo $this->jk;?></td>
+							</tr>
+							<tr>
+								<th>Agama</th>
+								<td><?php echo $this->agm;?></td>
+							</tr>
+							<tr>
+								<th>Kewarganegaraan</th>
+								<td><?php echo $this->kwn;?></td>
+							</tr>
+							<tr>
+								<th>Alamat</th>
+								<td><?php echo $this->alamat.", ".$this->kota_tinggal;?></td>
+							</tr>
+							<tr>
+								<th>NIK</th>
+								<td><?php echo $this->nik;?></td>
+							</tr>
+							<tr>
+								<th>Kontak</th>
+								<td><?php echo $this->kontak;?></td>
+							</tr>
+							<tr>
+								<th>Email Kampus</th>
+								<td><?php echo $this->email_k;?></td>
+							</tr>
+							<tr>
+								<th>Email Lain</th>
+								<td><?php echo $this->email_l;?></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="tab3" class="tab-pane">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th width="10%">JENJANG</th>
+								<th width="15%">WAKTU PENDIDIKAN</th>
+								<th width="20%">INSTITUSI</th>
+								<th width="20%">JURUSAN</th>
+								<th>CATATAN PENDIDIKAN</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($this->listPendDosen as $dtPend) { ?>
+							<tr>
+								<td><?php echo $dtPend['nm_jenjang'];?></td>
+								<td><?php echo $dtPend['tahun_masuk']."-".$dtPend['tahun_lulus'];?></td>
+								<td><?php echo $dtPend['institusi'];?></td>
+								<td><?php echo $dtPend['jurusan'];?></td>
+								<td><?php echo $dtPend['catatan'];?></td>
+							</tr>
+							<?php }?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

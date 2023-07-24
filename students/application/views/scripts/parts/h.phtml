@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><?php echo $this->title;?></title>
+        <link rel="shortcut icon" href="<?php echo $this->baseUrl;?>/image/png?url=public/img/logo.png">
+        <link href="<?php echo $this->baseUrl; ?>/public/css/bootstrap.min.css" rel="stylesheet">
+        <link href="<?php echo $this->baseUrl; ?>/public/fonts/font-awesome/css/font-awesome.css" rel="stylesheet">
+        <link href="<?php echo $this->baseUrl; ?>/public/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+        <link href="<?php echo $this->baseUrl; ?>/public/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+        <link href="<?php echo $this->baseUrl; ?>/public/css/animate.css" rel="stylesheet">
+        <link href="<?php echo $this->baseUrl; ?>/public/css/style.css" rel="stylesheet">
+        <link href="<?php echo $this->baseUrl; ?>/public/css/forms/kforms.css" rel="stylesheet">
+        <script src="<?php echo $this->baseUrl; ?>/public/js/jquery-2.1.1.js"></script>
+        <script src="<?php echo $this->baseUrl; ?>/public/js/bootstrap.min.js"></script>
+        <script src="<?php echo $this->baseUrl; ?>/public/js/main.js"></script>
+        <script src="<?php echo $this->baseUrl; ?>/public/js/plugins/pace/pace.min.js"></script>
+        <script src="<?php echo $this->baseUrl; ?>/public/js/custom/helper.js"></script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <nav class="navbar-default navbar-static-side fixed-menu" role="navigation">
+                <div class="sidebar-collapse">
+                    <div id="hover-menu"></div>
+                    <ul class="nav metismenu" id="side-menu">
+                        <li>
+                            <div class="logopanel" style="margin-left: 0px; z-index: 99999">
+                                <div class="profile-element">
+                                    <h2>
+                                    	<img alt="<?php echo $this->nm_pt;?>" src="<?php echo $this->baseUrl;?>/image/png?url=public/img/logo.png" width="40px">
+                                    	<a href="<?php echo $this->baseUrl; ?>/home">Students</a>
+                                    </h2>
+                                </div>
+                                <div class="logo-element">
+                                    <img alt="<?php echo $this->nm_pt;?>" src="<?php echo $this->baseUrl;?>/image/png?url=public/img/logo.png" width="50px">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="leftpanel-profile">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img src="<?php echo $this->baseUrl;?>/image/jpg?url=public/file/mhs/foto/<?php echo $this->idmhs;?>.jpg" alt="Foto Mahasiswa" onerror="this.src='<?php echo $this->baseUrl;?>/image/jpg?url=public/file/mhs/foto/default.jpg'" class="media-object img-circle">                                        
+                                    </a>
+                                </div>
+                                <div class="media-body profile-name" style="white-space:wrap;">
+                                    <h6 class="media-heading"><?php echo $this->namamhs;?></h6>
+                                    <span>Mahasiswa</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="nano left-sidebar">
+                                <div class="nano-content">
+                                    <ul class="nav nav-pills nav-stacked nav-inq">
+                                        <li class="<?php echo $this->home_act; ?>">
+                                            <a href="<?php echo $this->baseUrl;?>/home"><i class="fa fa-home"></i> <span class="nav-label">Beranda</span></a>
+                                        </li>
+                                        <li class="nav-parent <?php echo $this->prof_act;?>">
+                                            <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Profil</span></a>
+                                            <ul class="children nav">
+                                                <li><a href="<?php echo $this->baseUrl;?>/profil">Profil Mahasiswa</a></li>
+                                                <li><a href="<?php echo $this->baseUrl;?>/profil/password">Ganti Password</a></li>
+                                            </ul>
+                                        </li>
+					<li class="<?php echo $this->kur_act;?>">
+                                            <a href="<?php echo $this->baseUrl;?>/kurikulum"><i class="fa fa-table"></i> <span class="nav-label">Kurikulum</span></a>
+                                        </li>
+                                        <li class="nav-parent <?php echo $this->krs_act;?>">
+                                            <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Rencana Studi</span></a>
+                                            <ul class="children nav">
+						<li><a href="<?php echo $this->baseUrl;?>/praregister">Pra Registrasi</a></li>
+                                                <li><a href="<?php echo $this->baseUrl;?>/register">Her-Registrasi & KRS</a></li>
+						<li><a href="<?php echo $this->baseUrl;?>/pkrs">Form PKRS</a></li>
+                                                <li><a href="<?php echo $this->baseUrl;?>/perwalian">Feedback Perwalian</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="<?php echo $this->sch_act;?>">
+                                            <a href="<?php echo $this->baseUrl;?>/jadwal"><i class="fa fa-calendar"></i> <span class="nav-label">Jadwal Kuliah</span></a>
+                                        </li>
+					<li class="<?php echo $this->kbm_act;?>">
+                                            <a href="<?php echo $this->baseUrl;?>/kbm"><i class="fa fa-desktop"></i> <span class="nav-label">Perkuliahan</span></a>
+                                        </li>
+					<li class="<?php echo $this->lms_act;?>">
+                                            <a href="<?php echo $this->baseUrl;?>/lms"><i class="fa fa-desktop"></i> <span class="nav-label">Online Learning</span></a>
+                                        </li>
+					<li class="<?php echo $this->ujian_act;?>">
+                                            <a href="<?php echo $this->baseUrl;?>/ujian"><i class="fa fa-star"></i> <span class="nav-label">Ujian</span></a>
+                                        </li>
+			                <li class="nav-parent <?php echo $this->nilai_act;?>">
+                                            <a href="#"><i class="fa fa-trophy"></i> <span class="nav-label">Hasil Studi</span></a>
+                                            <ul class="children nav">
+                                                <li><a href="<?php echo $this->baseUrl;?>/nilai/list">Daftar Nilai</a></li>
+                                                <li><a href="<?php echo $this->baseUrl;?>/nilai/khs">Kartu Hasil Studi</a></li>
+                                                <li><a href="<?php echo $this->baseUrl;?>/nilai/transkrip">Transkrip Nilai</a></li>
+                                            </ul>
+                                        </li>
+					<li class="nav-parent <?php echo $this->ta_act;?>">
+                                            <a href="#"><i class="fa fa-book"></i> <span class="nav-label">Tugas Akhir</span></a>
+                                            <ul class="children nav">
+                                                <li><a href="<?php echo $this->baseUrl;?>/judulta">Pengajuan Judul</a></li>
+						<li><a href="<?php echo $this->baseUrl;?>/prpujianta">Pengajuan Seminar/Sidang</a></li>
+						<li><a href="<?php echo $this->baseUrl;?>/jadwalta">Jadwal dan Penguji</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="<?php echo $this->keu_act;?>">
+                                            <a href="<?php echo $this->baseUrl;?>/keuangan"><i class="fa fa-credit-card"></i> <span class="nav-label">Status Keuangan</span></a>
+                                        </li>
+                                        <li class="nav-parent <?php echo $this->lib_act;?>">
+                                            <a href="#"><i class="fa fa-book"></i> <span class="nav-label">Perpustakaan</span></a>
+                                            <ul class="children nav">
+                                                <li><a href="<?php echo $this->baseUrl;?>/library">Peminjaman</a></li>
+                                                <li><a href="<?php echo $this->baseUrl;?>/library/catalog">Cari Pustaka</a></li>
+						<li><a href="<?php echo $this->baseUrl;?>/library/jurnal">Link Jurnal</a></li>
+		                            </ul>
+                                        </li>
+					<!-- <li class="<?php echo $this->srv_act;?>">
+                                            <a href="<?php echo $this->baseUrl;?>/survey"><i class="fa fa-edit"></i> <span class="nav-label">Survey</span></a>
+                                        </li> -->
+					<li class="<?php echo $this->fac_act;?>">
+                                            <a href="<?php echo $this->baseUrl;?>/faculty"><i class="fa fa-university"></i> <span class="nav-label">Faculty</span></a>
+                                        </li>
+                                        <li class="<?php echo $this->down_act;?>">
+                                            <a href="<?php echo $this->baseUrl;?>/download"><i class="fa fa-cloud-download"></i> <span class="nav-label">Download</span></a>
+                                        </li>
+					<li class="<?php echo $this->trc_act;?>">
+                                            <a href="<?php echo $this->baseUrl;?>/tracerid/index4"><i class="fa fa-list-ul"></i> <span class="nav-label">Tracer Studi (Alumni)</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div id="page-wrapper" class="gray-bg">
+                <div id="header">
+                    <nav class="navbar navbar-fixed-top white-bg show-menu-full" id="nav" role="navigation" style="margin-bottom: 0">
+                        <div class="navbar-header">
+                            <a class="navbar-minimalize minimalize-styl-2 btn" href="javascript:void(0)"><i class="fa fa-bars" style="font-size:27px;"></i> </a>
+                        </div>
+                        <ul class="nav navbar-top-links navbar-right">
+                            <li class="dropdown pull-right">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                    <span class="pl15"><?php echo $this->namamhs ?></span>
+                                    <span class="caret caret-tp"></span>
+                                </a>
+                                <ul class="dropdown-menu animated m-t-xs">
+                                    <li class="divider"></li>
+                                    <li><a href="<?php echo $this->baseUrl;?>/logout" class="animated animated-short fadeInUp"><i class="fa fa-sign-out"></i> Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="modal fade" id=myModal tabindex=-1 role=dialog aria-labelledby=myModalLabel aria-hidden=true>
+					<div class=modal-dialog>
+						<div class=modal-content>
+							<div class=modal-header>
+								<h4>Halaman <?php echo $this->title; ?></h4>
+							</div>
+							<div class=modal-body></div>
+							<div class=modal-footer>
+								<button type=button id=btC class="btn btn-default" data-dismiss=modal>Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+                <div style="clear: both; height: 61px;"></div>
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                    	<div class="col-lg-12">
+                    		<div class="inqbox float-e-margins">
+                    			<div class="inqbox-content">
+                    				<h2><?php echo $this->title;?></h2>
+                    			</div>
+                    			<div class="inqbox-content" style="height:60px;">
+                    				<button class="btn btn-primary" type="button" onclick="nav('<?php echo $this->baseUrl; ?>/<?php echo $this->lback;?>')" <?php echo $this->bdis;?>><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back</button>
+                    				<button class="btn btn-primary" type="button" onclick="nav('<?php echo $this->baseUrl; ?>/<?php echo $this->lexport;?>')" <?php echo $this->edis;?>><i class="fa fa-file-o""></i>&nbsp;&nbsp;Export</button>
+                    			</div>
+                    		</div>
+                    	</div>
+                    </div>
+                    <div class="row">
+                    	<div class="col-lg-12">

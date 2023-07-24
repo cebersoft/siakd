@@ -1,0 +1,95 @@
+<?php if($this->opt=='1'){ ?>
+<script type="text/javascript">
+	function selectAll(all){
+		var checked = all.checked;
+		var chkBoxes = document.getElementsByTagName("input");
+		for (var counter=0;counter<=chkBoxes.length;counter++) {
+			chkBoxes[counter].checked = checked ;
+		}
+	}
+</script>
+<form name="frm_mhs" method="post">
+	<h4><?php echo $this->pesan_error; ?></h4>
+	<h4><?php echo $this->pesan_sukses; ?></h4>
+	<table width="99%">
+		<tr>
+			<th rowspan="2" width="4%">No</th>
+			<th rowspan="2" width="3%"><input type="checkbox" name="ckbCheckAll" id="ckbCheckAll" onClick="selectAll(this)"></th>
+			<th colspan="2">Data Mahasiswa SIA (<?php echo count($this->listMhsSIA) ?>)</th>
+			<th><input type="submit" value="Transfer Data >>>"></th>
+			<th rowspan="2" width="12%">NIM di Feeder (<?php echo count($this->listMhsFeeder) ?>)</th>
+			<th rowspan="2" width="10%">Status Sinkronisasi</th>
+		</tr>
+		<tr>
+			<th width="12%">NIM SIA</th>
+			<th width="30%">Nama Mahasiswa</th>
+			<th width="20%">Tempat,Tanggal Lahir</th>
+		</tr>
+		<?php $n=1;foreach ($this->listMhsSIA as $dataMhsSIA ) { ?>
+		<?php
+			$nimFeeder="-";
+			$status="Not Found";
+			$warna="yellow";
+			foreach ($this->listMhsFeeder as $dataMhsFeeder) {
+				if($dataMhsSIA['nim']==str_replace(" ", "",$dataMhsFeeder['nipd'])){
+					$nimFeeder = $dataMhsFeeder['nipd'];
+					$status = "Found";
+					$warna="lightgreen";
+				}
+			}
+			?>
+		<tr bgcolor="<?php echo $warna; ?>">
+			<td><?php echo $n;?></td>
+			<?php if($nimFeeder=='-'){ ?>
+			<td><input type="checkbox" name="cb_nim[]" value="<?php echo $dataMhsSIA['nim_ori'];?>"></td>
+			<?php }else{ ?>
+			<td></td>
+			<?php } ?>
+			<td><?php echo $dataMhsSIA['nim_ori']; ?></td>
+			<td><?php echo $dataMhsSIA['nama_mhs']; ?></td>
+			<td><?php echo $dataMhsSIA['tempat_lahir'].", ".$dataMhsSIA['tanggal_lahir_formated']; ?></td>
+			<td><?php echo $nimFeeder; ?></td>
+			<td align="center"><?php echo $status; ?></td>
+		</tr>
+		<?php $n++;} ?>
+	</table>
+</form>
+<?php }else{ ?>
+<table width="99%">
+	<tr>
+		<th rowspan="2" width="4%">No</th>
+		<th  rowspan="2" width="12%">NIM Mahasiswa Feeder (<?php echo count($this->listMhsFeeder) ?>)</th>
+		<th width="12%" colspan="4">Data Mahasiswa di SIA (<?php echo count($this->listMhsSIA) ?>)</th>
+	</tr>
+	<tr>
+		<th width="12%">NIM</th>
+		<th>Nama Mahasiswa</th>
+		<th width="20%">Tempat Tanggal Lahir</th>
+		<th width="10%">Status Sinkronisasi</th>
+	</tr>
+	<?php $n=1;foreach ($this->listMhsFeeder as $dataMhsFeeder ) { ?>
+	<?php
+		$nimSIA="-";
+		$status="Not Found";
+		$warna="yellow";
+		foreach ($this->listMhsSIA as $dataMhsSIA) {
+			if($dataMhsSIA['nim']==str_replace(" ", "",$dataMhsFeeder['nipd'])){
+				$nimSIA = $dataMhsSIA['nim'];
+				$nmSIA = $dataMhsSIA['nm_mhs'];
+				$lahirSIA = $dataMhsSIA['tmp_lhr'].", ".$dataMhsSIA['tgl_lhr_fmt'];
+				$status = "Found";
+				$warna="lightgreen";
+			}
+		}
+		?>
+	<tr bgcolor="<?php echo $warna; ?>">
+		<td><?php echo $n;?></td>
+		<td><?php echo $dataMhsFeeder['nipd']; ?></td>
+		<td><?php echo $nimSIA; ?></td>
+		<td><?php echo $nmSIA; ?></td>
+		<td><?php echo $lahirSIA; ?></td>
+		<td align="center"><?php echo $status; ?></td>
+	</tr>
+	<?php $n++;} ?>
+</table>
+<?php } ?>

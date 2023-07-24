@@ -1,0 +1,90 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Daftar Mata Kuliah Kurikulum Berlaku</h3>
+</div>
+<div class="inqbox-content">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-md-6">
+				<div class="col-sm-4">Program Studi</div>
+				<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+				<div class="col-sm-4">Kurikulum</div>
+				<div class="col-sm-8">: <?php echo $this->nm_kurikulum." (".$this->kd_kurikulum.")";?></div>
+				<div class="col-sm-4">Periode Berlaku</div>
+				<div class="col-sm-8">: <?php echo $this->kd_periode;?></div>
+				<div class="col-sm-4">Semester Normal</div>
+				<div class="col-sm-8">: <?php echo $this->smt_normal;?> Semester</div>
+			</div>
+			<div class="col-md-6">
+				<div class="col-sm-4">SKS Lulus</div>
+				<div class="col-sm-8">: <?php echo $this->sks_l;?> SKS</div>
+				<div class="col-sm-4">SKS Wajib</div>
+				<div class="col-sm-8">: <?php echo $this->sks_w;?> SKS</div>
+				<div class="col-sm-4">SKS Pilihan</div>
+				<div class="col-sm-8">: <?php echo $this->sks_p;?> SKS</div>
+			</div>
+		</div>
+	</div>
+	<div class="table-responsive">
+		<table id="tbkrs" class="table table-bordered table-hover">
+			<?php for ($i=1; $i<=$this->smt_normal; $i++){ ?>
+			<tr>
+				<th colspan="12"><strong>Semester <?php echo $i;?></strong></th>
+			</tr>
+			<tr>
+				<th>No</th>
+				<th>Kode</th>
+				<th>Nama Mata Kuliah</th>
+				<th>TM</th>
+				<th>Prak</th>
+				<th>PL</th>
+				<th>Sim</th>
+				<th>Total</th>
+				<th>Jenis MK</th>
+				<th>Sifat MK</th>
+			</tr>
+			<?php $j=1; $sks_total=0;foreach ($this->listMatkulKur as $dataMk) { ?>
+			<?php if($dataMk['smt_def']==$i){ ?>
+			<tr>
+				<td><?php echo $j;?></td>
+				<td><?php echo $dataMk['kode_mk'];?></td>
+				<td><?php echo $dataMk['nm_mk'];?></td>
+				<td align="center"><?php echo $dataMk['sks_tm'];?></td>
+				<td align="center"><?php echo $dataMk['sks_prak'];?></td>
+				<td align="center"><?php echo $dataMk['sks_prak_lap'];?></td>
+				<td align="center"><?php echo $dataMk['sks_sim'];?></td>
+				<td align="center"><?php echo $dataMk['sks_tot'];?></td>
+				<?php 
+					if($dataMk['a_teori']=='f'){
+						$jns="Praktikum";
+					}else{
+						if($dataMk['a_ta']=='f'){
+							$jns="Teori";
+						}else{
+					$jns="Tugas Akhir";
+						}
+					}
+					?>
+				<td align="center"><?php echo $jns;?></td>
+				<?php 
+					if($dataMk['a_wajib']=='t'){
+						$sft="Wajib";
+					}else{
+						$sft="Pilihan";
+					}
+					?>
+				<td align="center"><?php echo $sft;?></td>
+			</tr>
+			<?php $sks_total=$sks_total+$dataMk['sks_tot'];$j++;} ?>
+			<?php } ?>
+			<tr>
+				<td colspan="7"><strong>Jumlah SKS</strong></td>
+				<td align="center"><strong><?php echo $sks_total;?></strong></td>
+				<td colspan="4"></td>
+			</tr>
+			<?php } ?>
+		</table>
+	</div>
+</div>

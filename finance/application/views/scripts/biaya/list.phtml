@@ -1,0 +1,116 @@
+<div class="tabbable">
+	<ul class="nav nav-tabs padding-18">
+		<?php $i=1;foreach ($this->listStatMsk as $dtStatMsk){?>
+			<?php $active=array();$active[$this->nTab]="active"?>
+			<li class="<?php echo $active[$i];?>">
+				<a data-toggle="tab" href="#<?php echo $dtStatMsk['id_stat_masuk'];?>">
+					<?php echo $dtStatMsk['nm_stat_masuk'];?>
+				</a>
+			</li>
+		<?php $i++;}?>
+	</ul>
+	<div class="tab-content no-border padding-24">
+		<?php $i=1;foreach ($this->listStatMsk as $dtStatMsk){?>		
+		<div id="<?php echo $dtStatMsk['id_stat_masuk'];?>" class="tab-pane in <?php echo $active[$i];?>">
+			<h4>Rincian Biaya Mahasiswa <?php echo $dtStatMsk['nm_stat_masuk'];?></h4>
+			<form class="form-horizontal" role="form" id="frm_<?php echo $i;?>">
+				<div class="form-group">
+					<input type="hidden" id="akt_<?php echo $i;?>" value="<?php echo $this->akt;?>">
+					<input type="hidden" id="prd_<?php echo $i;?>" value="<?php echo $this->prd;?>">
+					<input type="hidden" id="sm_<?php echo $i;?>" value="<?php echo $dtStatMsk['id_stat_masuk'];?>">
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Gelombang Masuk</label>
+					<div class="col-sm-9">
+						<select class="col-xs-10 col-sm-5" id="gel_<?php echo $i;?>">
+							<option value="" disabled="disabled" selected="selected">pilih gelombang masuk</option>
+							<?php foreach ($this->listGel as $dtGel){?>
+							<option value="<?php echo $dtGel['id_gelombang'];?>"><?php echo $dtGel['nm_gelombang']?></option>
+							<?php }?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Komponen Biaya</label>
+					<div class="col-sm-9">
+						<select class="col-xs-10 col-sm-5" id="komp_<?php echo $i;?>">
+							<option value="" disabled="disabled" selected="selected">pilih komponen biaya</option>
+							<?php foreach ($this->listKompBiaya as $dtKomp){?>
+							<?php if($dtKomp['biaya_ta']=='f'){?>
+							<option value="<?php echo $dtKomp['id_komp'];?>"><?php echo $dtKomp['nm_komp']?></option>
+							<?php }?>
+							<?php }?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Paket Biaya</label>
+					<div class="col-sm-9">
+						<select class="col-xs-10 col-sm-5" id="pkt_<?php echo $i;?>">
+							<option value="" disabled="disabled" selected="selected">pilih paket biaya</option>
+							<?php foreach ($this->listPaketBiaya as $dtPkt){?>
+							<option value="<?php echo $dtPkt['id_paket'];?>"><?php echo $dtPkt['nm_paket']?></option>
+							<?php }?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Nominal</label>
+					<div class="col-sm-9">
+						<input type="number" id="nom_<?php echo $i;?>" class="col-xs-10 col-sm-5" placeholder="nominal" min="1" max="10000000000" step="0.01">
+					</div>
+				</div>
+				<div class="clearfix form-actions">
+					<div class="col-md-offset-3 col-md-9">
+						<button class="btn btn-info" type="submit" id="sb_<?php echo $i;?>" sb value="<?php echo $i;?>"><i class="ace-icon fa fa-check bigger-110"></i>Submit</button>
+						&nbsp; &nbsp; &nbsp;
+						<button class="btn" type="reset"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+					</div>
+				</div>
+			</form>
+			<?php foreach ($this->listGel as $dtGel){ ?>
+			<div class="table-header">Gelombang Masuk : <?php echo $dtGel['nm_gelombang'];?></div>
+			<table class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<th class="center" width="5%">No</th>
+						<th class="center">Komponen Biaya</th>
+						<th class="center" width="20%">Paket Biaya</th>
+						<th class="center" width="20%">Nominal</th>
+						<th class="center" width="10%">Semester</th>
+						<th class="center" width="10%">Aksi</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $j=1;foreach ($this->listBiaya as $dtBiaya){?>
+					<?php if(($dtBiaya['id_gelombang']==$dtGel['id_gelombang'])and($dtBiaya['id_stat_masuk']==$dtStatMsk['id_stat_masuk'])){ ?>
+					<tr>
+						<td class="center"><?php echo $j;?></td>
+						<td><?php echo $dtBiaya['nm_komp'];?></td>
+						<td class="center"><?php echo $dtBiaya['nm_paket'];?></td>
+						<td><span class="pull-right"><?php echo number_format($dtBiaya['nominal'],2,',','.');?></span></td>
+						<td class="center">
+							<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/biaya/detil?akt=<?php echo $this->akt;?>&prd=<?php echo $this->prd;?>&sm=<?php echo $dtBiaya['id_stat_masuk'];?>&gel=<?php echo $dtBiaya['id_gelombang'];?>&kom=<?php echo $dtBiaya['id_komp'];?>')"><i class="fa fa-eye"></i></button>
+						</td>
+						<td class="center">
+							<div class="hidden-sm hidden-xs action-buttons">
+								<a class="green" onclick="nav('<?php echo $this->baseUrl;?>/biaya/edit?akt=<?php echo $dtBiaya['id_angkatan'];?>&prd=<?php echo $dtBiaya['kd_prodi'];?>&sm=<?php echo $dtBiaya['id_stat_masuk'];?>&gel=<?php echo $dtBiaya['id_gelombang'];?>&kom=<?php echo $dtBiaya['id_komp'];?>')"><i class="ace-icon fa fa-pencil bigger-130"></i></a>
+								<a class="red" onclick="confirm('Apakah Anda yakin akan menghapus biaya ini ? <strong><?php echo str_replace("'", "\'", $dtBiaya['nm_komp']);?></strong>','<?php echo $this->baseUrl;?>','/ajax/delbiaya',new Array('<?php echo $dtBiaya['id_angkatan'];?>','<?php echo $dtBiaya['kd_prodi'];?>','<?php echo $dtBiaya['id_stat_masuk'];?>','<?php echo $dtBiaya['id_gelombang'];?>','<?php echo $dtBiaya['id_komp'];?>'))"><i class="ace-icon fa fa-trash-o bigger-130"></i></a>
+							</div>
+						</td>
+					</tr>
+					<?php $j++;}?>
+					<?php }?>
+				</tbody>
+			</table>
+			<?php }?>
+		</div>
+		<?php $i++;}?>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("[sb]").on('click',(function() {
+	 x=$(this).val();
+	 ajaxSubmit("frm_"+x,"<?php echo $this->baseUrl;?>","/ajax/insbiaya?frm="+x,"/biaya/list?tab="+x+"&new=","u");
+	  return false;
+	}));
+</script>

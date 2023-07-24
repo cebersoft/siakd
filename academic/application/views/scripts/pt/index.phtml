@@ -1,0 +1,60 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="row">
+	<div class="col-md-3">
+		<div class="box box-primary">
+			<div class="box-body box-profile">
+				<img id="piclogo" class="profile-user-img img-responsive img-rounded" src="<?php echo $this->baseUrl;?>/image/png?url=public/img/logo.png" alt="Logo PT" onerror="this.src='<?php echo $this->baseUrl;?>/image/png?url=public/img/logo_def.png'" style="width:200px;height:200px">
+				<form method="post" id="frm" enctype="multipart/form-data">
+					<div class="box-body">
+						<div class="form-group">
+							<input type="file" id="logo" name="logo" accept="image/png" >
+						</div>
+						<button type="button" class="btn btn-primary btn-block" id="upload">Upload Logo</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title"></h3>
+			</div>
+			<div class="box-body">
+				<strong><i class="fa fa-map-marker margin-r-5"></i> Alamat :</strong>
+				<p class="text-muted"><?php echo $this->alamat;?></p>
+				<strong><i class="fa fa-phone margin-r-5"></i> Telepon :</strong>
+				<p class="text-muted"><?php echo $this->telp;?></p>
+				<strong><i class="fa fa-fax margin-r-5"></i> Fax :</strong>
+				<p class="text-muted"><?php echo $this->fax;?></p>
+				<hr>
+				<strong><i class="fa fa-globe margin-r-5"></i> Website :</strong>
+				<p class="text-muted"><?php echo strtolower($this->web);?></p>
+				<strong><i class="fa fa-envelope margin-r-5"></i> Email :</strong>
+				<p class="text-muted"><?php echo strtolower($this->email);?></p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="box box-info">
+			<div class="box-body">
+				<button class="btn btn-primary btn-xs pull-right" onclick="nav('<?php echo $this->baseUrl;?>/pt/edit')"><i class="fa fa-pencil margin-r-5"></i>Ubah Data</button>
+				<h4 class="callout callout-info">
+					<i class="icon fa fa-university"></i>&nbsp;&nbsp;<?php echo strtoupper($this->nm_pt)." (".$this->nick.") - ".$this->kd_pt;?>
+				</h4>
+				<div class="callout bg-teal">
+					<h4>Visi</h4>
+					<h5><i><?php echo $this->visi;?></i></h5>
+				</div>
+				<div class="callout bg-maroon">
+					<h4>Misi</h4>
+					<?php echo $this->misi;?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$('#upload').on('click', function() {
+	  ajaxUpload('logo','<?php echo $this->baseUrl;?>','/ajax4/upllogo','piclogo','/image/png?url=public/img/logo.png');
+	});
+</script>

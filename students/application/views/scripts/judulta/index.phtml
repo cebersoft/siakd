@@ -1,0 +1,64 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Filter Periode Akademik</h3>
+</div>
+<div class="inqbox-content">
+	<form id="frm" class="form-horizontal">
+		<div class="form-group">
+			<div class="col-sm-4">
+				<select id="sel_per" class="form-control">
+					<option value="" disabled="disabled" selected="selected">pilih periode akademik</option>
+					<?php foreach ($this->listPer as $dtPer){?>
+					<?php 
+						$per="";
+						if($dtPer['kd_periode']==$this->per){
+							$per="selected";
+						}
+					?>
+					<option value="<?php echo $dtPer['kd_periode'];?>" <?php echo $per;?> ><?php echo $dtPer['kd_periode'];?></option>
+					<?php }?>
+				</select>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbkur" class="table table-bordered table-hover">
+			<tr>
+				<th colspan="12"><strong>Periode Akademik <?php echo $this->per;?></strong></th>
+			</tr>
+			<tr>
+				<th width="5%">No</th>
+				<th>Kode</th>
+				<th width="10%">Mata Kuliah</th>
+				<th width="15%">Dosen Pembimbing</th>
+				<th width="15%">Dosen Penguji</th>
+				<th width="40%">Judul Disetujui</th>
+				<th width="5%">Ajukan</th>
+			</tr>
+			<?php $j=1; foreach ($this->listKuliahTa as $data) { ?>
+			<?php if($data['approved']=='t'){ ?>
+			<tr>
+				<td><?php echo $j;?></td>
+				<td><?php echo $data['kode_mk'];?></td>
+				<td><?php echo $data['nm_mk'];?></td>
+				<td><?php echo $data['nm_dosen_pemb1']."<br>".$data['nm_dosen_pemb2']."<br>".$data['nm_dosen_pemb3'];?></td>
+				<td><?php echo $data['nm_dosen_penguji1']."<br>".$data['nm_dosen_penguji2']."<br>".$data['nm_dosen_penguji3']."<br>".$data['nm_dosen_penguji4'];?></td>
+				<td><?php echo $data['judul'];?></td>
+				<td align="center">
+					<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/judulta/new?id=<?php echo $data['kd_kuliah']; ?>')"><i class="fa fa-list"></i></button>
+				</td>
+			</tr>
+			<?php $j++; } } ?>
+		</table>
+	</div>
+</div>
+<script>
+	$('#sel_per').on('change',(function() {
+		per=$('#sel_per').val();
+		nav('<?php echo $this->baseUrl;?>/judulta/index?id='+per);
+	}))
+</script>

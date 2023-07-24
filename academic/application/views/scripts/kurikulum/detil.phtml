@@ -1,0 +1,189 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Kurikulum</h3>
+	</div>
+	<div class="box-body">
+		<div class="col-md-6">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Kurikulum</div>
+			<div class="col-sm-8">: <?php echo $this->nm_kurikulum." (".$this->kd_kurikulum.")";?></div>
+			<div class="col-sm-4">Periode Berlaku</div>
+			<div class="col-sm-8">: <?php echo $this->kd_periode;?></div>
+			<div class="col-sm-4">Semester Normal</div>
+			<div class="col-sm-8">: <?php echo $this->smt_normal;?> Semester</div>
+		</div>
+		<div class="col-md-6">
+			<div class="col-sm-4">SKS Lulus</div>
+			<div class="col-sm-8">: <?php echo $this->sks_l;?> SKS</div>
+			<div class="col-sm-4">SKS Wajib</div>
+			<div class="col-sm-8">: <?php echo $this->sks_w;?> SKS</div>
+			<div class="col-sm-4">SKS Pilihan</div>
+			<div class="col-sm-8">: <?php echo $this->sks_p;?> SKS</div>
+		</div>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kode Mata Kuliah</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="kd_mk" placeholder="kode mata kuliah" maxlength="20">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Nama Mata Kuliah</label>
+					<div class="col-sm-8">
+						<input type="hidden" id="id_kur" value="<?php echo $this->id_kurikulum;?>">
+						<input type="text" id="id_mk" style="display: none;">
+						<input type="text" class="form-control" id="nm_mk" placeholder="klik untuk pilih nama mata kuliah" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/matkul',new Array('id_mk','nm_mk'))">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Jenis Mata Kuliah</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="jns_mk">
+							<option disabled selected value="">pilih jenis mata kuliah</option>
+							<option value="0">Teori Wajib</option>
+							<option value="1">Teori Pilihan</option>
+							<option value="2">Praktikum</option>
+							<option value="3">Tugas Akhir</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Semester</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="smt">
+							<option disabled selected value="">pilih semester</option>
+							<?php for ($i=1; $i<=$this->smt_normal; $i++){ ?>
+							<option value="<?php echo $i;?>"><?php echo $i;?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kelompok Mata Kuliah</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="id_kat">
+							<option disabled selected value="">pilih kelompok mata kuliah</option>
+							<?php foreach ($this->listKatMatkul as $dataKat) {?>
+							<option value="<?php echo $dataKat['id_kat_mk'];?>"><?php echo $dataKat['nm_kat_mk'];?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">SKS Tatap Muka</label>
+					<div class="col-sm-8">
+						<input type="number" class="form-control" id="sks_tm" placeholder="sks tatap muka" min="0" max="8" step="1">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">SKS Praktikum</label>
+					<div class="col-sm-8">
+						<input type="number" class="form-control" id="sks_p" placeholder="sks praktikum" min="0" max="8" step="1">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">SKS Pr. Lapangan</label>
+					<div class="col-sm-8">
+						<input type="number" class="form-control" id="sks_pl" placeholder="sks praktek lapangan" min="0" max="8" step="1">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">SKS Simulasi</label>
+					<div class="col-sm-8">
+						<input type="number" class="form-control" id="sks_s" placeholder="sks simulasi" min="0" max="8" step="1">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box-body">
+			<div class="box-footer col-sm-6">
+				<button type="submit" class="btn btn-primary pull-right col-sm-4" id="btnsbm">Tambah</button>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="reset" class="btn btn-default pull-left col-sm-4" id="btnres">Reset</button>
+			</div>
+		</div>
+	</form>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbkur" class="table table-bordered table-hover">
+				<?php for ($i=1; $i<=$this->smt_normal; $i++){ ?>
+				<tr>
+					<th colspan="12"><strong>Semester <?php echo $i;?></strong></th>
+				</tr>
+				<tr>
+					<th>No</th>
+					<th>Kode</th>
+					<th>Nama Mata Kuliah</th>
+					<th>TM</th>
+					<th>Prak</th>
+					<th>PL</th>
+					<th>Sim</th>
+					<th>Total</th>
+					<th>Jenis MK</th>
+					<th>Sifat MK</th>
+					<th>Kelompok</th>
+					<th>Aksi</th>
+				</tr>
+				<?php $j=1; $sks_total=0;foreach ($this->listMatkulKur as $dataMk) { ?>
+				<?php if($dataMk['smt_def']==$i){ ?>
+				<tr>
+					<td><?php echo $j;?></td>
+					<td><?php echo $dataMk['kode_mk'];?></td>
+					<td><?php echo $dataMk['nm_mk'];?></td>
+					<td><?php echo $dataMk['sks_tm'];?></td>
+					<td><?php echo $dataMk['sks_prak'];?></td>
+					<td><?php echo $dataMk['sks_prak_lap'];?></td>
+					<td><?php echo $dataMk['sks_sim'];?></td>
+					<td><?php echo $dataMk['sks_tot'];?></td>
+					<?php 
+						if($dataMk['a_teori']=='f'){
+							$jns="Praktikum";
+						}else{
+							if($dataMk['a_ta']=='f'){
+								$jns="Teori";
+							}else{
+						$jns="Tugas Akhir";
+							}
+						}
+						?>
+					<td><?php echo $jns;?></td>
+					<?php 
+						if($dataMk['a_wajib']=='t'){
+							$sft="Wajib";
+						}else{
+							$sft="Pilihan";
+						}
+						?>
+					<td><?php echo $sft;?></td>
+					<td><?php echo $dataMk['s_kat_mk']; ?></td>
+					<td align="center">
+						<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/matkulkurikulum/edit?id=<?php echo $dataMk['id_mk_kurikulum'];?>')"><i class="fa fa-pencil"></i></button>
+						<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus mata kuliah ini? <strong><?php echo str_replace("'", "\'", $dataMk['nm_mk']);?></strong>','<?php echo $this->baseUrl;?>','/ajax/delmkkur',new Array('<?php echo $dataMk['id_mk_kurikulum'];?>'))"><i class="fa fa-remove"></i></button>
+					</td>
+				</tr>
+				<?php $sks_total=$sks_total+$dataMk['sks_tot'];$j++;} ?>
+				<?php } ?>
+				<tr>
+					<th colspan="7">Jumlah</th>
+					<th><?php echo $sks_total;?></th>
+					<th colspan="4"></th>
+				</tr>
+				<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/insmkkur","/kurikulum/detil?id=<?php echo $this->id_kurikulum;?>&new=","u");
+	  return false;
+	});
+</script>

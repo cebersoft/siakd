@@ -1,0 +1,153 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Filter Periode Akademik</h3>
+</div>
+<div class="inqbox-content">
+	<form id="frm" class="form-horizontal">
+		<div class="form-group">
+			<div class="col-sm-4">
+				<select id="sel_per" class="form-control">
+					<option value="" disabled="disabled" selected="selected">pilih periode akademik</option>
+					<?php foreach ($this->listPer as $dtPer){?>
+					<?php 
+						$per="";
+						if($dtPer['kd_periode']==$this->per){
+							$per="selected";
+						}
+					?>
+					<option value="<?php echo $dtPer['kd_periode'];?>" <?php echo $per;?> ><?php echo $dtPer['kd_periode'];?></option>
+					<?php }?>
+				</select>
+			</div>
+		</div>
+	</form>
+</div>
+<?php if($this->id!=''){ ?>
+<div class="inqbox-title border-top-danger">
+	 <h5>Form Pengajuan Seminar/Sidang <?php echo $this->nm_mk;?></h5>
+</div>
+<div class="inqbox-content">
+	<form method="post" id="frm2" class="form-horizontal">
+		<div class="form-group">
+ 			<label class="col-sm-2 control-label">Periode Akademik</label>
+ 			<div class="col-sm-6">
+				<input type="text" id="per" class="form-control" value="<?php echo $this->id;?>" readonly="readonly">
+ 			</div>
+ 		</div>
+ 		<div class="form-group">
+			<label class="col-sm-2 control-label">Tanggal</label>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" id="tgl" placeholder="tanggal" readonly="readonly">
+			</div>
+		</div>
+		<div class="form-group">
+ 			<label class="col-sm-2 control-label">Mata Kuliah TA</label>
+ 			<div class="col-sm-6">
+				<select class="form-control" id="kd_kuliah">
+				<option value="" disabled selected>pilih mata kuliah</option>
+				<?php foreach ($this->listKuliahTa as $dtTa){ ?>
+				<option value="<?php echo $dtTa['kd_kuliah'];?>"><?php echo $dtTa['nm_mk'];?></option>
+				<?php }?>
+				</select>
+ 			</div>
+ 		</div>
+		<div class="form-group">
+ 			<label class="col-sm-2 control-label">Kelompok Keilmuan</label>
+ 			<div class="col-sm-6">
+				<select class="form-control" id="kk">
+				<option value="" disabled selected>pilih kelompok keilmuan</option>
+				<?php foreach ($this->listKk as $dtKk){ ?>
+				<option value="<?php echo $dtKk['id_kelompok_keilmuan'];?>"><?php echo $dtKk['nm_kelompok_keilmuan'];?></option>
+				<?php }?>
+				</select>
+ 			</div>
+ 		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">File Lembar Pengesahan (*.pdf, *.doc/x, *.xls/x, *.ppt/x) : Max : 5 Mb</label>
+			<div class="col-sm-10">
+				<input type="file" id="file2" name="file2" accept="application/pdf, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-powerpoint,  application/vnd.openxmlformats-officedocument.presentationml.presentation" required="required">
+			</div>
+		</div>
+ 		<div class="form-group">
+ 			<div class="col-sm-4 col-sm-offset-2">
+ 				<button class="btn btn-white" type="reset">Reset</button>
+ 				<button class="btn btn-primary" type="submit">Submit</button>
+ 			</div>
+ 		</div>
+	</form>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbkur" class="table table-bordered table-hover">
+			<tr>
+				<th width="5%">No</th>
+				<th width="15%">Tanggal Diajukan</th>
+				<th>MK/Kelompok Keilmuan (Lembar Pengesahan)</th>
+				<th width="10%">Ttd Pemb 1</th>
+				<th width="10%">Ttd Pemb 2</th>
+				<th width="10%">Ttd Pemb 3</th>
+				<th width="8%">Status</th>
+				<th width="17%">Catatan Verifikasi</th>
+				<th width="5%">Ver</th>
+				<th width="8%">Aksi</th>
+			</tr>
+			<?php $j=1; foreach ($this->listPrp as $data) { ?>
+			<tr>
+				<td><?php echo $j;?></td>
+				<td><?php echo $data['tgl_prp_ujian_ta0_fmt'];?></td>
+				<td>
+					<?php 
+            					$arrFile=explode(".",$data['nm_doc']);
+        	    				$ext=end($arrFile);
+	            			?>
+					<?php echo $data['nm_mk']." / ".$data['nm_kelompok_keilmuan'];?><br>
+					<a class="btn btn-success btn-xs" href="<?php echo $this->baseUrl;?>/image/anyfile?url=public/file/ta/<?php echo $data['id_prp_ujian_ta0'].".".$ext?>&newname=<?php echo $data['nm_doc'];?>"><i class="fa fa-download">&nbsp;</i><?php echo $data['nm_doc'];?></a>
+				</td>
+				<td><?php echo $data['tgl_mengetahui_pemb1_fmt'];?></td>
+				<td><?php echo $data['tgl_mengetahui_pemb2_fmt'];?></td>
+				<td><?php echo $data['tgl_mengetahui_pemb3_fmt'];?></td>
+				<td>
+					<?php 
+						if(($data['n_approved']==$data['n_approver']) and ($data['n_approved']>0)){
+							echo "APPROVED";
+						}else{
+							echo "PENDING";
+						}
+					?>
+				</td>
+				<td><?php echo $data['arr_note'];?></td>
+				<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/prpujianta/detil?id=<?php echo $data['id_prp_ujian_ta0']; ?>')"><i class="fa fa-list"></i></button></td>
+				<td align="center">
+					<?php if($data['n_approved']==0){ ?>
+					<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin membatalkan pengajuan ini?','<?php echo $this->baseUrl;?>','/ajax2/delprpujianta', new Array ('<?php echo $data['id_prp_ujian_ta0'];?>'))" >Batalkan</button>
+					<?php } ?>
+				</td>
+			</tr>
+			<?php $j++; } ?>
+		</table>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/moment/moment.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script>
+	$(function () {
+	  $('#tgl').datepicker({ format: 'dd MM yyyy', autoclose:true, todayHighlight:true});
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form2.js"></script>
+<script>
+	$("#frm2").submit(function() {
+	  ajaxSubmitUpload("frm2",["file2"],"","/ajax2/insprpujianta","/prpujianta/index?id=<?php echo $this->id;?>&new=","u");
+	  return false;
+	});
+</script>
+<?php } ?>
+<script>
+	$('#sel_per').on('change',(function() {
+		per=$('#sel_per').val();
+		nav('<?php echo $this->baseUrl;?>/prpujianta/index?id='+per);
+	}))
+</script>

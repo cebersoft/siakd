@@ -1,0 +1,13 @@
+</section>
+</div>
+<footer class="main-footer">
+	<div class="pull-right hidden-xs">
+		<div id=loader style=display:none><img id=loadingbar src=<?php echo $this->baseUrl;?>/public/dist/img/loading.gif></div>
+		<a href="http://cebersoft.com" target="new">cebersoft.inc</a>
+	</div>
+	<?php $ses_ac = new Zend_Session_Namespace('ses_ac');?>
+	<strong><a href="http://<?php echo $ses_ac->web;?>" target="new"><?php echo $this->nm_pt;?></a> - <?php echo $ses_ac->alamat;?> &copy; 2016.</strong>
+</footer>
+</html>
+<script src=<?php echo $this->baseUrl?>/public/js/helper.js></script>
+<script src=<?php echo $this->baseUrl?>/public/plugins/slimScroll/jquery.slimscroll.min.js></script>

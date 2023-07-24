@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Mahasiswa Diuji</h3>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbdsbm" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th width="5%">NO</th>
+						<th width="10%">NIM</th>
+						<th width="25%">NAMA MAHASISWA</th>
+						<th width="10%">ANGKATAN</th>
+						<th width="15%">MATA KULIAH</th>
+						<th>JUDUL</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listKuliahTa as $data) { ?>
+					<tr>
+						<td><?php echo $i; ?></td>
+						<td><?php echo $data['nim']; ?></td>
+						<td><?php echo $data['nm_mhs']; ?></td>
+						<td align="center"><?php echo $data['id_angkatan']; ?></td>
+						<td><?php echo $data['nm_mk']; ?></td>
+						<td><?php echo $data['judul']; ?></td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbkls',false,true,true,true,true,false);});</script>

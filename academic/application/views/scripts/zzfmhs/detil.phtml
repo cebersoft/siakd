@@ -1,0 +1,74 @@
+<?php
+	foreach ($this->listMhsSIA as $dataMhsSIA ) {
+		$nm_sia=$dataMhsSIA['nm_mhs'];
+		$tpl_sia=$dataMhsSIA['tmp_lahir'];
+		$tgl_sia=$dataMhsSIA['tgl_lahir'];
+		$jk_sia=$dataMhsSIA['jenis_kelamin'];
+		$kwn_sia=$dataMhsSIA['id_kwn'];
+		$agm_sia=$dataMhsSIA['id_agama'];
+		$ayah_sia=$dataMhsSIA['nm_ayah'];
+		$ibu_sia=$dataMhsSIA['nm_ibu'];
+		$j_ayah_sia=$dataMhsSIA['job_ayah'];
+		$j_ibu_sia=$dataMhsSIA['job_ibu'];
+		$msk_sia=$dataMhsSIA['jns_masuk'];
+		$sks_diakui_sia=$dataMhsSIA['sks_diakui'];
+	 	$nm_pt_asal_sia=$dataMhsSIA['nm_pt_asal'];
+	 	$nm_prodi_asal_sia=$dataMhsSIA['nm_prodi_asal'];
+		$email_sia=$dataMhsSIA['email_lain'];
+		$alamat_sia=$dataMhsSIA['alamat'];
+		$hp_sia=$dataMhsSIA['large_kontak'];
+		$nik_sia=$dataMhsSIA['nik'];
+	}
+	foreach ($this->listMhsFeeder as $dataMhsFeeder) {
+		foreach ($this->listProfMhsFeeder as $dtProf){
+			if($dataMhsFeeder['id_mahasiswa']==$dtProf['id_mahasiswa']){
+				$nm=$dtProf['nama_mahasiswa'];
+				$tpl=$dtProf['tempat_lahir'];
+				$tgl=date_format(date_create($dtProf['tanggal_lahir']),'Y-m-d');
+				$jk=$dtProf['jenis_kelamin'];
+				$kwn=$dtProf['id_negara'];
+				$agm=$dtProf['id_agama'];
+				$ayah=$dtProf['nama_ayah'];
+				$ibu=$dtProf['nama_ibu_kandung'];
+				$j_ayah=$dtProf['id_pekerjaan_ayah'];
+				$j_ibu=$dtProf['id_pekerjaan_ibu'];
+				$email=$dtProf['email'];
+				$nik=$dtProf['nik'];
+				$hp=$dtProf['handphone'];
+				$alamat=$dtProf['jalan'];
+				$msk=$dataMhsFeeder['id_jenis_daftar'];
+			}
+	 	}
+	 	$sks_diakui=$dataMhsFeeder['sks_diakui'];
+	 	$nm_pt_asal=$dataMhsFeeder['nama_perguruan_tinggi_asal'];
+	 	$nm_prodi_asal=$dataMhsFeeder['nama_program_studi_asal'];
+	}
+	$info=
+		"<strong>Data SIA / Data Feeder</strong><br>".
+		"Nama : ".$nm_sia." / ".$nm."<br>".
+		"Tempat Lahir : ".$tpl_sia." / ".$tpl."<br>".
+		"Tanggal Lahir : ".$tgl_sia." / ".$tgl."<br>".
+		"Jenis Kelamin : ".$jk_sia." / ".$jk."<br>".
+		"Kode Kwn : ".$kwn_sia." / ".$kwn."<br>".
+		"Kode Agama : ".$agm_sia." / ".$agm."<br>".
+		"Nama Ayah  : ".$ayah_sia." / ".$ayah."<br>".
+		"Nama Ibu : ".$ibu_sia." / ".$ibu."<br>".
+		"Pekerjaan Ayah : ".$j_ayah_sia." / ".$j_ayah."<br>".
+		"Pekerjaan Ibu : ".$j_ibu_sia." / ".$j_ibu."<br>".
+		"Kode Jenis Masuk : ".$msk_sia." - ".$dataMhsFeeder['id_jenis_daftar']."<br>".
+		"Alamat : ".$alamat_sia." / ".$alamat."<br>".
+		"Email : ".$email_sia." / ".$email."<br>".
+		"Phone : ".$hp_sia." / ".$hp."<br>".
+		"NIK : ".$nik_sia." / ".$nik."<br>"
+	;
+	if($msk_sia==1){
+		echo $info;	
+	}else{
+		echo 
+			$info."<br>".
+			"SKS Diakui : ".$sks_diakui_sia." / ".$sks_diakui."<br>".
+			"PT Asal : ".$nm_pt_asal_sia." / ".$nm_pt_asal."<br>".
+			"Prodi Asal : ".$nm_prodi_asal_sia." / ".$nm_prodi_asal."<br>"
+		;
+	}
+?>

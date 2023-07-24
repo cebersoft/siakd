@@ -1,0 +1,144 @@
+<link rel="stylesheet" href="/public/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="/public/dist/css/AdminLTE.min.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Paket Kelas</h3>
+	</div>
+	<div class="box-body">
+		<div class="col-md-6">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Jenis Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->jns_kelas;?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn." (".$this->kd_dsn.")";?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+		</div>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nama Kelas</label>
+				<input type="hidden" id="kd_kls" value="<?php echo $this->kd_kls;?>">
+				<div class="col-sm-4">
+					<select class="form-control" id="nm_kls">
+						<option disabled selected value="">pilih nama kelas</option>
+						<?php foreach ($this->listNmKls as $dt) { ?>
+						<option value="<?php echo $dt['id_nm_kelas']?>"><?php echo $dt['nm_kelas']?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="submit" class="btn btn-primary pull-right col-sm-2" id="btnsbm">Tambah</button>
+				<button type="reset" class="btn btn-default pull-left col-sm-2" id="btnres">Reset</button>
+			</div>
+		</div>
+	</form>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbkls" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>NO</th>
+						<th>SMT</th>
+						<th>KODE MK</th>
+						<th>NAMA MK</th>
+						<th>NAMA DOSEN</th>
+						<th>NAMA KELAS</th>
+						<th>MAHASISWA</th>
+						<th>AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listPaket as $dataPkt) { ?>
+					<tr>
+						<td><?php echo $i; ?></td>
+						<td><?php echo $dataPkt['smt_def'];?></td>
+						<td><?php echo $dataPkt['kode_mk']; ?></td>
+						<td><?php echo $dataPkt['nm_mk']; ?></td>
+						<td><?php echo $dataPkt['nm_dosen']; ?></td>
+						<td><?php echo $dataPkt['nm_kelas']; ?></td>
+						<td align="center">
+							<button type="button" class="btn btn-info btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/paketkelas/detil?kd=<?php echo $dataPkt['kd_paket_kelas']?>')"><i class="fa fa-eye"></i></button>
+						</td>
+						<td align="center">
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus paket kelas ini?<br><strong><?php echo str_replace("'", "\'", $dataPkt['nm_mk']."<br>".$dataPkt['nm_dosen']."<br>nama kelas : ".$dataPkt['nm_kelas']);?></strong>','<?php echo $this->baseUrl;?>','/ajax2/delpkls',new Array('<?php echo $dataPkt['kd_paket_kelas'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Tim Teaching</h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm2">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nama Dosen</label>
+				<input type="hidden" id="kd_kls2" value="<?php echo $this->kd_kls;?>">
+				<div class="col-sm-4">
+					<select class="form-control select2" id="dsn" sel-2>
+						<option disabled selected value="">pilih dosen</option>
+						<?php foreach ($this->listDsn as $dt) { ?>
+						<option value="<?php echo $dt['kd_dosen']?>"><?php echo $dt['nm_dosen']?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="submit" class="btn btn-primary pull-right col-sm-2" id="btnsbm">Tambah</button>
+				<button type="reset" id="btnres" class="btn btn-default pull-left col-sm-2" id="btnres">Reset</button>
+			</div>
+		</div>
+	</form>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbkls" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th width="5%">NO</th>
+						<th>NAMA DOSEN</th>
+						<th width="8%">AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listTt as $dataTt) { ?>
+					<tr>
+						<td><?php echo $i; ?></td>
+						<td><?php echo $dataTt['nm_dosen'];?></td>
+						<td align="center">
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus dosen ini?<br><strong><?php echo str_replace("'", "\'", $dataTt['nm_dosen']);?></strong>','<?php echo $this->baseUrl;?>','/ajax2/deltt',new Array('<?php echo $dataTt['id_tim_teaching'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax2/inspkls","/paketkelas/list?kd=<?php echo $this->kd_kls;?>&new=","u");
+	  return false;
+	});
+</script>
+<script>
+	$("#frm2").submit(function() {
+	  ajaxSubmit("frm2","<?php echo $this->baseUrl;?>","/ajax2/instt","/paketkelas/list?kd=<?php echo $this->kd_kls;?>&new=","u");
+	  return false;
+	});
+</script>
+<script src="/public/plugins/select2/select2.full.min.js"></script>
+<script>
+	$("#dsn").select2({
+	  placeholder: "pilih dosen"
+	});
+	$("#btnres").click(function(){
+	  $("#dsn").select2('val', '');
+	});
+</script>

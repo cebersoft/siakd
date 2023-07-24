@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		Data Lulusan Belum Mengisi Tracer Study Prodi <?php echo $this->prd;?> Angkatan <?php echo $this->akt;?>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbalm" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th width="15%">NIM</th>
+						<th>NAMA MAHASISWA</th>
+						<th width="15%">TANGGAL LULUS</th>
+						<th width="15%">ANGKATAN</th>
+						<th width="15%">PRODI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listMhs as $dataKuis) { ?>
+					<tr>
+						<td><?php echo $dataKuis['nim']; ?></td>
+						<td><?php echo $dataKuis['nm_mhs']; ?></td>
+						<td align="center"><?php echo $dataKuis['tgl_keluar_fmt']; ?></td>
+						<td align="center"><?php echo $dataKuis['id_angkatan']; ?></td>
+						<td align="center"><?php echo $dataKuis['nm_prodi']; ?></td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbalm',true,true,true,true,true,false);});</script>

@@ -1,0 +1,59 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Daftar Kelas (Online Learning)</h3>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbprd" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th>NO</th>
+					<th>KODE PROGRAM STUDI</th>
+					<th>PROGRAM STUDI</th>
+					<?php foreach ($this->listJnsKelas as $dtJnsKelas) {?>
+					<th><?php echo strtoupper($dtJnsKelas['jns_kelas']); ?></th>
+					<?php } ?>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;foreach ($this->listProdi as $dataProdi) { ?>
+				<tr>
+					<td><?php echo $i; ?></td>
+					<td><?php echo $dataProdi['kd_prodi'];?></td>
+					<td><?php echo $dataProdi['nm_prodi']; ?></td>
+					<?php $j=1;foreach ($this->listJnsKelas as $dtJnsKelas) {?>
+					<td align="center">
+						<form id="frm<?php echo $i.$j;?>" method="post" class="form-inline">
+							<input type="hidden" id="prd<?php echo $i.$j;?>" value="<?php echo $dataProdi['kd_prodi'];?>">
+							<input type="hidden" id="jns<?php echo $i.$j;?>" value="<?php echo $dtJnsKelas['id_jns_kelas'];?>">
+							<select id="per<?php echo $i.$j;?>" class="form-control">
+								<?php foreach ($this->listPeriode as $dtPer) { ?>
+								<?php
+									if($this->per_aktif==$dtPer['kd_periode']){
+										$sel_per="selected";
+									}else{
+										$sel_per="";
+									}
+									?>
+								<option value="<?php echo $dtPer['kd_periode'];?>" <?php echo $sel_per;?> ><?php echo $dtPer['kd_periode'];?></option>
+								<?php } ?>
+							</select>
+							<button id="sb" type="button" class="btn btn-primary btn-sm" sb value="<?php echo $i.$j;?>">view</button>
+						</form>
+					</td>
+					<?php $j++;} ?>
+				</tr>
+				<?php $i++; } ?>
+		</table>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+	$("[sb]").on('click',(function() {
+	 x=$(this).val();
+	 ajaxSubmit("frm"+x,"<?php echo $this->baseUrl;?>","/ajax/showklslms?frm="+x,"/lms/list","s");
+	 	return false;
+	}));
+</script>

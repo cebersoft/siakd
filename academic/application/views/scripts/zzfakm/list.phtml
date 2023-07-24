@@ -1,0 +1,231 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<form id="frm_reg" method="post">
+		<div class="box-body">
+			<?php if($this->opt=='1'){ ?>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<th rowspan="2" width="4%">No</th>
+						<th width="3%">
+							<input type="hidden" id="prd" value="<?php echo $this->prd;?>">
+							<input type="hidden" id="smt" value="<?php echo $this->id_smt;?>">
+						</th>
+						<th colspan="8">
+							Data AKM SIA (<?php echo count($this->listAKMSia) ?>) <?php echo $this->x;?>
+							<button id="transfer" class="btn bg-yellow pull-right">Transfer Data AKM &gt;&gt;</button>
+						</th>
+						<th colspan="6" width="12%">
+							AKM di Feeder (<?php echo count($this->listAkmFeeder) ?>)
+							<button id="updakm" class="btn bg-maroon pull-right">Update Data</button>
+						</th>
+					</tr>
+					<tr>
+						<th><input type="checkbox" name="ckbCheckAll" id="ckbCheckAll" onClick="selectAll(this)"></th>
+						<th width="12%">NIM</th>
+						<th>NAMA MAHASISWA</th>
+						<th width="8%">STATUS MHS</th>
+						<th width="5%">SKS</th>
+						<th width="5%">IPS</th>
+						<th width="5%">SKS TOTAL</th>
+						<th width="5%">IPK</th>
+						<th width="5%">BIAYA</th>
+						<th width="8%">STATUS</th>
+						<th><input type="checkbox" name="ckbCheckAll2" id="ckbCheckAll2" onClick="selectAll2(this)"></th>
+						<th width="8%">STATUS MHS</th>
+						<th width="5%">SKS</th>
+						<th width="5%">IPS</th>
+						<th width="5%">SKS TOTAL</th>
+						<th width="5%">IPK</th>
+						<th width="5%">BIAYA</th>
+					</tr>
+					<?php $n=1;$x=0;$y=0;foreach ($this->listAKMSia as $dataAkmSIA ) { ?>
+					<?php
+						$biaya=0;
+						foreach($this->listBiaya as $dataBiaya){
+							if($dataAkmSIA['nim_ori']==$dataBiaya['nim']){
+								$biaya=$dataBiaya['tot_biaya'];
+							}
+						}
+						$idReg="-";
+						$status="Not Found";
+						$warna="lightyellow";
+						$stFeeder="";
+						$sksFeeder="";
+						$ipsFeeder="";
+						$sksTotFeeder="";
+						$ipkFeeder="";
+						$biayaFeeder="";
+						foreach ($this->listAkmFeeder as $dataAkmFeeder) {
+							if($dataAkmSIA['nim']==str_replace(" ", "",$dataAkmFeeder['nim'])){
+								$idReg = $dataAkmFeeder['id_registrasi_mahasiswa'];
+								$status = "Found";
+								$warna="lightgreen";
+								$stFeeder=$dataAkmFeeder['id_status_mahasiswa'];
+								$sksFeeder=$dataAkmFeeder['sks_semester'];
+								$ipsFeeder=$dataAkmFeeder['ips'];
+								$sksTotFeeder=$dataAkmFeeder['sks_total'];
+								$ipkFeeder=$dataAkmFeeder['ipk'];
+								$biayaFeeder=$dataAkmFeeder['biaya_kuliah_smt'];
+							}
+						}
+						$id_reg="";
+						foreach ($this->listMhsFeeder as $dataMhsFeeder) {
+							if($dataAkmSIA['nim']==str_replace(" ", "",$dataMhsFeeder['nim'])){
+								$id_reg=$dataMhsFeeder['id_registrasi_mahasiswa'];
+							}
+						}
+					?>
+					<tr bgcolor="<?php echo $warna; ?>">
+						<td><?php echo $n;?></td>
+						<?php if($status=='Not Found'){ ?>
+
+						<!--MENAMBAHKAN KOLOM NIM UNTUK MENDAPATKAN ID_REGISTRASI MAHASISWA-->
+						<td>
+							<input type="checkbox" id="cbreg_<?php echo $x;?>" value="<?php echo $id_reg."###".$dataAkmSIA['nim']."###".$dataAkmSIA['stat_periode']."###".$dataAkmSIA['sks']."###".$dataAkmSIA['ips']."###".$dataAkmSIA['sks_all']."###".$dataAkmSIA['ipk']."###".$biaya;?>" cbreg><input type="text" style="display:none;" id="reg_<?php echo $x;?>">
+						</td>
+						<?php $x++;}else{ ?>
+						<td></td>
+						<?php } ?>
+						<td><?php echo $dataAkmSIA['nim']; ?></td>
+						<td><?php echo $dataAkmSIA['nm_mhs']; ?></td>
+						<td align="center"><?php echo $dataAkmSIA['stat_periode']; ?></td>
+						<td align="center"><?php echo intval($dataAkmSIA['sks']); ?></td>
+						<td align="center"><?php echo floatval($dataAkmSIA['ips']); ?></td>
+						<td align="center"><?php echo intval($dataAkmSIA['sks_all']); ?></td>
+						<td align="center"><?php echo floatval($dataAkmSIA['ipk']); ?></td>
+						<td align="center"><?php echo number_format($biaya,2,',','.'); ?></td>
+						<?php if($idReg=='-'){ ?>
+							<td align="center">NOT FOUND</td>
+							<td></td>
+						<?php }else{?>
+							<td align="center">FOUND</td>
+							<?php if(($dataAkmSIA['stat_periode']!=$stFeeder)or(intval($dataAkmSIA['sks'])!=intval($sksFeeder))or(floatval($dataAkmSIA['ips'])!=floatval($ipsFeeder))or(intval($dataAkmSIA['sks_all'])!=intval($sksTotFeeder))or(floatval($dataAkmSIA['ipk'])!=floatval($ipkFeeder))or(floatval($biaya)!=floatval($biayaFeeder))){?>
+							<td class="btn btn-danger"><input type="checkbox" id="cbdtreg_<?php echo $y;?>" value="<?php echo $idReg."###".$dataAkmSIA['stat_periode']."###".$dataAkmSIA['sks']."###".$dataAkmSIA['ips']."###".$dataAkmSIA['sks_all']."###".$dataAkmSIA['ipk']."###".$biaya;?>" cbdtreg><input type="text" style="display:none;" id="dtreg_<?php echo $y;?>"></td>
+							<?php $y++;}else{?>
+							<td class="btn btn-success">OK</td>
+							<?php }?>
+						<?php } ?>
+						<td align="center"><?php echo $stFeeder; ?></td>
+						<td align="center"><?php echo $sksFeeder; ?></td>
+						<td align="center"><?php echo $ipsFeeder; ?></td>
+						<td align="center"><?php echo $sksTotFeeder; ?></td>
+						<td align="center"><?php echo $ipkFeeder; ?></td>
+						<td align="right"><?php echo number_format($biayaFeeder,2,',','.'); ?></td>
+					</tr>
+					<?php $n++;} ?>
+					<input type="hidden" id="x" value="<?php echo $x;?>">
+					<input type="hidden" id="y" value="<?php echo $y;?>">
+				</table>
+			</div>
+			<?php }else{ ?>
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<th rowspan="2" width="4%">No</th>
+						<th  colspan="6" width="12%">AKM di Feeder (<?php echo count($this->listAkmFeeder) ?>)</th>
+						<th width="12%">Data AKM di SIA (<?php echo count($this->listAKMSia) ?>)</th>
+					</tr>
+					<tr>
+						<th width="12%">NIM</th>
+						<th width="5%">STATUS MHS</th>
+						<th width="5%">SKS</th>
+						<th width="5%">IPS</th>
+						<th width="5%">SKS TOTAL</th>
+						<th width="5%">IPK</th>
+						<th width="5%">STATUS</th>
+					</tr>
+					<?php $n=1;foreach ($this->listAkmFeeder as $dataAkmFeeder ) { ?>
+					<?php
+						$idReg="-";
+						$status="Not Found";
+						$warna="lightyellow";
+						foreach ($this->listAKMSia as $dataAkmSIA) {
+							if($dataAkmSIA['nim']==str_replace(" ", "",$dataAkmFeeder['nipd'])){
+								$idReg = $dataAkmSIA['nim'];
+								$status = "Found";
+								$warna="lightgreen";
+							}
+						}
+						?>
+					<tr bgcolor="<?php echo $warna; ?>">
+						<td><?php echo $n;?></td>
+						<td><?php echo $dataAkmFeeder['nipd']; ?></td>
+						<td align="center"><?php echo $dataAkmFeeder['id_stat_mhs']; ?></td>
+						<td align="center"><?php echo $dataAkmFeeder['sks_smt']; ?></td>
+						<td align="center"><?php echo $dataAkmFeeder['ips']; ?></td>
+						<td align="center"><?php echo $dataAkmFeeder['sks_total']; ?></td>
+						<td align="center"><?php echo $dataAkmFeeder['ipk']; ?></td>
+						<td align="center"><?php echo $status; ?></td>
+					</tr>
+					<?php $n++;} ?>
+				</table>
+			</div>
+			<?php } ?>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	$("[cbreg]").on('change',(function() {
+		id=$(this).attr('id');
+		n= id.split('_');
+		if($(this).is(':checked')){
+			$("#reg_"+n[1]).val($(this).val());
+		}else{
+			$("#reg_"+n[1]).val('');
+		}
+	}));
+	$("[cbdtreg]").on('change',(function() {
+		id=$(this).attr('id');
+		n= id.split('_');
+		if($(this).is(':checked')){
+			$("#dtreg_"+n[1]).val($(this).val());
+		}else{
+			$("#dtreg_"+n[1]).val('');
+		}
+	}));
+</script>
+<script>
+	function selectAll(all){
+		var checked = all.checked;
+		var chkBoxes = $("[cbreg]");
+		for (var counter=0;counter<=chkBoxes.length;counter++) {
+			chkBoxes[counter].checked = checked ;
+			a=chkBoxes[counter]
+			id=$(a).attr('id');
+			n= id.split('_');
+			if($(chkBoxes[counter]).is(':checked')){
+				$("#reg_"+n[1]).val($(chkBoxes[counter]).val());
+			}else{
+				$("#reg_"+n[1]).val('');
+			}
+		}
+	}
+	function selectAll2(all){
+		var checked = all.checked;
+		var chkBoxes = $("[cbdtreg]");
+		for (var counter=0;counter<=chkBoxes.length;counter++) {
+			chkBoxes[counter].checked = checked ;
+			a=chkBoxes[counter]
+			id=$(a).attr('id');
+			n= id.split('_');
+			if($(chkBoxes[counter]).is(':checked')){
+				$("#dtreg_"+n[1]).val($(chkBoxes[counter]).val());
+			}else{
+				$("#dtreg_"+n[1]).val('');
+			}
+		}
+	}
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm_reg").submit(function() {
+	  ajaxSubmit("frm_reg","<?php echo $this->baseUrl;?>","/ajax4/insfakm","/zzfakm/list?new=","u");
+	  return false;
+	});
+	$("#updakm").on('click',(function() {
+	  ajaxSubmit("frm_reg","<?php echo $this->baseUrl;?>","/ajax4/updfakm","/zzfakm/list?new=","u");
+	  return false;
+	}));
+</script>

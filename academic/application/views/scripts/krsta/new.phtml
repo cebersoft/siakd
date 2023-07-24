@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Rencana Studi TA</h3>
+	</div>
+	<div class="box-body">
+		<div class="col-md-6">
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->per;?></div>
+			<div class="col-sm-4">NIM</div>
+			<div class="col-sm-8">: <?php echo $this->nim;?></div>
+			<div class="col-sm-4">Nama Mahasiswa</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mhs;?></div>
+			<div class="col-sm-4">Angkatan</div>
+			<div class="col-sm-8">: <?php echo $this->akt;?></div>
+			<div class="col-sm-4">Prodi</div>
+			<div class="col-sm-8">: <?php echo $this->prd;?></div>
+			<div class="col-sm-4">Dosen Wali</div>
+			<div class="col-sm-8">: <?php echo $this->dw;?></div>
+			<form class="form-horizontal" method="post" id="frm">
+				<div class="form-group">
+					<input type="hidden" id="nim" value="<?php echo $this->nim;?>">
+					<label class="col-sm-4 control-label">Paket Kelas TA</label>
+					<div class="col-sm-8">
+						<select id="pkt_kls" class="form-control">
+							<?php $i=1;foreach ($this->listPaketkelasTA as $baris):?>
+							<?php
+								$j=0;
+								foreach ($this->listKuliahTA as $dataKuliah){
+									if($dataKuliah['kd_paket_kelas']==$baris['kd_paket_kelas']){
+										$j++;
+									}
+								}
+								?>
+							<?php if($j==0){ ?>
+							<option value="<?php echo $baris['kd_paket_kelas']?>"><?php echo $baris['nm_mk'];?> (<?php echo $baris['sks_tm']+$baris['sks_prak']+$baris['sks_prak_lap']+$baris['sks_sim'] ?> SKS / <?php echo $baris['nm_kurikulum'];?> )</option>
+							<?php } ?>
+							<?php $i++;endforeach;?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Periode Mulai TA</label>
+					<div class="col-sm-8">
+						<select id="per_mulai" class="form-control">
+							<?php foreach ($this->listPerAktif as $baris):?>
+							<option value="<?php echo $baris['kd_periode']?>"><?php echo $baris['kd_periode'];?> (Periode Saat ini)</option>
+							<?php endforeach;?>
+							<?php foreach ($this->listPeriodeTA as $barisPer):?>
+							<option value="<?php echo $barisPer['kd_periode']?>"><?php echo $barisPer['kd_periode'];?> (Periode <?php echo $barisPer['nm_mk']?>)</option>
+							<?php endforeach;?>
+						</select>
+					</div>
+				</div>
+				<div >
+					<button type="submit" class="btn btn-primary pull-right col-sm-2" id="btnsbm">Tambah</button>
+					<button type="reset" class="btn btn-default pull-left col-sm-2" id="btnres">Reset</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="box-body">
+		<form method="post" id="frm">
+			<input type="hidden" readonly="readonly" id="nim" value="<?php echo $this->nim ?>">
+			<h4 align="center">Paket Kelas TA yang Diambil</h4>
+			<div class="table-responsive">
+				<table id="tbkrs" class="table table-bordered table-hover">
+					<thead>
+						<tr align="center">
+							<th width="5%">No</th>
+							<th width="15%">Kode Mata Kuliah</th>
+							<th>Mata Kuliah</th>
+							<th>SKS</th>
+							<th width="25%">Periode Akademik Dimulai</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php $i=1;$totSksDef=0;$totSksTaken=0;foreach ($this->listKuliahTA as $dataKuliah){ ?>
+						<tr>
+							<td align="center"><?php echo $i ?></td>
+							<td><?php echo $dataKuliah['kode_mk'] ?></td>
+							<td><?php echo $dataKuliah['nm_mk'] ?>/<?php echo $dataKuliah['nm_kurikulum'];?></td>
+							<td align="center"><?php echo ($dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']);?></td>
+							<td><?php echo $dataKuliah['kd_periode_mulai'] ?></td>
+						</tr>
+						<?php $i++; } ?>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax3/inskrsta","/krsta/new?nim=<?php echo $this->nim;?>&per=<?php echo $this->per;?>&new=","u");
+	  return false;
+	});
+</script>

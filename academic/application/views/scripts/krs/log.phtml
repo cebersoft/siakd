@@ -1,0 +1,50 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Rencana Studi</h3>
+	</div>
+	<div class="box-body">
+		<div class="col-md-6">
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->per;?></div>
+			<div class="col-sm-4">NIM</div>
+			<div class="col-sm-8">: <?php echo $this->nim;?></div>
+			<div class="col-sm-4">Nama Mahasiswa</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mhs;?></div>
+			<div class="col-sm-4">Angkatan</div>
+			<div class="col-sm-8">: <?php echo $this->akt;?></div>
+			<div class="col-sm-4">Prodi</div>
+			<div class="col-sm-8">: <?php echo $this->prd;?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->kd_mk." - ".$this->nm_mk;?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn;?></div>
+			<div class="col-sm-4">SKS Default</div>
+			<div class="col-sm-8">: <?php echo $this->sks_def;?></div>
+			<div class="col-sm-4">SKS Diambil</div>
+			<div class="col-sm-8">: <?php echo $this->sks_taken;?></div>
+		</div>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbreg" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>USER</th>
+						<th>AKSI</th>
+						<th>TANGGAL</th>
+						<th>WAKTU</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listLog as $dataLog) { ?>
+					<tr>
+						<td><?php echo $dataLog['nama_aksi']; ?></td>
+						<td><?php echo $dataLog['aksi']; ?></td>
+						<td align="center"><?php echo $dataLog['tanggal_aksi']; ?></td>
+						<td align="center"><?php echo $dataLog['waktu_aksi']; ?></td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>

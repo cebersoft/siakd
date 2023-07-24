@@ -1,0 +1,160 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<form id="frm_trf" method="post">
+		<div class="box-body">
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover">
+					<tr>
+						<th rowspan="2" width="4%">No</th>
+						<th width="3%">
+							<input type="hidden" id="prd" value="<?php echo $this->prd;?>">
+						</th>
+						<th colspan="5">
+							Data Nilai Transfer SIA (<?php echo count($this->listMhsSia) ?>)
+							<button id="transfer" class="btn bg-yellow pull-right">Transfer Data Nilai &gt;&gt;</button>
+						</th>
+						<th colspan="3">
+							Nilai di Feeder (<?php echo count($this->listMhsFeeder) ?>)
+							<button id="updtrf" class="btn bg-maroon pull-right">Update Data</button>
+						</th>
+					</tr>
+					<tr>
+						<th width="3%"><input type="checkbox" name="ckbCheckAll" id="ckbCheckAll" onClick="selectAll(this)"></th>
+						<th width="8%">NIM</th>
+						<th>NAMA</th>
+						<th width="15%">DATA ASAL</th>
+						<th width="15%">DATA KONVERSI</th>
+						<th width="5%">STATUS</th>
+						<th width="3%"><input type="checkbox" name="ckbCheckAll2" id="ckbCheckAll2" onClick="selectAll2(this)"></th>
+						<th width="15%">DATA ASAL</th>
+						<th width="15%">DATA KONVERSI</th>
+					</tr>
+					<?php $n=1;$x=0;$y=0;foreach ($this->listMhsSia as $dataSIA) { ?>
+					<?php
+						$idReg="-";
+						$status="Not Found";
+						$warna="lightyellow";
+						$mkasalFeeder="";
+						$sksasalFeeder="";
+						$nhurufasalFeeder="";
+						$mktoFeeder="";
+						$skstoFeeder="";
+						$nhuruftoFeeder="";
+						$nangkatoFeeder="";
+						$value="NOK";
+						foreach ($this->listMhsFeeder as $dataMhsFeeder) {
+							if(($dataSIA['nim']==str_replace(" ", "",$dataMhsFeeder['nim'])) and ($dataSIA['kode_mk']==$dataMhsFeeder['kode_matkul_diakui'])){
+								$idReg = $dataMhsFeeder['id_registrasi_mahasiswa'];
+								$status = "Found";
+								$warna="lightgreen";
+								$mkasalFeeder=$dataMhsFeeder['kode_mata_kuliah_asal']."(".$dataMhsFeeder['nama_mata_kuliah_asal'].")";
+								$sksasalFeeder=$dataMhsFeeder['sks_mata_kuliah_asal'];
+								$nhurufasalFeeder=$dataMhsFeeder['nilai_huruf_asal'];
+								$mktoFeeder=$dataMhsFeeder['kode_matkul_diakui']."(".$dataMhsFeeder['nama_mata_kuliah_diakui'].")";
+								$skstoFeeder=$dataMhsFeeder['sks_mata_kuliah_diakui'];
+								$nhuruftoFeeder=$dataMhsFeeder['nilai_huruf_diakui'];
+								$nangkatoFeeder=$dataMhsFeeder['nilai_angka_diakui'];
+								if((strtoupper($dataSIA['kode_mk_asal'])==strtoupper($dataMhsFeeder['kode_mata_kuliah_asal'])) and (strtoupper($dataSIA['nm_mk_asal'])==strtoupper($dataMhsFeeder['nama_mata_kuliah_asal'])) ){
+									$value="OK";
+								}
+							}
+						}
+					?>
+					<tr bgcolor="<?php echo $warna; ?>">
+						<td><?php echo $n;?></td>
+						<?php if($status=='Not Found'){ ?>
+						<td>
+							<input type="checkbox" id="cbreg_<?php echo $x;?>" value="<?php echo $id_reg."###".$dataSIA['nim']."###".$dataSIA['kode_mk_asal']."###".$dataSIA['nm_mk_asal']."###".$dataSIA['sks_asal']."###".$dataSIA['indeks_asal']."###".$dataSIA['id_mk_kurikulum']."###".$dataSIA['sks_konversi']."###".$dataSIA['indeks']."###".$dataSIA['bobot'];?>" cbreg><input type="text" style="display:none;" id="reg_<?php echo $x;?>">
+						</td>
+						<?php $x++;}else{ ?>
+						<td></td>
+						<?php } ?>
+						<td><?php echo $dataSIA['nim']; ?></td>
+						<td><?php echo $dataSIA['nm_mhs']; ?></td>
+						<td>
+							<?php echo $dataSIA['kode_mk_asal']."(".$dataSIA['nm_mk_asal'].") ".$dataSIA['sks_asal']." SKS. Nilai : ".$dataSIA['indeks_asal']; ?> 
+						</td>
+						<td>
+							<?php echo $dataSIA['kode_mk']."(".$dataSIA['nm_mk'].") ".$dataSIA['sks_konversi']." SKS. Nilai : ".$dataSIA['indeks']."/".$dataSIA['bobot']; ?> 
+						</td>
+						<?php if($idReg=='-'){ ?>
+							<td align="center">NOT FOUND</td>
+							<td></td>
+						<?php }else{?>
+							<td align="center">FOUND</td>
+							<?php if($value=='OK'){ ?>
+							<td class="btn btn-success">OK</td>
+							<?php }else{ ?>
+							<td><input type="checkbox" id="cbval_<?php echo $y;?>" value="<?php echo $id_trf."###".$dataMhsFeeder['id_transfer']."###".$dataSIA['kode_mk_asal']."###".$dataSIA['nm_mk_asal']."###".$dataSIA['sks_asal']."###".$dataSIA['indeks_asal']."###".$dataSIA['id_mk_kurikulum']."###".$dataSIA['sks_konversi']."###".$dataSIA['indeks']."###".$dataSIA['bobot'];?>" cbval><input type="text" style="display:none;" id="val_<?php echo $y;?>"></td>
+							<?php $y++;} ?>
+						<?php } ?>
+						<td><?php echo $mkasalFeeder." ".$sksasalFeeder." SKS. Nilai : ".$nhurufasalFeeder; ?></td>
+						<td><?php echo $mktoFeeder." ".$skstoFeeder." SKS. Nilai : ".$nhuruftoFeeder."/".$nangkatoFeeder; ?></td>					
+					</tr>
+					<?php $n++;} ?>
+					<input type="hidden" id="x" value="<?php echo $x;?>">
+					<input type="hidden" id="y" value="<?php echo $y;?>">
+				</table>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	$("[cbreg]").on('change',(function() {
+		id=$(this).attr('id');
+		n= id.split('_');
+		if($(this).is(':checked')){
+			$("#reg_"+n[1]).val($(this).val());
+		}else{
+			$("#reg_"+n[1]).val('');
+		}
+	}));
+	$("[cbval]").on('change',(function() {
+		id=$(this).attr('id');
+		n= id.split('_');
+		if($(this).is(':checked')){
+			$("#val_"+n[1]).val($(this).val());
+		}else{
+			$("#val_"+n[1]).val('');
+		}
+	}));
+</script>
+<script>
+	function selectAll(all){
+		var checked = all.checked;
+		var chkBoxes = $("[cbreg]");
+		for (var counter=0;counter<=chkBoxes.length;counter++) {
+			chkBoxes[counter].checked = checked ;
+			a=chkBoxes[counter]
+			id=$(a).attr('id');
+			n= id.split('_');
+			if($(chkBoxes[counter]).is(':checked')){
+				$("#reg_"+n[1]).val($(chkBoxes[counter]).val());
+			}else{
+				$("#reg_"+n[1]).val('');
+			}
+		}
+	}
+	function selectAll2(all){
+		var checked = all.checked;
+		var chkBoxes = $("[cbval]");
+		for (var counter=0;counter<=chkBoxes.length;counter++) {
+			chkBoxes[counter].checked = checked ;
+			a=chkBoxes[counter]
+			id=$(a).attr('id');
+			n= id.split('_');
+			if($(chkBoxes[counter]).is(':checked')){
+				$("#val_"+n[1]).val($(chkBoxes[counter]).val());
+			}else{
+				$("#val_"+n[1]).val('');
+			}
+		}
+	}
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm_mhs").submit(function() {
+	  ajaxSubmit("frm_trf","<?php echo $this->baseUrl;?>","/ajax4/insfntrf","/zzfntrf/list?new=","u");
+	  return false;
+	});
+</script>

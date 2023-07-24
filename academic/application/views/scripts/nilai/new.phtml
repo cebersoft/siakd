@@ -1,0 +1,150 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Nilai Mahasiswa</h3>
+	</div>
+	<div class="box-body">
+		<div class="col-md-6">
+			<div class="col-sm-4">NIM</div>
+			<div class="col-sm-8">: <?php echo $this->nim;?></div>
+			<div class="col-sm-4">Nama</div>
+			<div class="col-sm-8">: <?php echo $this->nm;?></div>
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Nama Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->nm_kelas." (".$this->jns_kelas.")";?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn;?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+			<div class="col-sm-4">Nilai Mutu/Bobot</div>
+			<div class="col-sm-8">: <?php echo $this->index;?></div>
+			<div class="col-sm-12 label label-<?php echo $this->label;?>">STATUS: <?php echo $this->status;?></div>
+		</div>
+	</div>
+	<?php
+		if($this->p_tot!=100){
+		  $class="danger";
+		  $alert="Total parameter belum mencapai 100%, edit di menu kelas agar total mencapai 100!";
+		  $icon="warning";
+		}else{
+		  $class="success";
+		  $alert="Total parameter sudah tepat 100%, sudah dapat digunakan untuk perhitungan nilai";
+		  $icon="check";
+		}
+		?>
+	<div class="box-body">
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="table-responsive col-sm-6">
+				<div class="box-footer">
+					<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+					<div class="btn-group pull-right">
+						<?php
+							if($this->status=="FIX"){
+							  $btn="Unfix";
+							  $st=0;
+							}else{
+							  $btn="Fix";
+							  $st=1;
+							}
+							?>
+						<button type="submit" class="btn btn-primary">Simpan</button>
+						<button type="button" onclick="confirm('Apakah Anda yakin akan mengubah status FIX nilai ini?','<?php echo $this->baseUrl;?>','/ajax3/fixnlm',new Array('<?php echo $this->kd_kuliah;?>','<?php echo $st;?>'))" class="btn btn-success"><?php echo $btn;?> Nilai</button>
+						<button type="button" onclick="confirm('Apakah Anda yakin akan menunda nilai ini?','<?php echo $this->baseUrl;?>','/ajax3/fixnlm',new Array('<?php echo $this->kd_kuliah;?>','2'))" class="btn btn-warning">Tunda Nilai</button>
+						<button type="button" onclick="confirm('Apakah Anda yakin akan menghapus seluruh komponen nilai ini? Master delete akan membuat semua komponen nilai menjadi 0','<?php echo $this->baseUrl;?>','/ajax3/delnlm',new Array('<?php echo $this->kd_kuliah;?>'))" class="btn btn-danger">Master Delete</button>
+					</div>
+					<input type="hidden" id="kd_kuliah" value="<?php echo $this->kd_kuliah;?>">
+				</div>
+				<table id="tbprm" class="table table-bordered table-hover">
+					<tr>
+						<th width="35%">Nama Parameter</th>
+						<th width="30%">Persentase (%)</th>
+						<th width="35%">Nilai</th>
+					</tr>
+					<tr>
+						<th><?php echo $this->nm_p1;?></th>
+						<th align="right"><?php echo $this->p_p1;?>%</th>
+						<th><input type="number" class="form-control" id="p1" value="<?php echo $this->p1;?>" min="0" max="100" step="0.01"></th>
+					</tr>
+					<tr>
+						<th><?php echo $this->nm_p2;?></th>
+						<th align="right"><?php echo $this->p_p2;?>%</th>
+						<th><input type="number" class="form-control" id="p2" value="<?php echo $this->p2;?>" min="0" max="100" step="0.01"></th>
+					</tr>
+					<tr>
+						<th><?php echo $this->nm_p3;?></th>
+						<th align="right"><?php echo $this->p_p3;?>%</th>
+						<th><input type="number" class="form-control" id="p3" value="<?php echo $this->p3;?>" min="0" max="100" step="0.01"></th>
+					</tr>
+					<tr>
+						<th><?php echo $this->nm_p4;?></th>
+						<th align="right"><?php echo $this->p_p4;?>%</th>
+						<th><input type="number" class="form-control" id="p4" value="<?php echo $this->p4;?>" min="0" max="100" step="0.01"></th>
+					</tr>
+					<tr>
+						<th>UTS</th>
+						<th align="right"><?php echo $this->p_uts;?>%</th>
+						<th><input type="number" class="form-control" id="uts" value="<?php echo $this->uts;?>" min="0" max="100" step="0.01"></th>
+					</tr>
+					<tr>
+						<th><?php echo $this->nm_p5;?></th>
+						<th align="right"><?php echo $this->p_p5;?>%</th>
+						<th><input type="number" class="form-control" id="p5" value="<?php echo $this->p5;?>" min="0" max="100" step="0.01"></th>
+					</tr>
+					<tr>
+						<th><?php echo $this->nm_p6;?></th>
+						<th align="right"><?php echo $this->p_p6;?>%</th>
+						<th><input type="number" class="form-control" id="p6" value="<?php echo $this->p6;?>" min="0" max="100" step="0.01"></th>
+					</tr>
+					<tr>
+						<th><?php echo $this->nm_p7;?></th>
+						<th align="right"><?php echo $this->p_p7;?>%</th>
+						<th><input type="number" class="form-control" id="p7" value="<?php echo $this->p7;?>" min="0" max="100" step="0.01"></th>
+					</tr>
+					<tr>
+						<th><?php echo $this->nm_p8;?></th>
+						<th align="right"><?php echo $this->p_p8;?>%</th>
+						<th><input type="number" class="form-control" id="p8" value="<?php echo $this->p8;?>" min="0" max="100" step="0.01"></th>
+					</tr>
+					<tr>
+						<th>UAS</th>
+						<th align="right"><?php echo $this->p_uas;?>%</th>
+						<th><input type="number" class="form-control" id="uas" value="<?php echo $this->uas;?>" min="0" max="100" step="0.01"></th>
+					</tr>
+					<tr>
+						<th>Total</th>
+						<th align="right"><strong><?php echo $this->p_tot;?>%</strong></th>
+						<th align="center"><strong><?php echo $this->nilai_tot;?></strong></th>
+					</tr>
+				</table>
+			</div>
+			<div class="col-sm-6">
+				<h5 class="callout callout-<?php echo $class;?>"><i class="icon fa fa-<?php echo $icon;?>"></i>&nbsp;&nbsp;<?php echo $alert;?></h5>
+				<a href="<?php echo $this->baseUrl;?>/kelas/detil?id=<?php echo $this->kd_kelas;?>" target="_blank" class="button btn btn-info">Link Kelas</a><br><br>
+				<h5 class="callout callout-info"><i class="icon fa fa-info"></i>&nbsp;&nbsp;Catatan Dosen : <?php echo $this->note;?></h5>
+				<table id="tbprm" class="table table-bordered table-hover">
+					<tr>
+						<th width="35%">Nilai</th>
+						<th width="30%">Huruf</th>
+						<th width="35%">Bobot</th>
+					</tr>
+					<?php foreach ($this->listAturan as $dtRange) { ?>
+					<tr align="center">
+						<td>&gt;= <?php echo $dtRange['nilai_min'];?></td>
+						<td><?php echo $dtRange['indeks'];?></td>
+						<td><?php echo $dtRange['bobot'];?></td>
+					</tr>
+					<?php } ?>
+				</table>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax3/updnlm","/nilai/new?id=<?php echo $this->kd_kuliah;?>&new=","u");
+	  return false;
+	});
+</script>

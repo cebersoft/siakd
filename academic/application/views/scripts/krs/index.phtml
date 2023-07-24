@@ -1,0 +1,214 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Rencana Studi</h3>
+	</div>
+	<div class="box-body">
+		<h5 class="callout callout-info">
+			<i class="icon fa fa-info-circle"></i>
+			KRS menampilkan mata kuliah yang diambil mahasiswa, tetapi untuk menambahkan mata kuliah khusus TA, masuk ke menu <a class="btn btn-primary" onclick="nav('<?php echo $this->baseUrl ?>/krsta/new?nim=<?php echo $this->nim;?>&per=<?php echo $this->per;?>')">Registrasi Mata Kuliah TA</a>
+		</h5>
+		<div class="col-md-6">
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->per;?></div>
+			<div class="col-sm-4">NIM</div>
+			<div class="col-sm-8">: <?php echo $this->nim;?></div>
+			<div class="col-sm-4">Nama Mahasiswa</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mhs;?></div>
+			<div class="col-sm-4">Angkatan</div>
+			<div class="col-sm-8">: <?php echo $this->akt;?></div>
+			<div class="col-sm-4">Prodi</div>
+			<div class="col-sm-8">: <?php echo $this->prd;?></div>
+			<div class="col-sm-4">Dosen Wali</div>
+			<div class="col-sm-8">: <?php echo $this->dw;?></div>
+		</div>
+		<div class="col-md-6">
+			<h5 class="alert alert-info">Copy KRS dari : </h5>
+			<form method="post" id="frmcpy" class="form-horizontal">
+				<div class="form-group">
+					<input type="text" id="akt" value="<?php echo $this->akt;?>" style="display:none;">
+					<input type="text" id="prd" value="<?php echo $this->kd_prd;?>" style="display:none;">
+					<input type="text" id="per" value="<?php echo $this->per;?>" style="display:none;">
+					<input type="text" id="nim_to" value="<?php echo $this->nim;?>" style="display:none;">
+					<label class="col-sm-4 control-label">NIM</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="nim_from" placeholder="klik untuk pilih mahasiswa" maxlength="20" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/mahasiswa',new Array('nim_from','nm_mhs'), new Array('akt','prd'))">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Nama Mahasiswa</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="nm_mhs" placeholder="terisi otomatis dari pilihan mahasiswa" readonly>
+					</div>
+				</div>
+				<div class="box-footer">
+					<button type="submit" id="sb" class="btn btn-primary pull-left col-sm-4">Copy KRS</button>
+					<button type="reset" class="btn btn-default pull-right col-sm-4">Reset</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="box-body">
+		<form method="post" id="frm">
+			<input type="hidden" readonly="readonly" id="nim" value="<?php echo $this->nim ?>">
+			<h4 align="center">Tabel Kartu Studi Mahasiswa</h4>
+			<h4 class="label label-info">(*) Klik pada angka SKS untuk mengubah jumlah SKS yang diambil</h4>
+			<div class="table-responsive">
+				<table id="tbkrs" class="table table-bordered table-hover">
+					<tr class="bg-maroon" align="center">
+						<td rowspan="3" width="5%">No</td>
+						<td colspan="4">Mata Kuliah</td>
+						<td colspan="2">Dosen</td>
+						<td rowspan="3">Nama Kelas</td>
+						<td rowspan="3">Status</td>
+						<td rowspan="3" width="10%">Aksi</td>
+						<td rowspan="3" width="5%">Log</td>
+					</tr>
+					<tr class="bg-maroon" align="center">
+						<td width="8%" rowspan="2">Kode Mata Kuliah</td>
+						<td width="18%" rowspan="2">Nama Mata Kuliah</td>
+						<td colspan="2">* SKS</td>
+						<td width="10%" rowspan="2">Kode Dosen</td>
+						<td width="20%" rowspan="2">Nama Dosen</td>
+					</tr>
+					<tr class="bg-maroon" align="center">
+						<td width="5%">Default</td>
+						<td width="5%">Taken</td>
+					</tr>
+					<?php $i=1;$totSksDef=0;$totSksTaken=0;$totSksTakenApp=0;foreach ($this->listKuliah as $dataKuliah){ ?>
+					<tr>
+						<td align="center"><?php echo $i ?></td>
+						<td><?php echo $dataKuliah['kode_mk'] ?></td>
+						<td><?php echo $dataKuliah['nm_mk'] ?></td>
+						<td align="center"><?php echo ($dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']);?></td>
+						<td align="center"><a class="badge bg-aqua" onclick="nav('<?php echo $this->baseUrl;?>/krs/edit?id=<?php echo $dataKuliah['kd_kuliah'];?>')"><?php echo $dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']-$dataKuliah['sks_deducted'];?></a></td>
+						<td align="center"><?php echo $dataKuliah['kd_dosen'];?></td>
+						<td><?php echo $dataKuliah['nm_dosen'] ?></td>
+						<td align="center"><?php echo $dataKuliah['nm_kelas']."/".$dataKuliah['nm_kurikulum'];?></td>
+						<?php
+							if($dataKuliah['approved']=='t'){
+								$ap = "check-square-o";
+								$totSksTakenApp=$totSksTakenApp+($dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']-$dataKuliah['sks_deducted']);
+							}else{
+								$ap = "warning";
+							}
+							?>
+						<td align="center"><i class="fa fa-<?php echo $ap;?>"></i></td>
+						<td align="center">
+							<?php if($dataKuliah['approved']=='t'){ ?>
+							<button type="button" class="btn btn-warning btn-xs" onclick="confirm('Apakah anda yakin mengubah status mata kuliah <b><?php echo str_replace("'", "\'", $dataKuliah['nm_mk']);?> menjadi DISAPPROVED?','<?php echo $this->baseUrl;?>','/ajax3/updkrsstat',new Array('f','<?php echo $dataKuliah['kd_kuliah'];?>'))">Disapprove</button>
+							<?php }else{ ?>
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah anda yakin menghapus mata kuliah <b><?php echo str_replace("'", "\'", $dataKuliah['nm_mk']);?></b> dari <b><?php echo str_replace("'", "\'", $this->nm_mhs);?></b>','<?php echo $this->baseUrl;?>','/ajax3/delkrs',new Array('<?php echo $dataKuliah['kd_kuliah'];?>'))"><i class="fa fa-remove"></i></button>
+							<button type="button" class="btn btn-success btn-xs" onclick="confirm('Apakah anda yakin mengubah status mata kuliah <b><?php echo str_replace("'", "\'", $dataKuliah['nm_mk']);?> menjadi APPROVED?','<?php echo $this->baseUrl;?>','/ajax3/updkrsstat',new Array('t','<?php echo $dataKuliah['kd_kuliah'];?>'))">Approve</button>
+							<?php } ?>
+						</td>
+						<td align="center"><button type="button" class="btn btn-success btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/krs/log?id=<?php echo $dataKuliah['kd_kuliah'];?>&ta=0')"><i class="fa fa-eye"></i></button></td>
+					</tr>
+					<?php $totSksDef=$totSksDef+($dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']);$totSksTaken=$totSksTaken+($dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']-$dataKuliah['sks_deducted']);$i++;}?>
+					<?php $j=$i;$totSksDefTA=0;$totSksTakenTA=0;$totSksTakenTAApp=0;foreach ($this->listKuliahTA as $dataKuliahTA){ ?>
+					<tr>
+					<td align="center"><?php echo $j ?></td>
+					<td><?php echo $dataKuliahTA['kode_mk'] ?></td>
+					<td><?php echo $dataKuliahTA['nm_mk'] ?></td>
+					<td align="center"><?php echo ($dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']);?></td>
+					<td align="center"><?php echo $dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']-$dataKuliahTA['sks_deducted'];?></td>
+					<td align="center"><?php echo $dataKuliahTA['kd_dosen'];?></td>
+					<td><?php echo $dataKuliahTA['nm_dosen'] ?></td>
+					<td align="center"><?php echo $dataKuliahTA['nm_kelas'];?> (Periode Mulai : <?php echo $dataKuliahTA['kd_periode_mulai'];?>/<?php echo $dataKuliahTA['nm_kurikulum'];?>)</td>
+					<?php
+						if($dataKuliahTA['approved']=='t'){
+							$ap = "check-square-o";
+							$totSksTakenTAApp=$totSksTakenTAApp+($dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']-$dataKuliahTA['sks_deducted']);
+						}else{
+							$ap = "warning";
+						}
+						?>
+					<td align="center"><i class="fa fa-<?php echo $ap;?>"></i></td>
+					<td align="center">
+					<?php if($dataKuliahTA['approved']=='t'){ ?>
+					<button type="button" class="btn btn-warning btn-xs" onclick="confirm('Apakah anda yakin mengubah status mata kuliah <b><?php echo str_replace("'", "\'", $dataKuliahTA['nm_mk']);?> menjadi DISAPPROVED?','<?php echo $this->baseUrl;?>','/ajax3/updkrsstatta',new Array('f','<?php echo $dataKuliahTA['kd_kuliah'];?>'))">Disapprove</button>
+					<?php }else{ ?>
+					<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah anda yakin menghapus mata kuliah <b><?php echo str_replace("'", "\'", $dataKuliahTA['nm_mk']);?></b> dari <b><?php echo str_replace("'", "\'", $this->nm_mhs);?></b>','<?php echo $this->baseUrl;?>','/ajax3/delkrsta',new Array('<?php echo $dataKuliahTA['kd_kuliah'];?>'))"><i class="fa fa-remove"></i></button>
+					<button type="button" class="btn btn-success btn-xs" onclick="confirm('Apakah anda yakin mengubah status mata kuliah <b><?php echo str_replace("'", "\'", $dataKuliahTA['nm_mk']);?> menjadi APPROVED?','<?php echo $this->baseUrl;?>','/ajax3/updkrsstatta',new Array('t','<?php echo $dataKuliahTA['kd_kuliah'];?>'))">Approve</button>
+					<?php } ?>
+					</td>
+					<td align="center"><button type="button" class="btn btn-success btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/krs/log?id=<?php echo $dataKuliahTA['kd_kuliah'];?>&ta=1')"><i class="fa fa-eye"></i></button></td>
+					</tr>
+					<?php $totSksDefTA=$totSksDefTA+($dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']);$totSksTakenTA=$totSksTakenTA+($dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']-$dataKuliahTA['sks_deducted']);$j++;}?>
+					<tr class="bg-maroon">
+					<td align="center" colspan="3"><b>Jumlah</b></td>
+					<td align="center"><?php echo $totSksDef+$totSksDefTA;?></td>
+					<td align="center"><?php echo $totSksTaken+$totSksTakenTA;?></td>
+					<td colspan="3"><strong>Jumlah SKS Approved</strong></td>
+					<td align="center"><strong><?php echo $totSksTakenApp+$totSksTakenTAApp;?></strong></td>
+					<td colspan="2"></td>
+					</tr>	
+				</table>
+			</div>
+			<div class="box-footer">
+			<button type="submit" id="sb" class="btn btn-primary pull-left col-sm-2">Tambahkan</button>
+			<button type="reset" class="btn btn-default pull-right col-sm-2">Reset</button>
+			</div>
+			<div class="table-responsive">
+				<h4 align="center">Tabel Paket Kelas, Periode <?php echo $this->per;?></h4>
+				<table id="tbpkls" class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th>*</th>
+							<th>Nama Kelas</th>
+							<th>Nama Dosen</th>
+							<th>Mata Kuliah</th>
+							<th>Semester</th>
+							<th>Beban SKS</th>
+						</tr>
+					</thead>
+					<input type="hidden" id="n" value="<?php echo count($this->listPaketkelas)-count($this->listKuliah);?>">
+					<?php $n=0;$i=1;foreach ($this->listPaketkelas as $baris):?>
+					<?php
+						$j=0;
+						foreach ($this->listKuliah as $dataKuliah){
+							if($dataKuliah['kd_paket_kelas']==$baris['kd_paket_kelas']){
+								$j++;
+							}
+						}
+						?>
+					<?php if($j==0){ ?>
+					<tbody>
+						<tr>
+							<td><input type="checkbox" id="cbpk_<?php echo $n;?>" value="<?php echo $baris['kd_paket_kelas'] ?>" cbpk><input type="text" style="display:none;" id="paket_<?php echo $n;?>"></td>
+							<td><?php echo $baris['nm_kelas']." (".$baris['jns_kelas'].") / ".$baris['nm_kurikulum'];?></td>
+							<td><?php echo $baris['nm_dosen'] ?></td>
+							<td><?php echo $baris['nm_mk'] ?></td>
+							<td align="center"><?php echo $baris['smt_def'] ?></td>
+							<td align="center"><?php echo $baris['sks_tm']+$baris['sks_prak']+$baris['sks_prak_lap']+$baris['sks_sim'] ?></td>
+						</tr>
+						<?php $n++;} ?>
+						<?php $i++;endforeach;?>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+	$("[cbpk]").on('change',(function() {
+		id=$(this).attr('id');
+		n= id.split('_');
+		if($(this).is(':checked')){
+			$("#paket_"+n[1]).val($(this).val());
+		}else{
+			$("#paket_"+n[1]).val('');
+		}
+	}))
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax3/inskrs","/krs/index?nim=<?php echo $this->nim;?>&per=<?php echo $this->per;?>&new=","u");
+	  return false;
+	});
+	$("#frmcpy").submit(function(){
+		ajaxSubmit("frmcpy","<?php echo $this->baseUrl;?>","/ajax3/copykrs","/krs/index?nim=<?php echo $this->nim;?>&per=<?php echo $this->per;?>&new=","u");
+	  return false;
+	});
+</script>

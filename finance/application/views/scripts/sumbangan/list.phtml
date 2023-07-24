@@ -1,0 +1,49 @@
+<div class="row">
+	<div class="col-sm-8">
+		<div class="col-sm-4">Program Studi</div>
+		<div class="col-sm-8">: <?php echo $this->nm_prd;?></div>
+		<div class="col-sm-4">Angkatan</div>
+		<div class="col-sm-8">: <?php echo $this->akt;?></div>
+	</div>
+</div>
+<div class="table-header">
+	Daftar Mahasiswa
+</div>
+<div>
+	<table id="tbl" class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<th class="center" width="10%">NIM</th>
+				<th class="center">Nama Mahasiswa</th>
+				<th class="center" width="8%">Angkatan</th>
+				<th class="center" width="15%">Prodi</th>
+				<th class="center" width="12%">Status Masuk</th>
+				<th class="center" width="15%">Gelombang Masuk</th>
+				<th class="center" width="12%">Nominal</th>
+				<th class="center" width="8%">Set Sumbangan</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php $i=1;foreach ($this->listMhsSumb as $dtMhs){?>
+			<tr>
+				<td class="center"><?php echo $dtMhs['nim'];?></td>
+				<td><?php echo $dtMhs['nm_mhs'];?></td>
+				<td class="center"><?php echo $dtMhs['id_angkatan'];?></td>
+				<td class="center"><?php echo $dtMhs['nm_prodi'];?></td>
+				<td class="center"><?php echo $dtMhs['nm_stat_masuk'];?></td>
+				<td class="center"><?php echo $dtMhs['nm_gelombang'];?></td>
+				<td align="right"><?php echo number_format($dtMhs['tot_sumbangan'],2,',','.');?></td>
+				<td class="center">
+					<button type="button" class="btn btn-success btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/sumbangan/new?nim=<?php echo $dtMhs['nim'];?>')"><i class="fa fa-edit"></i></button>
+				</td>
+			</tr>
+			<?php $i++;}?>
+		</tbody>
+	</table>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/tabel.js"></script>
+<script>
+	$(function(){tabel('tbl')});
+</script>

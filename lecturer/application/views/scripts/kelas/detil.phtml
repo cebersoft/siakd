@@ -1,0 +1,216 @@
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data Kelas</h3>
+</div>
+<div class="inqbox-content col-sm-12">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Jenis Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->jns_kelas;?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn." (".$this->kd_dsn.")";?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+		</div>
+	</div>
+	<?php if($this->allowInput!=1){ ?>
+	<h5 class="alert alert-danger"><i class="icon fa fa-warning"></i>&nbsp;&nbsp;Anda tidak dapat mengubah parameter di luar kalender entri nilai. Silakan hubungi Administrator!</h5>
+	<div class="table-responsive col-sm-6">
+		<table id="tbprm" class="table table-bordered table-hover">
+			<tr>
+				<th width="35%">Keterangan</th>
+				<th width="35%">Nama Parameter</th>
+				<th width="30%">Persentase (%)</th>
+			</tr>
+			<tr>
+				<th>Parameter 1</th>
+				<th><?php echo $this->nm_p1;?></th>
+				<td align="right"><?php echo $this->p_p1;?></td>
+			</tr>
+			<tr>
+				<th>Parameter 2</th>
+				<th><?php echo $this->nm_p2;?></th>
+				<td align="right"><?php echo $this->p_p2;?></td>
+			</tr>
+			<tr>
+				<th>Parameter 3</th>
+				<th><?php echo $this->nm_p3;?></th>
+				<td align="right"><?php echo $this->p_p3;?></td>
+			</tr>
+			<tr>
+				<th>Parameter 4</th>
+				<th><?php echo $this->nm_p4;?></th>
+				<td align="right"><?php echo $this->p_p4;?></td>
+			</tr>
+			<tr>
+				<th>Parameter UTS</th>
+				<th>UTS</th>
+				<td align="right"><?php echo $this->p_uts;?></td>
+			</tr>
+			<tr>
+				<th>Parameter 5</th>
+				<th><?php echo $this->nm_p5;?></th>
+				<td align="right"><?php echo $this->p_p5;?></td>
+			</tr>
+			<tr>
+				<th>Parameter 6</th>
+				<th><?php echo $this->nm_p6;?></th>
+				<td align="right"><?php echo $this->p_p6;?></td>
+			</tr>
+			<tr>
+				<th>Parameter 7</th>
+				<th><?php echo $this->nm_p7;?></th>
+				<td align="right"><?php echo $this->p_p7;?></td>
+			</tr>
+			<tr>
+				<th>Parameter 8</th>
+				<th><?php echo $this->nm_p8;?></th>
+				<td align="right"><?php echo $this->p_p8;?></td>
+			</tr>
+			<tr>
+				<th>Parameter UAS</th>
+				<th>UAS</th>
+				<td align="right"><?php echo $this->p_uas;?></td>
+			</tr>
+			<tr>
+				<th colspan="2">Total Parameter</th>
+				<td align="right"><strong><?php echo $this->p_tot ?></strong></td>
+			</tr>
+		</table>
+	</div>
+	<div class="col-sm-6">
+		<h5 class="alert alert-info">
+			<i class="icon fa fa-info"></i>&nbsp;&nbsp;
+			Catatan Dosen : <?php echo $this->note;?>
+			
+		</h5>
+		<h5 class="alert alert-info">
+		Rencana Tatap Muka : <?php echo $this->ttpmk;?> 
+		</h5>
+	</div>
+	<?php }else{?>
+	<?php
+		if($this->p_tot!=100){
+		  $class="danger";
+		  $alert="Total parameter harus tepat 100%, edit pada setiap parameter agar total mencapai 100";
+		  $icon="warning";
+		}else{
+		  $class="success";
+		  $alert="Total parameter sudah tepat 100%";
+		  $icon="check";
+		}
+	?>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="table-responsive col-sm-6">
+			<div class="form-group">
+				<button type="reset" class="btn btn-default">Reset</button>
+				<button type="submit" class="btn btn-primary">Simpan</button>
+				<input type="hidden" id="kd_kls" value="<?php echo $this->kd_kls;?>">
+			</div>
+			<table id="tbprm" class="table table-bordered table-hover">
+				<tr>
+					<th width="35%">Keterangan</th>
+					<th width="35%">Nama Parameter</th>
+					<th width="30%">Persentase (%)</th>
+				</tr>
+				<tr>
+					<th>Parameter 1</th>
+					<th><input type="text" class="form-control" id="par1" value="<?php echo $this->nm_p1;?>" maxlength="20"></th>
+					<th><input type="number" class="form-control" id="pers1" value="<?php echo $this->p_p1;?>" min="0" max="100" step="0.01"></th>
+				</tr>
+				<tr>
+					<th>Parameter 2</th>
+					<th><input type="text" class="form-control" id="par2" value="<?php echo $this->nm_p2;?>" maxlength="20"></th>
+					<th><input type="number" class="form-control" id="pers2" value="<?php echo $this->p_p2;?>" min="0" max="100" step="0.01"></th>
+				</tr>
+				<tr>
+					<th>Parameter 3</th>
+					<th><input type="text" class="form-control" id="par3" value="<?php echo $this->nm_p3;?>" maxlength="20"></th>
+					<th><input type="number" class="form-control" id="pers3" value="<?php echo $this->p_p3;?>" min="0" max="100" step="0.01"></th>
+				</tr>
+				<tr>
+					<th>Parameter 4</th>
+					<th><input type="text" class="form-control" id="par4" value="<?php echo $this->nm_p4;?>" maxlength="20"></th>
+					<th><input type="number" class="form-control" id="pers4" value="<?php echo $this->p_p4;?>" min="0" max="100" step="0.01"></th>
+				</tr>
+				<tr>
+					<th>Parameter UTS</th>
+					<th><input type="text" class="form-control" id="parUts" value="UTS" maxlength="20" readonly></th>
+					<th><input type="number" class="form-control" id="persUTS" value="<?php echo $this->p_uts;?>" min="0" max="100" step="0.01"></th>
+				</tr>
+				<tr>
+					<th>Parameter 5</th>
+					<th><input type="text" class="form-control" id="par5" value="<?php echo $this->nm_p5;?>" maxlength="20"></th>
+					<th><input type="number" class="form-control" id="pers5" value="<?php echo $this->p_p5;?>" min="0" max="100" step="0.01"></th>
+				</tr>
+				<tr>
+					<th>Parameter 6</th>
+					<th><input type="text" class="form-control" id="par6" value="<?php echo $this->nm_p6;?>" maxlength="20"></th>
+					<th><input type="number" class="form-control" id="pers6" value="<?php echo $this->p_p6;?>" min="0" max="100" step="0.01"></th>
+				</tr>
+				<tr>
+					<th>Parameter 7</th>
+					<th><input type="text" class="form-control" id="par7" value="<?php echo $this->nm_p7;?>" maxlength="20"></th>
+					<th><input type="number" class="form-control" id="pers7" value="<?php echo $this->p_p7;?>" min="0" max="100" step="0.01"></th>
+				</tr>
+				<tr>
+					<th>Parameter 8</th>
+					<th><input type="text" class="form-control" id="par8" value="<?php echo $this->nm_p8;?>" maxlength="20"></th>
+					<th><input type="number" class="form-control" id="pers8" value="<?php echo $this->p_p8;?>" min="0" max="100" step="0.01"></th>
+				</tr>
+				<tr>
+					<th>Parameter UAS</th>
+					<th><input type="text" class="form-control" id="parUas" value="UAS" maxlength="20" readonly></th>
+					<th><input type="number" class="form-control" id="persUAS" value="<?php echo $this->p_uas;?>" min="0" max="100" step="0.01"></th>
+				</tr>
+				<tr class="alert alert-<?php echo $class;?>">
+					<th colspan="2">Total Parameter</th>
+					<th><input type="text" class="form-control" value="<?php echo $this->p_tot ?>" readonly></td>
+				</tr>
+			</table>
+		</div>
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label class="col-sm-4 control-label">Catatan Dosen</label>
+				<div class="col-sm-8">
+					<TEXTAREA id="note" placeholder="catatan dosen" rows="4" class="form-control"><?php echo $this->note;?></TEXTAREA>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">Rencana Tatap Muka</label>
+				<div class="col-sm-8">
+					<input type="number" class="form-control" id="ttpmk" placeholder="rencana tatap muka" min="0" max="30" step="1" value="<?php echo $this->ttpmk;?>">
+				</div>
+			</div>
+			<br>
+			<h5 class="alert alert-<?php echo $class;?>"><i class="icon fa fa-<?php echo $icon;?>"></i>&nbsp;&nbsp;<?php echo $alert;?></h5>
+			<h5 class="alert alert-info">
+				<i class="icon fa fa-info-circle"></i>
+				<ul>
+					<li>Pada kolom "Nama Parameter" dapat diisi dengan nama parameter yang dibutuhkan contoh : Quiz, Tugas dan sebagainya<br></li>
+					<li>Pada kolom persentase, diisikan nilai angka dengan pecahan desimal 2 digit, dan pisahkan antara basis dan desimalnya dengan tanda titik atau koma</li>
+					<br>
+					<li>Pastikan total parameter (di kolom paling bawah) mencapai 100</li>
+					<br>
+					<li>Kotak catatan dosen dapat diisi sebagai informasi terhadap mahaiswa terhadap kebijakan nilai yang diberikan oleh dosen</li>
+					<br>
+					<li>Klik tombol simpan, apabila sudah selesai mengedit nama parameter dan persentase nilai</li>
+					<br>
+					<li>Klik tombol reset untuk mengembalikan nilai semula</li>
+					<br>
+				</ul>
+			</h5>
+		</div>
+	</form>
+	<?php } ?>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/updkls","/kelas/detil?id=","u");
+	  return false;
+	});
+</script>

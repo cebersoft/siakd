@@ -1,0 +1,62 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Filter Periode Akademik</h3>
+</div>
+<div class="inqbox-content">
+	<form id="frm" class="form-horizontal">
+		<div class="form-group">
+			<div class="col-sm-4">
+				<select id="sel_per" class="form-control">
+					<option value="" disabled="disabled" selected="selected">pilih periode akademik</option>
+					<?php foreach ($this->listPer as $dtPer){?>
+					<?php 
+						$per="";
+						if($dtPer['kd_periode']==$this->per){
+							$per="selected";
+						}
+					?>
+					<option value="<?php echo $dtPer['kd_periode'];?>" <?php echo $per;?> ><?php echo $dtPer['kd_periode'];?></option>
+					<?php }?>
+				</select>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbkur" class="table table-bordered table-hover">
+			<tr>
+				<th colspan="12"><strong>Periode Akademik <?php echo $this->per;?></strong></th>
+			</tr>
+			<tr>
+				<th width="5%">No</th>
+				<th width="10%">NIM</th>
+				<th width="15%">Nama Mahasiswa</th>
+				<th>Mata Kuliah</th>
+				<th width="30%">Judul</th>
+				<th width="15%">Dosen Pembimbing</th>
+				<th width="12%">Jadwal</th>
+			</tr>
+			<?php $j=1; foreach ($this->listKuliah as $data) { ?>
+			<?php if($data['approved']=='t'){?>
+			<tr>
+				<td><?php echo $j;?></td>
+				<td><?php echo $data['nim'];?></td>
+				<td><?php echo $data['nm_mhs'];?></td>
+				<td><?php echo $data['nm_mk'];?></td>
+				<td><?php echo $data['judul'];?></td>
+				<td><?php echo $data['nm_dosen_pemb1'];?><br><?php echo $data['nm_dosen_pemb2'];?><br><?php echo $data['nm_dosen_pemb3'];?></td>
+				<td><?php echo $data['tgl_ujian_fmt'];?></td>
+			</tr>
+			<?php $j++; } } ?>
+		</table>
+	</div>
+</div>
+<script>
+	$('#sel_per').on('change',(function() {
+		per=$('#sel_per').val();
+		nav('<?php echo $this->baseUrl;?>/jadwalta/index?id='+per);
+	}))
+</script>

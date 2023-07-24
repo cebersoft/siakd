@@ -1,0 +1,30 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbl" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>KATEGORI PENGUMUMAN</th>
+						<th width="10%">AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listAnnouncementkategori as $data) { ?>
+					<tr>
+						<td><?php echo $data['announcement_kategori']; ?></td>
+						<td align="center">
+							<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/katanc/edit?id=<?php echo $data['id_announcement_kategori'];?>')"><i class="fa fa-pencil"></i></button>
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus kategori berita ini ? <strong><?php echo str_replace("'", "\'", $data['announcement_kategori']);?></strong>','<?php echo $this->baseUrl;?>','/katanc/adel',new Array('<?php echo $data['id_announcement_kategori'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbl',true,true,true,true,true,false);});</script>

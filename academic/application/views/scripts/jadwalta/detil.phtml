@@ -1,0 +1,135 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.min.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Daftar Plotting Jadwal Penguji</h3>
+	</div>
+	<div class="box-body">
+		<div class="box-body">
+			<div class="col-md-6">
+				<div class="col-sm-4">Program Studi</div>
+				<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+				<div class="col-sm-4">Periode Akademik</div>
+				<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+				<div class="col-sm-4">Nama Kelas</div>
+				<div class="col-sm-8">: <?php echo $this->nm_kelas." (".$this->jns_kelas.")";?></div>
+				<div class="col-sm-4">Dosen</div>
+				<div class="col-sm-8">: <?php echo $this->nm_dsn;?></div>
+				<div class="col-sm-4">Mata Kuliah</div>
+				<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<form class="form-horizontal" method="post" id="frm">
+			<div class="box-footer col-sm-12">
+				<input type="submit" class="btn btn-primary pull-right col-sm-4" value="Simpan">
+			</div>
+			<table id="tbnilai" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th style="width:5%">NO</th>
+						<th style="width:10%">NIM</th>
+						<th style="width:18%">NAMA</th>
+						<th style="width:18%">PEMBIMBING</th>
+						<th>PENGUJI</th>
+						<th style="width:15%">TANGGAL</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=0;$x=1;foreach ($this->listNilaiTA as $dataNilai) { ?>
+					<tr >
+						<td><?php echo $x; ?></td>
+						<td><?php echo $dataNilai['nim']?></a></td>
+						<td><?php echo $dataNilai['nm_mhs']; ?></td>
+						<td>
+							<?php echo "1. ".$dataNilai['nm_dosen_pemb1']; ?><br>
+							<?php echo "2. ".$dataNilai['nm_dosen_pemb2']; ?><br>
+							<?php echo "3. ".$dataNilai['nm_dosen_pemb3']; ?>
+						</td>
+						<td>
+							<input type="hidden" id="kul_<?php echo $i;?>" value="<?php echo $dataNilai['kd_kuliah'];?>">
+							<select class="form-control pj" id="pj1_<?php echo $i;?>">
+								<option value="">pilih dosen</option>
+								<?php foreach($this->listDosji as $dtDosbim){ ?>
+								<?php
+									$selPj="";
+									if($dtDosbim['kd_dosen']==$dataNilai['kd_dosen_penguji1']){
+										$selPj="selected='selected'";
+									}
+								?>
+								<option value="<?php echo $dtDosbim['kd_dosen'];?>" <?php echo $selPj;?> ><?php echo $dtDosbim['nm_dosen'];?></option>
+								<?php } ?>
+							</select>
+							<select class="form-control pj" id="pj2_<?php echo $i;?>">
+								<option value="">pilih dosen</option>
+								<?php foreach($this->listDosji as $dtDosbim){ ?>
+								<?php
+									$selPj="";
+									if($dtDosbim['kd_dosen']==$dataNilai['kd_dosen_penguji2']){
+										$selPj="selected='selected'";
+									}
+								?>
+								<option value="<?php echo $dtDosbim['kd_dosen'];?>" <?php echo $selPj;?> ><?php echo $dtDosbim['nm_dosen'];?></option>
+								<?php } ?>
+							</select>
+							<select class="form-control pj" id="pj3_<?php echo $i;?>">
+								<option value="">pilih dosen</option>
+								<?php foreach($this->listDosji as $dtDosbim){ ?>
+								<?php
+									$selPj="";
+									if($dtDosbim['kd_dosen']==$dataNilai['kd_dosen_penguji3']){
+										$selPj="selected='selected'";
+									}
+								?>
+								<option value="<?php echo $dtDosbim['kd_dosen'];?>" <?php echo $selPj;?> ><?php echo $dtDosbim['nm_dosen'];?></option>
+								<?php } ?>
+							</select>
+							<select class="form-control pj" id="pj4_<?php echo $i;?>">
+								<option value="">pilih dosen</option>
+								<?php foreach($this->listDosji as $dtDosbim){ ?>
+								<?php
+									$selPj="";
+									if($dtDosbim['kd_dosen']==$dataNilai['kd_dosen_penguji4']){
+										$selPj="selected='selected'";
+									}
+								?>
+								<option value="<?php echo $dtDosbim['kd_dosen'];?>" <?php echo $selPj;?> ><?php echo $dtDosbim['nm_dosen'];?></option>
+								<?php } ?>
+							</select>
+						</td>
+						<td>
+							<div class="input-group">
+								<input type="text" id="tgl_<?php echo $i;?>" class="form-control tgl" value="<?php echo $dataNilai['tgl_ujian_fmt']; ?>" readonly="readonly">
+							</div>
+						</td>
+					</tr>
+					<?php $i++;$x++; } ?>
+					<input type="hidden" id="x" value="<?php echo $x;?>">
+			</table>
+			</form>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.full.min.js"></script>
+<script>
+	$(".pj").select2({
+	  placeholder: "pilih dosen",
+	  allowClear: true,
+	});
+</script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/moment.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/daterangepicker/daterangepicker.js"></script>
+<script>
+	$(function () {
+	  $('.tgl').daterangepicker({singleDatePicker:true,format:'DD MMMM YYYY'});
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax3/updjadwalta","/jadwalta/detil?id=<?php echo $this->kd_paket;?>&new=","u");
+	  return false;
+	});
+</script>

@@ -1,0 +1,232 @@
+<div class="inqbox float-e-margins">
+	<div class="inqbox-content">
+		<div class="page-heading">
+			<div class="media clearfix">
+				<div class="media-left pr30">
+					<img class="media-object mw150" src="<?php echo $this->baseUrl;?>/image/jpg?url=public/file/mhs/foto/<?php echo $this->id_mhs;?>.jpg" alt="Foto Mahasiswa" onerror="this.src='<?php echo $this->baseUrl;?>/image/jpg?url=public/file/mhs/foto/default.jpg'" width="120px" height="160px">
+				</div>
+				<div class="media-body va-m">
+					<h2 class="media-heading">
+						<?php echo $this->nama_mhs; ?>
+					</h2>
+					<p class="lead">
+						PROGRAM STUDI <?php echo strtoupper($this->nm_prodi);?>
+						<?php echo strtoupper($this->akt);?>
+						<br>
+						NIM <?php echo $this->nim_mhs;?>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-4">
+		<div class="panel">
+			<div class="panel-heading">
+				<span class="panel-icon">
+					<i class="fa fa-info-circle"></i>
+				</span>
+				<span class="panel-title">Info</span>
+			</div>
+			<div class="panel-body pb5">
+				<h4>Pendidikan Sebelumnya</h4>
+				<p class="text-muted">
+					<?php echo $this->asal_sekolah; ?>
+					<br>
+					Jurusan : <?php echo $this->asal_prodi;?>
+				</p>
+				<hr class="short br-lighter">
+				<h4>Alamat Tinggal</h4>
+				<p class="text-muted">
+					<?php echo $this->alamat;?>
+					<br> 
+					<strong>Kota : </strong><?php echo $this->kota_tinggal;?>
+				</p>
+				<hr class="short br-lighter">
+			</div>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<div class="tab-block">
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a href="#tab1" data-toggle="tab">Data Akademik</a>
+				</li>
+				<li>
+					<a href="#tab2" data-toggle="tab">Data Pribadi</a>
+				</li>
+				<li>
+					<a href="#tab3" data-toggle="tab">Kelulusan/Keluar</a>
+				</li>
+				<?php if($this->jns_masuk==2){ ?>
+				<li>
+					<a href="#tab4" data-toggle="tab">Nilai Transfer</a>
+				</li>
+				<?php } ?>
+			</ul>
+			<div class="tab-content p30" style="height: 600px;">
+				<div id="tab1" class="tab-pane active">
+					<table class="table  table-striped">
+						<tbody>
+							<tr>
+								<th>Tanggal Masuk</th>
+								<td><?php echo $this->tgl_masuk;?></td>
+							</tr>
+							<tr>
+								<th>Status Masuk</th>
+								<td><?php echo $this->status_masuk;?></td>
+							</tr>
+							<tr>
+								<th>Keterangan Masuk</th>
+								<td>MAHASISWA <?php echo $this->ket_masuk;?></td>
+							</tr>
+							<tr>
+								<th>Status Keaktifan</th>
+								<td><?php echo $this->status_mhs;?></td>
+							</tr>
+							<tr>
+								<th>Dosen Wali</th>
+								<td><?php echo $this->dosen_wali;?></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="tab2" class="tab-pane">
+					<table class="table  table-striped">
+						<tbody>
+							<tr>
+								<th width="35%">Nama Lengkap</th>
+								<td><?php echo $this->nama_mhs;?></td>
+							</tr>
+							<tr>
+								<th>Tempat, Tanggal Lahir</th>
+								<td><?php echo $this->tempat_lahir.", ".$this->tanggal_lahir;?></td>
+							</tr>
+							<tr>
+								<th>Jenis Kelamin</th>
+								<td><?php echo $this->jk;?></td>
+							</tr>
+							<tr>
+								<th>Agama</th>
+								<td><?php echo $this->agama;?></td>
+							</tr>
+							<tr>
+								<th>Kewarganegaraan</th>
+								<td><?php echo $this->kwn;?></td>
+							</tr>
+							<tr>
+								<th>Alamat</th>
+								<td><?php echo $this->alamat.", ".$this->kota_tinggal;?></td>
+							</tr>
+							<tr>
+								<th>Wilayah</th>
+								<td><?php echo $this->nm_wil."-".$this->kota_wil."-".$this->prop_wil."-".$this->neg_wil;?></td>
+							</tr>
+							<tr>
+								<th>Nama Ayah</th>
+								<td><?php echo $this->nama_ayah;?></td>
+							</tr>
+							<tr>
+								<th>Pekerjaan Ayah</th>
+								<td><?php echo $this->job_ayah;?></td>
+							</tr>
+							<tr>
+								<th>Nama Ibu</th>
+								<td><?php echo $this->nama_ibu;?></td>
+							</tr>
+							<tr>
+								<th>Pekerjaan Ibu</th>
+								<td><?php echo $this->job_ibu;?></td>
+							</tr>
+							<tr>
+								<th>Kontak</th>
+								<td><?php echo $this->kontak;?></td>
+							</tr>
+							<tr>
+								<th>Email Kampus</th>
+								<td><?php echo $this->email_k;?></td>
+							</tr>
+							<tr>
+								<th>Email Lain</th>
+								<td><?php echo $this->email_l;?></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="tab3" class="tab-pane">
+					<table class="table table-striped">
+						<tbody>
+							<tr>
+								<th>Status Keluar/Lulus</th>
+								<td><?php echo $this->status_keluar;?></td>
+							</tr>
+							<tr>
+								<th>Tanggal Keluar/Lulus</th>
+								<td><?php echo $this->tgl_keluar;?></td>
+							</tr>
+							<tr>
+								<th>No.Seri Ijazah</th>
+								<td><?php echo $this->no_ijazah;?></td>
+							</tr>
+							<tr>
+								<th>No.SK Yudisium</th>
+								<td><?php echo $this->sk_yudisium;?></td>
+							</tr>
+							<tr>
+								<th>Tanggal SK</th>
+								<td><?php echo $this->tgl_sk_yudisium;?></td>
+							</tr>
+							<tr>
+								<th>IPK Lulus</th>
+								<td><?php echo $this->ipk;?></td>
+							</tr>
+							<tr>
+								<th>Judul TA</th>
+								<td><?php echo $this->judul_ta;?></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<?php if($this->jns_masuk==2){ ?>
+				<div id="tab4" class="tab-pane table-responsive">
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th colspan="5" width="50%">Diakui (<?php echo $this->nm_pt;?>)</th>
+								<th colspan="4">Asal (<?php echo $this->asal_sekolah."-".$this->asal_prodi;?>)</th>
+							</tr>
+							<tr>
+								<th>Kode MK</th>
+								<th>Nama MK</th>
+								<th>SKS Def</th>
+								<th>SKS Diakui</th>
+								<th>Nilai</th>
+								<th>Kode MK</th>
+								<th>Nama MK</th>
+								<th>SKS MK</th>
+								<th>Nilai</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($this->listKonversi as $dtKonv) { ?>
+							<tr>
+								<td><?php echo $dtKonv['kode_mk'];?></td>
+								<td><?php echo $dtKonv['nm_mk'];?></td>
+								<td><?php echo $dtKonv['sks_tot'];?></td>
+								<td><?php echo ($dtKonv['sks_tot']-$dtKonv['sks_deducted']);?></td>
+								<td><?php echo $dtKonv['indeks'];?></td>
+								<td><?php echo $dtKonv['kode_mk_asal'];?></td>
+								<td><?php echo $dtKonv['nm_mk_asal'];?></td>
+								<td><?php echo $dtKonv['sks_asal'];?></td>
+								<td><?php echo $dtKonv['indeks_asal'];?></td>
+							</tr>
+							<?php } ?>
+						</tbody>
+					</table>
+				</div>
+				<?php } ?>
+			</div>
+		</div>
+	</div>
+</div>

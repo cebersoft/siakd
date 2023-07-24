@@ -1,0 +1,90 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker-bs3.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Mahasiswa Keluar</h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Angkatan</label>
+				<div class="col-sm-4">
+					<select class="form-control select2" id="akt" sel-2>
+						<option disabled selected value="">pilih angkatan</option>
+						<?php foreach ($this->listAkt as $dt) { ?>
+						<option value="<?php echo $dt['id_angkatan']?>"><?php echo $dt['id_angkatan']?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Program Studi</label>
+				<div class="col-sm-4">
+					<select class="form-control" id="prd">
+						<option disabled selected value="">pilih program studi</option>
+						<?php foreach ($this->listProdi as $dt) { ?>
+						<option value="<?php echo $dt['kd_prodi']?>"><?php echo $dt['nm_prodi']?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">NIM</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="nim" placeholder="klik untuk pilih mahasiswa" maxlength="20" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/mahasiswa?st[0]=A&st[1]=C&st[2]=G&st[3]=N&st[4]=X',new Array('nim','nm_mhs'), new Array('akt','prd'))">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nama Mahasiswa</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="nm_mhs" placeholder="terisi otomatis dari pilihan mahasiswa" readonly>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Tanggal Keluar</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="tglout" placeholder="tanggal keluar" readonly tgl>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Keterangan Keluar</label>
+				<div class="col-sm-4">
+					<select class="form-control" id="jns_kel">
+						<?php foreach ($this->listJnsKeluar as $dt) { ?>
+						<?php if($dt['id_jns_keluar']!=1){ ?>
+						<option value="<?php echo $dt['id_jns_keluar']?>"><?php echo $dt['ket_keluar']?></option>
+						<?php } ?>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+				<button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/moment.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker.js"></script>
+<script>
+	$(function(){$("[tgl]").daterangepicker({singleDatePicker:true,format:'DD MMMM YYYY'});});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.full.min.js"></script>
+<script>
+	$("#akt").select2({
+	  placeholder: "pilih angkatan"
+	});
+	$("#btnres").click(function(){
+	  $("#akt").select2('val', '');
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/alert.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax3/insmout","/mhsout/list?new=","i");
+	  return false;
+	});
+</script>

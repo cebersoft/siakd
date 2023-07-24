@@ -1,0 +1,73 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<div class="col-sm-8">
+			<strong>
+			ANGKATAN : <?php echo $this->akt; ?>
+			</strong>
+		</div>
+		<div class="col-sm-8">
+			<strong>
+			PROGRAM STUDI : <?php echo $this->prd; ?>
+			</strong>
+		</div>
+		<div class="col-sm-8">
+			<strong>
+			PERIODE : <?php echo $this->per; ?>
+			</strong>
+		</div>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbmhs" class="table table-bordered table-hover">
+				<tbody>
+					<?php foreach ($this->listMhs as $dataMhs) { ?>
+					<tr>
+						<td>
+							<strong>NIM</strong> : <?php echo $dataMhs['nim']; ?><br>
+							<strong>Nama</strong> : <?php echo $dataMhs['nm_mhs']; ?><br>
+							<strong>Status Registrasi</strong> : <?php echo $dataMhs['status_mhs_periode']; ?><br>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<table class="table table-bordered table-hover">
+								<tr>
+									<th>No</th>
+									<th>Kode</th>
+									<th>Mata Kuliah</th>
+									<th>SKS Default</th>
+									<th>SKS Diambil</th>
+									<th>Kode Dosen</th>
+									<th>Nama Dosen</th>
+									<th>Kelas</th>
+								</tr>
+								<?php $n=1;$totSksDef=0;$totSksTaken=0;foreach ($this->listKuliah as $dtKul) { ?>
+								<?php if($dtKul['nim']==$dataMhs['nim']){ ?>
+								<tr align="center">
+									<td><?php echo $n;?></td>
+									<td><?php echo $dtKul['kode_mk'];?></td>
+									<td><?php echo $dtKul['nm_mk'];?></td>
+									<td><?php echo $dtKul['sks_tot'];?></td>
+									<td><?php echo ($dtKul['sks_tot']-$dtKul['sks_deducted']);?></td>
+									<td><?php echo $dtKul['kd_dosen'];?></td>
+									<td><?php echo $dtKul['nm_dosen'];?></td>
+									<td><?php echo $dtKul['nm_kelas'];?></td>
+								</tr>
+								<?php $n++;$totSksDef=$totSksDef+$dtKul['sks_tot'];$totSksTaken=$totSksTaken+($dtKul['sks_tot']-$dtKul['sks_deducted']);} ?>
+								<?php } ?>
+								<tr>
+									<td colspan="3"><strong>Jumlah</strong></td>
+									<td align="center"><strong><?php echo $totSksDef;?></strong></td>
+									<td align="center"><strong><?php echo $totSksTaken;?></strong></td>
+									<td colspan="3"></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

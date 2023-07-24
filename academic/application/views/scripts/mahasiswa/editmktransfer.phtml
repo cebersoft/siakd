@@ -1,0 +1,122 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Edit Data Nilai Konversi/Pindahan Mahasiswa</h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm_konv">
+		<div class="box-body">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">NIM</label>
+					<div class="col-sm-8">
+						<input type="hidden" id="prd">
+						<input type="text" class="form-control" id="nim" value="<?php echo $this->nim;?>" readonly="readonly">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kurikulum</label>
+					<div class="col-sm-8">
+						<input type="text" id="id_kur" style="display: none;" value="<?php echo $this->id_kur;?>">
+						<input type="text" class="form-control" id="nm_kur" placeholder="klik untuk pilih kurikulum" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/kurikulum',new Array('id_kur','nm_kur'),new Array('prd'))" value="<?php echo $this->nm_kur;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kode MK</label>
+					<div class="col-sm-8">
+						<input type="text" id="id_mk_kur_old" style="display: none;" value="<?php echo $this->id_mk_kur;?>">
+						<input type="text" id="id_mk_kur" style="display: none;" value="<?php echo $this->id_mk_kur;?>">
+						<input type="text" class="form-control" id="kd_mk" placeholder="klik untuk pilih mata kuliah" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/matkulkurikulum',new Array('id_mk_kur','kd_mk','nm_mk','sks'),new Array('id_kur'))" value="<?php echo $this->kd_mk;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Nama MK</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="nm_mk" placeholder="terisi otomatis dari mata kuliah" readonly value="<?php echo $this->nm_mk;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">SKS Default</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="sks" placeholder="terisi otomatis dari mata kuliah" readonly value="<?php echo $this->sks_def;?>">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">SKS Diakui</label>
+					<div class="col-sm-8">
+						<input type="number" class="form-control" id="sks_new" placeholder="sks diakui" min="0" max="8" step="1" value="<?php echo $this->sks_diakui;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Nilai Diakui</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="indeks_new">
+							<option disabled selected value="">pilih nilai</option>
+							<?php foreach($this->listIndeks as $dtInd){ ?>
+							<?php 
+								if($dtInd['id_indeks']==$this->id_indeks){
+									$indeks_diakui="selected";
+								}else{
+									$indeks_diakui="";
+								}
+							?>
+							<option value="<?php echo $dtInd['id_indeks'];?>" <?php echo $indeks_diakui;?> ><?php echo $dtInd['indeks']."(".$dtInd['bobot'].")";?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Kode MK Asal</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="kd_mk_old" placeholder="kode mata kuliah asal" maxlength="35" value="<?php echo $this->kd_mk_asal;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Nama MK Asal</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="nm_mk_old" placeholder="nama mata kuliah asal" maxlength="35" value="<?php echo $this->nm_mk_asal;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">SKS Asal</label>
+					<div class="col-sm-8">
+						<input type="number" class="form-control" id="sks_old" placeholder="sks asal" min="0" max="8" step="1" value="<?php echo $this->sks_asal;?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Nilai Asal</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="indeks_old">
+							<option disabled selected value="">pilih nilai</option>
+							<?php foreach($this->listIndeks as $dtInd){ ?>
+							<?php 
+								if($dtInd['id_indeks']==$this->id_indeks_asal){
+									$indeks_asal="selected";
+								}else{
+									$indeks_asal="";
+								}
+							?>
+							<option value="<?php echo $dtInd['id_indeks'];?>" <?php echo $indeks_asal;?> ><?php echo $dtInd['indeks']."(".$dtInd['bobot'].")";?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box-body">
+			<div class="box-footer col-sm-6">
+				<button type="submit" class="btn btn-primary pull-right col-sm-4" id="btnsbkonv">Simpan</button>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="reset" class="btn btn-default pull-left col-sm-4" id="btnreskonv">Reset</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm_konv").submit(function() {
+	  ajaxSubmit("frm_konv","<?php echo $this->baseUrl;?>","/ajax/updkonv","/mahasiswa/detil?id=<?php echo $this->id_mhs;?>&nkonv=","u");
+	  return false;
+	});
+</script>

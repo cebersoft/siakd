@@ -1,0 +1,50 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		Rekap Kehadiran (Summary)
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbnilai" class="table table-bordered table-hover">
+				<tr>
+					<th rowspan="2">No</th>
+					<th rowspan="2">Mata Kuliah</th>
+					<th rowspan="2">Kode</th>
+					<th rowspan="2">SKS</th>
+					<th rowspan="2">Semester</th>
+					<th rowspan="2">Dosen</th>
+					<th rowspan="2">Kelas</th>
+					<th rowspan="2">Rencana</th>
+					<th rowspan="2">Realisasi</th>
+					<th rowspan="2">%Dosen</th>
+					<td colspan="5" align="center"><strong>%Mahasiswa</strong></td>
+				</tr>
+				<tr>
+					<th>H</th>
+					<th>A</th>
+					<th>S</th>
+					<th>I</th>
+					<th>#N/A</th>
+				</tr>
+				<?php $i=1; foreach ($this->listPaket as $dataPaket) { ?>
+				<tr>
+					<td align="center"><?php echo $i;?></td>
+					<td><?php echo $dataPaket['nm_mk'];?></td>
+					<td><?php echo $dataPaket['kode_mk'];?></td>
+					<td align="center"><?php echo $dataPaket['smt_def'];?></td>
+					<td align="center"><?php echo $dataPaket['sks_tot'];?></td>
+					<td><?php echo $dataPaket['nm_dosen'];?></td>
+					<td align="center"><?php echo $dataPaket['nm_kelas']." ".$dataPaket['jns_kelas'];?></td>
+					<td align="center"><?php echo $dataPaket['tatap_muka'];?></td>
+					<td align="center"><?php echo $dataPaket['n_kbm'];?></td>
+					<td align="center"><?php echo $dataPaket['persen_dosen'];?></td>
+					<td align="center"><?php echo $dataPaket['persen_hadir'];?></td>
+					<td align="center"><?php echo $dataPaket['persen_alpa'];?></td>
+					<td align="center"><?php echo $dataPaket['persen_sakit'];?></td>
+					<td align="center"><?php echo $dataPaket['persen_izin'];?></td>
+					<td align="center"><?php echo $dataPaket['persen_not'];?></td>
+				</tr>
+				<?php $i++;} ?>
+			</table>
+		</div>
+	</div>
+</div>

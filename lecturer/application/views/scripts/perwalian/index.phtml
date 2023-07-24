@@ -1,0 +1,80 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbper" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th>KODE PERIODE</th>
+					<th>STATUS PERIODE</th>
+					<th>JADWAL HER-REGISTRASI</th>
+					<th width="35%">PRODI-ANGKATAN</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;foreach ($this->listPeriode as $dataPer) { ?>
+				<?php 
+					if ($dataPer['id_status_periode']==0){
+						$warna='lightgreen';
+					}else if($dataPer['id_status_periode']==1){
+						$warna='yellow';
+					}else{
+						$warna='lightblue';
+					}
+					?>
+				<tr bgcolor="<?php echo $warna;?>">
+					<td><?php echo $dataPer['kd_periode']; ?></td>
+					<td><?php echo $dataPer['status_periode_akademik']; ?></td>
+					<td>
+					<?php 
+						$start_date="";
+						$end_date="";
+						foreach ($this->listKalender as $dtKal){
+							if($dtKal['kd_periode']==$dataPer['kd_periode']){
+								$start_date=$dtKal['start_date_fmt'];
+								$end_date=$dtKal['end_date_fmt'];
+							}
+						}
+					?>
+					<?php echo $start_date."-".$end_date;?>
+					</td>
+					<td>
+						<form id="frm<?php echo $i;?>" method="post" class="form-inline">
+							<input type="hidden" id="per<?php echo $i;?>" value="<?php echo $dataPer['kd_periode']?>">
+							<select id="prd<?php echo $i;?>" class="form-control">
+								<?php foreach ($this->listProdi as $dtPrd) { ?>
+								<option value="<?php echo $dtPrd['kd_prodi'];?>" ><?php echo $dtPrd['nm_prodi'];?></option>
+								<?php } ?>
+							</select>
+							<select id="akt<?php echo $i;?>" class="form-control">
+								<?php foreach ($this->listAngkt as $dtAkt) { ?>
+								<option value="<?php echo $dtAkt['id_angkatan'];?>" ><?php echo $dtAkt['id_angkatan'];?></option>
+								<?php } ?>
+							</select>
+							<button id="sb" type="button" class="btn btn-primary btn-sm" sb value="<?php echo $i;?>"><i class="fa fa-list"></i>&nbsp;&nbsp;View Mahasiswa</button>
+						</form>
+					</td>
+				</tr>
+				<?php $i++;} ?>
+		</table>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.responsive.js">
+</script><script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script>
+$('#tbper').dataTable({
+    responsive: true,
+    sort:false
+});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script type="text/javascript">
+$("[sb]").on('click',(function() {
+ x=$(this).val();   
+ ajaxSubmit("frm"+x,"<?php echo $this->baseUrl;?>","/ajax/showreg?frm="+x,"/perwalian/list","s");
+  return false;
+}));
+</script>

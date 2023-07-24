@@ -1,0 +1,286 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+<h3 class="box-title">Data Rencana Studi</h3>
+</div>
+<div class="inqbox-content">
+<?php if($this->allowReg==1){?>
+	<div class="alert alert-info">
+		<strong><i class="icon fa fa-info-circle"></i>&nbsp;&nbsp;PETUNJUK APPROVAL PKRS</strong>
+		<ul>
+			<li><strong>FORM PKRS</strong> adalah form yang digunakan untuk melakukan perubahan pada KRS</li>
+			<li>Form ini akan mencatat perubahan KRS baik itu <strong>MENAMBAH, DROP MAUPUN UBAH SKS</strong> Mata Kuliah yang sudah diapprove oleh Dosen Wali pada masa KRS</li>
+			<li>Untuk meng-ekseskusi PKRS klik tombol <label class="label label-primary">EXECUTE</label> pada kolom aksi. Untuk membatalkan eksekusi PKRS, klik tombol <label class="label label-danger">ROLLBACK</label></li>
+		</ul>
+	</div>
+	<?php }else{?>
+	<div class="alert alert-danger">Periode Akademik ini tidak diperkenankan untuk PKRS</div>	
+	<?php }?>
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-md-4">Periode Akademik</div>
+			<div class="col-md-8">: <?php echo $this->per;?></div>
+			<div class="col-md-4">NIM</div>
+			<div class="col-md-8">: <?php echo $this->nim;?></div>
+			<div class="col-md-4">Nama Mahasiswa</div>
+			<div class="col-md-8">: <?php echo $this->nm_mhs;?></div>
+			<div class="col-md-4">Angkatan</div>
+			<div class="col-md-8">: <?php echo $this->akt;?></div>
+			<div class="col-md-4">Prodi</div>
+			<div class="col-md-8">: <?php echo $this->prd;?></div>
+			<div class="col-md-4">Dosen Wali</div>
+			<div class="col-md-8">: <?php echo $this->dw;?></div>
+		</div>
+	</div>
+</div>
+<div class="inqbox-content">
+	<h4 align="center">Form PKRS</h4>
+	<div class="table-responsive">
+		<table id="tbkrs" class="table table-bordered table-hover">
+			<tr class="bg-maroon" align="center">
+				<td rowspan="3" width="5%">No</td>
+				<td colspan="4">Mata Kuliah</td>
+				<td colspan="2">Dosen</td>
+				<td rowspan="3">Nama Kelas</td>
+				<td rowspan="3" width="5%">Perubahan</td>
+				<td rowspan="3" width="5%">Status Approve Dosen Wali</td>
+				<td rowspan="3" width="5%">Aksi</td>
+			</tr>
+			<tr class="bg-maroon" align="center">
+				<td width="8%" rowspan="2">Kode Mata Kuliah</td>
+				<td width="18%" rowspan="2">Nama Mata Kuliah</td>
+				<td colspan="2">* SKS</td>
+				<td width="10%" rowspan="2">Kode Dosen</td>
+				<td width="20%" rowspan="2">Nama Dosen</td>
+			</tr>
+			<tr class="bg-maroon" align="center">
+				<td width="5%">Default</td>
+				<td width="7%">* Taken</td>
+			</tr>
+			<?php $i=1;foreach ($this->listPkrs as $dtPkrs) { ?>
+			<tr>
+				<td align="center"><?php echo $i;?></td>
+				<td><?php echo $dtPkrs['kode_mk'];?></td>
+				<td><?php echo $dtPkrs['nm_mk'];?></td>
+				<td align="center"><?php echo $dtPkrs['sks_tm']+$dtPkrs['sks_prak']+$dtPkrs['sks_prak_lap']+$dtPkrs['sks_sim'];?></td>
+				<td align="center"><?php echo $dtPkrs['sks_tm']+$dtPkrs['sks_prak']+$dtPkrs['sks_prak_lap']+$dtPkrs['sks_sim']-$dtPkrs['sks_deducted'];?></td>
+				<td align="center"><?php echo $dtPkrs['kd_dosen'];?></td>
+				<td><?php echo $dtPkrs['nm_dosen'];?></td>
+				<td align="center"><?php echo $dtPkrs['nm_kelas'];?></td>
+				<?php 
+					if($dtPkrs['mode']=='i'){
+						$mode="TAMBAH";
+					}elseif ($dtPkrs['mode']=='d'){
+						$mode="DROP";
+					}elseif ($dtPkrs['mode']=='u'){
+						$mode="UBAH SKS";
+					}else{
+						$mode="-";
+					}
+					if($dtPkrs['executed']=='0'){
+						$appPkrs="NOT APPROVED";
+					}elseif ($dtPkrs['executed']=='1'){
+						$appPkrs="APPROVED";
+					}else{
+						$appPkrs="NOT APPROVED";
+					}
+				?>
+				<td align="center"><?php echo $mode;?></td>
+				<td align="center"><?php echo $appPkrs;?></td>
+				<td align="center">
+					<?php if($this->allowReg==1){ ?>
+					<?php if($dtPkrs['executed']==0){ ?>
+					<button type="button" class="btn btn-primary btn-xs" onclick="confirm('Apakah anda yakin menyetujui PKRS <b><?php echo str_replace("'", "\'", $dtPkrs['nm_mk']);?></b>','<?php echo $this->baseUrl;?>','/ajax/execpkrs',new Array('<?php echo $dtPkrs['nim'];?>','<?php echo $dtPkrs['kd_paket_kelas'];?>','f'))">EXECUTE</button>
+					<?php }else{ ?>
+					<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah anda yakin membatalkan PKRS <b><?php echo str_replace("'", "\'", $dtPkrs['nm_mk']);?></b>','<?php echo $this->baseUrl;?>','/ajax/cancpkrs',new Array('<?php echo $dtPkrs['nim'];?>','<?php echo $dtPkrs['kd_paket_kelas'];?>','f'))">ROLLBACK</button>
+					<?php } ?>
+					<?php } ?>	
+				</td>
+			</tr>
+			<?php $i++;}?>
+			<?php $j=$i;foreach ($this->listPkrsTA as $dtPkrsTA) { ?>
+			<tr>
+				<td align="center"><?php echo $i;?></td>
+				<td><?php echo $dtPkrsTA['kode_mk'];?></td>
+				<td><?php echo $dtPkrsTA['nm_mk'];?></td>
+				<td align="center"><?php echo $dtPkrsTA['sks_tm']+$dtPkrsTA['sks_prak']+$dtPkrsTA['sks_prak_lap']+$dtPkrsTA['sks_sim'];?></td>
+				<td align="center"><?php echo $dtPkrsTA['sks_tm']+$dtPkrsTA['sks_prak']+$dtPkrsTA['sks_prak_lap']+$dtPkrsTA['sks_sim']-$dtPkrsTA['sks_deducted'];?></td>
+				<td align="center"><?php echo $dtPkrsTA['kd_dosen'];?></td>
+				<td><?php echo $dtPkrsTA['nm_dosen'];?></td>
+				<td align="center"><?php echo $dtPkrsTA['nm_kelas'];?> (Periode Mulai:<?php echo $dtPkrsTA['kd_periode_mulai'];?>)</td>
+				<?php 
+					if($dtPkrsTA['mode']=='i'){
+						$mode="TAMBAH";
+					}elseif ($dtPkrsTA['mode']=='d'){
+						$mode="DROP";
+					}elseif ($dtPkrsTA['mode']=='u'){
+						$mode="UBAH SKS";
+					}else{
+						$mode="-";
+					}
+					if($dtPkrsTA['executed']=='0'){
+						$appPkrs="NOT APPROVED";
+					}elseif ($dtPkrsTA['executed']=='1'){
+						$appPkrs="APPROVED";
+					}else{
+						$appPkrs="NOT APPROVED";
+					}
+				?>
+				<td align="center"><?php echo $mode;?></td>
+				<td align="center"><?php echo $appPkrs;?></td>
+				<td align="center">
+					<?php if($this->allowReg==1){ ?>
+					<?php if($dtPkrsTA['executed']==0){ ?>
+					<button type="button" class="btn btn-primary btn-xs" onclick="confirm('Apakah anda yakin menyetujui PKRS <b><?php echo str_replace("'", "\'", $dtPkrsTA['nm_mk']);?></b>','<?php echo $this->baseUrl;?>','/ajax/execpkrs',new Array('<?php echo $dtPkrsTA['nim'];?>','<?php echo $dtPkrsTA['kd_paket_kelas'];?>','t'))">EXECUTE</button>
+					<?php }else{ ?>
+					<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah anda yakin membatalkan PKRS <b><?php echo str_replace("'", "\'", $dtPkrsTA['nm_mk']);?></b>','<?php echo $this->baseUrl;?>','/ajax/cancpkrs',new Array('<?php echo $dtPkrsTA['nim'];?>','<?php echo $dtPkrsTA['kd_paket_kelas'];?>','t'))">ROLLBACK</button>
+					<?php } ?>
+					<?php } ?>
+				</td>
+			</tr>
+			<?php $j++;}?>
+		</table>
+	</div>
+</div>
+<div class="inqbox-content">
+	<h4 align="center">Tabel Kartu Studi Mahasiswa</h4>
+	<div class="table-responsive">
+		<form id="frm_krs" method="post">
+			<table id="tbkrs" class="table table-bordered table-hover">
+				<tr class="bg-maroon" align="center">
+					<td rowspan="3" width="5%">No</td>
+					<td colspan="4">Mata Kuliah</td>
+					<td colspan="2">Dosen</td>
+					<td rowspan="3">Nama Kelas</td>
+					<td rowspan="3" width="10%">Status Approve Dosen Wali</td>
+					<td width="8%">Aksi</td>
+				</tr>
+				<tr class="bg-maroon" align="center">
+					<td width="8%" rowspan="2">Kode Mata Kuliah</td>
+					<td width="18%" rowspan="2">Nama Mata Kuliah</td>
+					<td colspan="2">* SKS</td>
+					<td width="10%" rowspan="2">Kode Dosen</td>
+					<td width="20%" rowspan="2">Nama Dosen</td>
+					<td width="8%"><input type="submit" value="Approve" class="btn btn-success"></td>
+				</tr>
+				<tr class="bg-maroon" align="center">
+					<td width="5%">Default</td>
+					<td width="7%">* Taken</td>
+					<td width="8%"><input type="checkbox" name="ckbCheckAll" id="ckbCheckAll" onclick="selectAll(this)"></td>
+				</tr>
+				<?php $x=0;$i=1;$totSksDef=0;$totSksTaken=0;$totSksTakenApp=0;foreach ($this->listKuliah as $dataKuliah){ ?>
+				<tr>
+					<td align="center"><?php echo $i ?></td>
+					<td><?php echo $dataKuliah['kode_mk'] ?></td>
+					<td><?php echo $dataKuliah['nm_mk'] ?></td>
+					<td align="center"><?php echo ($dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']);?></td>
+					<?php if($this->allowReg==1){?>
+					<td align="center"><?php echo $dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']-$dataKuliah['sks_deducted'];?></td>
+					<?php }else{?>
+					<td align="center"><?php echo $dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']-$dataKuliah['sks_deducted'];?></td>
+					<?php }?>
+					<td align="center"><?php echo $dataKuliah['kd_dosen'];?></td>
+					<td><?php echo $dataKuliah['nm_dosen'] ?></td>
+					<td align="center"><?php echo $dataKuliah['nm_kelas'];?></td>
+					<?php
+						if($dataKuliah['approved']=='t'){
+							$ap = "APPROVED";
+							$totSksTakenApp=$totSksTakenApp+($dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']-$dataKuliah['sks_deducted']);
+						}else{
+							$ap = "NOT-APPROVED";
+						}
+						?>
+					<td align="center"><?php echo $ap;?></td>
+					<td align="center">
+						<?php if($this->allowReg==1){?>
+						<?php if($dataKuliah['approved']=='t'){ ?>
+						<button type="button" class="btn btn-warning btn-xs" onclick="confirm('Apakah anda yakin mengubah status mata kuliah <b><?php echo str_replace("'", "\'", $dataKuliah['nm_mk']);?> menjadi DISAPPROVED?','<?php echo $this->baseUrl;?>','/ajax/updkrsstat',new Array('f','<?php echo $dataKuliah['kd_kuliah'];?>'))">Disapprove</button>
+						<?php }else{ ?>
+						<input type="checkbox" id="cbkul_<?php echo $x;?>" cbkul value="<?php echo $dataKuliah['kd_kuliah'];?>">
+						<input type="text" style="display:none;" id="mk_<?php echo $x;?>" value="<?php echo $dataKuliah['nm_mk']?>">
+						<input type="text" style="display:none;" id="kul_<?php echo $x;?>">
+						<?php $x++;} ?>
+						<?php } ?>
+					</td>
+				</tr>
+				<?php $totSksDef=$totSksDef+($dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']);$totSksTaken=$totSksTaken+($dataKuliah['sks_tm']+$dataKuliah['sks_prak']+$dataKuliah['sks_prak_lap']+$dataKuliah['sks_sim']-$dataKuliah['sks_deducted']);$i++;}?>
+				<?php $y=$x;$j=$i;$totSksDefTA=0;$totSksTakenTA=0;$totSksTakenTAApp=0;foreach ($this->listKuliahTA as $dataKuliahTA){ ?>
+				<tr>
+					<td align="center"><?php echo $j ?></td>
+					<td><?php echo $dataKuliahTA['kode_mk'] ?></td>
+					<td><?php echo $dataKuliahTA['nm_mk'] ?></td>
+					<td align="center"><?php echo ($dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']);?></td>
+					<td align="center"><?php echo $dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']-$dataKuliahTA['sks_deducted'];?></td>
+					<td align="center"><?php echo $dataKuliahTA['kd_dosen'];?></td>
+					<td><?php echo $dataKuliahTA['nm_dosen'] ?></td>
+					<td align="center"><?php echo $dataKuliahTA['nm_kelas'];?> (Periode Mulai : <?php echo $dataKuliahTA['kd_periode_mulai'];?>)</td>
+					<?php
+						if($dataKuliahTA['approved']=='t'){
+							$ap = "APPROVED";
+							$totSksTakenTAApp=$totSksTakenTAApp+($dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']-$dataKuliahTA['sks_deducted']);
+						}else{
+							$ap = "NOT-APPROVED";
+						}
+						?>
+					<td align="center"><?php echo $ap;?></td>
+					<td align="center">
+						<?php if($this->allowReg==1){?>
+						<?php if($dataKuliahTA['approved']=='t'){ ?>
+						<button type="button" class="btn btn-warning btn-xs" onclick="confirm('Apakah anda yakin mengubah status mata kuliah <b><?php echo str_replace("'", "\'", $dataKuliahTA['nm_mk']);?> menjadi DISAPPROVED?','<?php echo $this->baseUrl;?>','/ajax/updkrsstatta',new Array('f','<?php echo $dataKuliahTA['kd_kuliah'];?>'))">Disapprove</button>
+						<?php }else{ ?>
+						<input type="checkbox" id="cbkul_<?php echo $y;?>" cbkul value="<?php echo $dataKuliahTA['kd_kuliah'];?>">
+						<input type="text" style="display:none;" id="mk_<?php echo $y;?>" value="<?php echo $dataKuliahTA['nm_mk']?>">
+						<input type="text" style="display:none;" id="kul_<?php echo $y;?>">
+						<?php $y++;} ?>
+						<?php } ?>
+					</td>
+				</tr>
+				<?php $totSksDefTA=$totSksDefTA+($dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']);$totSksTakenTA=$totSksTakenTA+($dataKuliahTA['sks_tm']+$dataKuliahTA['sks_prak']+$dataKuliahTA['sks_prak_lap']+$dataKuliahTA['sks_sim']-$dataKuliahTA['sks_deducted']);$j++;}?>
+				<tr class="bg-maroon">
+					<td align="center" colspan="3"><b>Jumlah</b><input type="hidden" value="<?php echo $y;?>" id="x"></td>
+					<td align="center"><?php echo $totSksDef+$totSksDefTA;?></td>
+					<td align="center"><?php echo $totSksTaken+$totSksTakenTA;?></td>
+					<td colspan="3"><strong>Jumlah SKS Approved</strong></td>
+					<td align="center"><strong><?php echo $totSksTakenApp+$totSksTakenTAApp;?></strong></td>
+					<td></td>
+				</tr>	
+			</table>
+		</form>
+	</div>
+</div>
+<script>
+	function selectAll(all){
+		var checked = all.checked;
+		var chkBoxes = document.getElementsByTagName("input");
+		for (var counter=0;counter<chkBoxes.length;counter++) {
+			chkBoxes[counter].checked = checked ;
+		}
+		var x=$("#x").val();
+		for (i=0;i<x;i++){
+			if($("#cbkul_"+i).is(':checked')){
+				$("#kul_"+i).val($("#cbkul_"+i).val());
+			}else{
+				$("#kul_"+i).val('');
+			}
+		}
+	}
+</script>
+<script>
+	$("[cbkul]").on('change',(function() {
+		id=$(this).attr('id');
+		n= id.split('_');
+		if($(this).is(':checked')){
+			$("#kul_"+n[1]).val($(this).val());
+		}else{
+			$("#kul_"+n[1]).val('');
+		}
+	}))
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+	$("#frm_krs").submit(function() {
+	  	ajaxSubmit("frm_krs","<?php echo $this->baseUrl;?>","/ajax/updkrsmass","/perwalian/new2?nim=<?php echo $this->nim;?>&per=<?php echo $this->per;?>&new=","u");
+	  	return false;
+	});
+</script>

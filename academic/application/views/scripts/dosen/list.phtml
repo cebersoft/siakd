@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border" class="col-sm-2">
+		<div class="col-sm-8">
+			<strong>
+			Kategori Dosen : <?php echo $this->kat; ?>
+			</strong>
+		</div>
+		<div class="col-sm-8">
+			<strong>
+			Status Dosen : <?php echo $this->stat; ?>
+			</strong>
+		</div>
+		<div class="col-sm-8">
+			<strong>
+			Dosen Homebase? : <?php echo $this->a_hb; ?>
+			</strong>
+		</div>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbdsn" class="table table-bordered table-hover" style="width:1500px;">
+				<thead align="center">
+					<tr>
+						<th>NAMA DOSEN</th>
+						<th width="10%">JNS KELAMIN</th>
+						<th width="10%">KODE</th>
+						<th width="12%">KATEGORI</th>
+						<th width="8%">HOMEBASE ?</th>
+						<th width="10%">NIDN</th>
+						<th width="8%">STATUS</th>
+						<th width="5%">MATA KULIAH</th>
+						<th width="8%">AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listDosen as $dataDsn) { ?>
+					<tr>
+						<td><a onclick="nav('<?php echo $this->baseUrl?>/dosen/detil?id=<?php echo $dataDsn['kd_dosen']; ?>')" style="cursor: pointer;"><?php echo $dataDsn['nm_dosen']; ?></a></td>
+						<?php 
+							if($dataDsn['jenis_kelamin']=='L'){
+								$jk="LAKI-LAKI";
+							}else{
+								$jk="PEREMPUAN";
+							}
+							?>
+						<td align="center"><?php echo $jk; ?></td>
+						<td><?php echo $dataDsn['kd_dosen']; ?></td>
+						<td align="center"><?php echo $dataDsn['kategori_dosen']; ?></td>
+						<?php 
+							if($dataDsn['a_dosen_homebase']=='t'){
+								$a_hb="YA";
+							}else{
+								$a_hb="TIDAK";
+							}
+							?>
+						<td align="center"><?php echo $a_hb; ?></td>
+						<td><?php echo $dataDsn['nidn']; ?></td>
+						<?php 
+							if($dataDsn['aktif']=='t'){
+								$stat="AKTIF";
+								$a_st="f";
+								$btn="NA";
+							}else{
+								$stat="TIDAK AKTIF";
+								$a_st="t";
+								$btn="A";
+							}
+							?>
+						<td align="center"><?php echo $stat; ?></td>
+						<td align="center">
+							<button type="button" class="btn btn-info btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/ajar/index?kd=<?php echo $dataDsn['kd_dosen'];?>')"><i class="fa fa-eye"></i></button>
+						</td>
+						<td align="center">
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan mengubah status dosen ini? <strong><?php echo str_replace("'", "\'", $dataDsn['nm_dosen']);?></strong>','<?php echo $this->baseUrl;?>','/ajax/updstdsn',new Array('<?php echo $a_st;?>','<?php echo $dataDsn['kd_dosen'];?>'))"><?php echo $btn;?></button>
+							<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/dosen/edit?kd=<?php echo $dataDsn['kd_dosen'];?>')"><i class="fa fa-pencil"></i></button>
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus dosen ini? <strong><?php echo str_replace("'", "\'", $dataDsn['nm_dosen']);?></strong>','<?php echo $this->baseUrl;?>','/ajax/deldsn',new Array('<?php echo $dataDsn['kd_dosen'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbdsn',true,true,true,true,true,false);});</script>

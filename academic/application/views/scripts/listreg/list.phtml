@@ -1,0 +1,82 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box  box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbreg" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th style="width:2px;"></th>
+						<th>NIM</th>
+						<th>NAMA MAHASISWA</th>
+						<th>STATUS</th>
+						<th>STATUS REGISTRASI</th>
+						<th>KRS</th>
+						<th>SKS APP</th>
+						<th>PKRS</th>
+						<th>PKRS APP</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listRegister as $dataReg) { ?>
+					<?php
+						if($dataReg['kd_status_reg']==null){
+							if($dataReg['id_jns_keluar']==''){
+								$stat_reg="Unregistered";
+								$aksi="Register";
+								$warna="orange";
+								$class="primary";
+							}else{
+								$stat_reg="-";
+								$aksi="-";
+								$warna="default";
+								$class="default";
+							}
+						}else{
+							$stat_reg=$dataReg['status_reg']."(".$dataReg['status_mhs_periode'].")";
+							$aksi="Cancel";
+							$warna="teal";
+							$class="warning";
+						}
+						
+						if(($dataReg['krs']=='f')or($dataReg['krs']==null)){
+							$krs="disabled";
+						}else{
+							$krs="";
+						}
+						?>
+					<tr>
+						<td class=" bg-<?php echo $warna;?>"></td>
+						<td><?php echo $dataReg['nim']; ?></td>
+						<td><?php echo $dataReg['nm_mhs']; ?></a></td>
+						<td align="center"><?php echo $dataReg['status_mhs']; ?></td>
+						<td align="center"><?php echo $stat_reg; ?></td>
+						<?php 
+							if($dataReg['sks_app']!=$dataReg['sks_krs']){
+								$warnaSKS="warning";
+							}else{
+								$warnaSKS="default";
+							}
+							if(($dataReg['krs']=='t')and($dataReg['sks_krs']==0)){
+								$warnaSKS="danger";
+							}
+							if($dataReg['n_pkrs']!=$dataReg['n_pkrs_exec']){
+								$warnaPkrs="warning";
+							}else{
+								$warnaPkrs="default";
+							}
+						?>
+						<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/krs/index?nim=<?php echo $dataReg['nim'];?>&per=<?php echo $this->kd_periode;?>')" <?php echo $krs;?>><i class="fa fa-eye"></i></button></td>
+						<td align="center"><span class="label label-<?php echo $warnaSKS;?>"><?php echo $dataReg['sks_app']."/".$dataReg['sks_krs']; ?></span></td>
+						<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/pkrs/index?nim=<?php echo $dataReg['nim'];?>&per=<?php echo $this->kd_periode;?>')" <?php echo $krs;?>><i class="fa fa-eye"></i></button></td>
+						<td align="center"><span class="label label-<?php echo $warnaPkrs;?>"><?php echo $dataReg['n_pkrs']."/".$dataReg['n_pkrs_exec']; ?></span></td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbreg',true,true,true,true,true,false);});</script>

@@ -1,0 +1,23 @@
+<div class="box box-info">
+	<div class="box-body">
+        <ul class="timeline timeline-inverse">
+        	<li class="time-label">
+        		<span class="bg-green"><?php echo $this->date_crt;?></span>
+        	</li>
+        	<li>
+        	<i class="fa fa-bullhorn bg-blue"></i>    
+        		<div class="timeline-item">
+        			<span class="time"><i class="fa fa-clock-o"></i><?php echo $this->time_crt;?></span>    
+        			<h3 class="timeline-header"><a href="#"><?php echo $this->judul;?></a><small> (dibuat oleh : <?php echo $this->usr_crt;?>)</small></h3>
+        			<div class="timeline-body">
+        				<?php echo $this->konten;?>
+    				</div>
+    				<div class="timeline-footer">
+    					<a class="btn btn-primary btn-xs">Edit : <?php echo $this->usr_edt." ".$this->date_edt." ".$this->time_edt;?></a>
+    					<a class="btn btn-danger btn-xs">Expired : <?php echo $this->date_exp;?></a>
+    				</div>
+    			</div>
+    		</li>
+    	</ul>
+	</div>
+</div>

@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Daftar Mahasiswa Pengambil Paket Kelas</h3>
+	</div>
+	<div class="box-body">
+		<div class="col-md-6">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Nama Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->nm_kelas." (".$this->jns_kelas.")";?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn;?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+		</div>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbl" class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th width="5%">NO</th>
+						<th width="15%">NIM</th>
+						<th>NAMA</th>
+						<th width="10%">ANGKATAN</th>
+						<th width="15%">STATUS KRS</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $n=1;foreach ($this->listMhsKuliah as $dataMhsKul){ ?>
+					<tr>
+						<td><?php echo $n;?></td>
+						<td><?php echo $dataMhsKul['nim'] ?></td>
+						<td><?php echo $dataMhsKul['nm_mhs'] ?></td>
+						<td align="center"><?php echo $dataMhsKul['id_angkatan'] ?></td>
+						<?php 
+							if( $dataMhsKul['approved']=='t'){
+								$status="APPROVED";
+							}else{
+								$status="NOT-APPROVED";
+							}
+						?>
+						<td align="center"><?php echo $status; ?></td>
+					</tr>
+					<?php $n++;} ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbl',true,true,true,false,false,false);});</script>

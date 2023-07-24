@@ -1,0 +1,106 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/morris/morris.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/dist/css/AdminLTE.min.css">
+<?php //echo $this->x;?>
+<?php if(!$this->akt){?>
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Filter </h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">ANGKATAN</label>
+				<div class="col-sm-4">
+					<select id="akt" class="form-control" name="akt">
+						<?php foreach ($this->listAkt as $dataAngkatan) { ?>
+						<option value="<?php echo $dataAngkatan['id_angkatan']; ?>"><?php echo $dataAngkatan['id_angkatan']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">PRODI</label>
+				<div class="col-sm-4">
+					<select id="prd" class="form-control" name="prd">
+						<?php foreach ($this->listProdi as $dataProdi) { ?>
+						<option value="<?php echo $dataProdi['kd_prodi']; ?>"><?php echo $dataProdi['kd_prodi']." : ".$dataProdi['nm_prodi']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">DARI NIM</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="nim1" placeholder="klik untuk pilih mahasiswa" maxlength="20" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/mahasiswa',new Array('nim1','nm_mhs1'), new Array('akt','prd'))">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nama Mahasiswa</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="nm_mhs1" placeholder="terisi otomatis dari pilihan mahasiswa" readonly>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">SAMPAI NIM</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="nim2" placeholder="klik untuk pilih mahasiswa" maxlength="20" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/mahasiswa',new Array('nim2','nm_mhs2'), new Array('akt','prd'))">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nama Mahasiswa</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="nm_mhs2" placeholder="terisi otomatis dari pilihan mahasiswa" readonly>
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="submit" class="btn btn-info pull-right col-sm-2">Show</button>
+			</div>
+		</div>
+	</form>
+</div>
+<?php }else{ ?>
+<div class="box box-success">
+	<div class="box-header with-border">
+		<h3 class="box-title">
+			Report IPK Mahasiswa
+		</h3>
+		<div class="box-body">
+			<?php $i=1;?>
+			<p class="label label-warning">
+				Waktu Eksekusi:<?php echo number_format($this->elp_time,2,',','.');?> detik Max 60 detik
+				. Total Mahasiswa tidak tampil : <?php echo $this->mhsNotShown;?> dari <?php echo $this->totMhs;?>	
+			</p>
+			<table id="tbipk" class="table table-bordered table-hover">
+				<tr>
+					<th>No</th>
+					<th>NIM</th>
+					<th>NAMA MAHASISWA</th>
+					<th>STATUS</th>
+					<th>SKS</th>
+					<th>IPK</th>
+				</tr>
+			<?php foreach ($this->listIpk as $dtIpk){?>
+				<tr>
+					<td><?php echo $i;?></td>
+					<td><?php echo $dtIpk['nim'];?></td>
+					<td><?php echo $dtIpk['nm_mhs'];?></td>
+					<td align="center"><?php echo $dtIpk['status_mhs'];?></td>
+					<td align="center"><?php echo $dtIpk['sks_tot'];?></td>
+					<td align="center"><?php echo $dtIpk['ipk'];?></td>
+				</tr>
+			<?php $i++;}?>
+			</table>
+		</div>
+	</div>
+</div>
+<?php } ?>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $("#frm").submit(function() {
+	    ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax5/showipkrep","/nilai/ipkreport","s");
+	    return false;
+	  });
+	});
+</script>

@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box  box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbper" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<td><a onclick="confirm('Anda yakin untuk memundurkan periode akademik berjalan?','<?php echo $this->baseUrl ?>','/ajax2/updperstat',new Array('-1'))" style="cursor: pointer;">&nbsp;&lt;&lt;<u>Previous Period</u></a></td>
+						<td align="center" colspan="4">Klik Pada tombol <b>Previous Period</b> untuk memundurkan periode akademik dan <b>Next Period</b> untuk memajukan periode akademik</td>
+						<td align="right"><a onclick="confirm('Anda yakin untuk memajukan periode akademik berjalan?','<?php echo $this->baseUrl ?>','/ajax2/updperstat',new Array('1'))" style="cursor: pointer;"><u> Next Period</u>&nbsp;&gt;&gt;</a></td>
+					</tr>
+					<tr>
+						<th>KODE PERIODE</th>
+						<th>STATUS PERIODE</th>
+						<th>TANGGAL DIMULAI</th>
+						<th>TANGGAL SELESAI</th>
+						<th width="10%">KALENDER AKADEMIK</th>
+						<th>AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listPeriode as $dataPer) { ?>
+					<?php 
+						if ($dataPer['id_status_periode']==0){
+							$warna='lightgreen';
+						}else if($dataPer['id_status_periode']==1){
+							$warna='yellow';
+						}else{
+							$warna='lightblue';
+						}
+						?>
+					<tr bgcolor="<?php echo $warna;?>">
+						<td><?php echo $dataPer['kd_periode']; ?></td>
+						<td><?php echo $dataPer['status_periode_akademik']; ?></td>
+						<td><?php echo $dataPer['tanggal_mulai_fmt']; ?></td>
+						<td><?php echo $dataPer['tanggal_selesai_fmt']; ?></td>
+						<td align="center">
+							<button type="button" class="btn btn-info btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/kalender/index?id=<?php echo $dataPer['kd_periode'];?>')"><i class="fa fa-calendar"></i></button>
+						</td>
+						<td align="center">
+							<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/periode/edit?id=<?php echo $dataPer['kd_periode'];?>')"><i class="fa fa-pencil"></i></button>
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus periode akademik ini? <strong><?php echo str_replace("'", "\'", $dataPer['kd_periode']);?></strong>','<?php echo $this->baseUrl;?>','/ajax2/delper',new Array('<?php echo $dataPer['kd_periode'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbper',true,true,true,false,true,false);});</script>

@@ -1,0 +1,33 @@
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data RPS</h3>
+</div>
+<div class="inqbox-content col-sm-12">
+	<div class="panel-body">
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Capaian Pembelajaran</label>
+					<div class="col-sm-8">
+						<input type="hidden" id="id" value="<?php echo $this->id_rps;?>">
+						<input type="text" class="form-control" id="capaian" placeholder="capaian pembelajaran" value="<?php echo $this->capaian;?>">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="box-footer col-sm-6">
+					<button type="submit" class="btn btn-primary pull-right col-sm-4" id="btnsbm">Simpan</button>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-4" id="btnres">Reset</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/updrps","/rps/index?id=<?php echo $this->kd_kls;?>&new=","u");
+	  return false;
+	});
+</script>

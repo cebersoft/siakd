@@ -1,0 +1,43 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		Summary Rekap Nilai UTS/UAS
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbnilai" class="table table-bordered table-hover">
+				<tr>
+					<th rowspan="2">No</th>
+					<th rowspan="2">Mata Kuliah</th>
+					<th rowspan="2">Kode</th>
+					<th rowspan="2">Semester</th>
+					<th rowspan="2">Dosen</th>
+					<th rowspan="2">Kelas</th>
+					<th colspan="2">UTS</th>
+					<th colspan="2">UAS</th>
+					<th rowspan="2">TOTAL</th>
+				</tr>
+				<tr>
+					<th>NULL</th>
+					<th>FIX</th>
+					<th>NULL</th>
+					<th>FIX</th>
+				</tr>
+				<?php $i=1; foreach ($this->listPaket as $dataPaket) { ?>
+				<tr>
+					<td align="center"><?php echo $i;?></td>
+					<td><?php echo $dataPaket['nm_mk'];?></td>
+					<td><?php echo $dataPaket['kode_mk'];?></td>
+					<td align="center"><?php echo $dataPaket['smt_def'];?></td>
+					<td><?php echo $dataPaket['nm_dosen'];?></td>
+					<td align="center"><?php echo $dataPaket['nm_kelas']." ".$dataPaket['jns_kelas'];?></td>
+					<td align="center"><?php echo $dataPaket['not_uts'];?></td>
+					<td align="center"><?php echo $dataPaket['n_uts'];?></td>
+					<td align="center"><?php echo $dataPaket['not_uas'];?></td>
+					<td align="center"><?php echo $dataPaket['n_uas'];?></td>
+					<td align="center"><?php echo ($dataPaket['not_uas']+$dataPaket['n_uas']);?></td>
+				</tr>
+				<?php $i++;} ?>
+			</table>
+		</div>
+	</div>
+</div>

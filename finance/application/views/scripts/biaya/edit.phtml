@@ -1,0 +1,61 @@
+<div class="row">
+	<div class="col-sm-8">
+		<div class="col-sm-4">Program Studi</div>
+		<div class="col-sm-8">: <?php echo $this->prd;?></div>
+		<div class="col-sm-4">Angkatan</div>
+		<div class="col-sm-8">: <?php echo $this->akt;?></div>
+		<div class="col-sm-4">Status Masuk</div>
+		<div class="col-sm-8">: <?php echo $this->sm;?></div>
+		<div class="col-sm-4">Gelombang</div>
+		<div class="col-sm-8">: <?php echo $this->gel;?></div>
+		<div class="col-sm-4">Komponen Biaya</div>
+		<div class="col-sm-8">: <?php echo $this->kom;?></div>
+	</div>
+</div>
+<div>
+	<form class="form-horizontal" role="form" id="frm">
+		<div class="form-group">
+			<input type="hidden" id="akt" value="<?php echo $this->akt;?>">
+			<input type="hidden" id="prd" value="<?php echo $this->kdprd;?>">
+			<input type="hidden" id="sm" value="<?php echo $this->idsm;?>">
+			<input type="hidden" id="gel" value="<?php echo $this->idgel;?>">
+			<input type="hidden" id="komp" value="<?php echo $this->idkom;?>">
+			<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Paket Biaya</label>
+			<div class="col-sm-9">
+				<select class="col-xs-10 col-sm-5" id="pkt">
+					<option value="" disabled="disabled">pilih paket biaya</option>
+					<?php foreach ($this->listPaketBiaya as $dtPkt){?>
+					<?php 
+						if($dtPkt['id_paket']==$this->idpkt){
+							$sel="selected";
+						}else{
+							$sel="";
+						}
+					?>
+					<option value="<?php echo $dtPkt['id_paket'];?>" <?php echo $sel;?> ><?php echo $dtPkt['nm_paket']?></option>
+					<?php }?>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Nominal</label>
+			<div class="col-sm-9">
+				<input type="number" id="nom" value="<?php echo $this->nom;?>" class="col-xs-10 col-sm-5" placeholder="nominal" min="1" max="10000000000" step="0.01">
+			</div>
+		</div>
+		<div class="clearfix form-actions">
+			<div class="col-md-offset-3 col-md-9">
+				<button class="btn btn-info" type="submit" sb><i class="ace-icon fa fa-check bigger-110"></i>Submit</button>
+				&nbsp; &nbsp; &nbsp;
+				<button class="btn" type="reset"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("[sb]").on('click',(function() {
+	 ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/updbiaya","/biaya/edit?akt=<?php echo $this->akt;?>&prd=<?php echo $this->kdprd;?>&sm=<?php echo $this->idsm;?>&gel=<?php echo $this->idgel;?>&kom=<?php echo $this->idkom;?>&new=","u");
+	  return false;
+	}));
+</script>

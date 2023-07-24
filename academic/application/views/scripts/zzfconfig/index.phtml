@@ -1,0 +1,163 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Konfigurasi WS Feeder</h3>
+	</div>
+	
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbakt" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>WS</th>
+						<th width="35%">URL (IP anda saat ini : )</th>
+						<th>USERNAME</th>
+						<th>PASSWORD</th>
+						<th width="25%">AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listConfig as $data) { ?>
+					<?php 
+						if($data['live']=='t'){
+							$live="LIVE";
+						}else{
+							$live="SANDBOX";
+						}
+						?>
+					<tr>
+						<form id="frm<?php echo $i;?>" method="post">
+							<td>
+								<input type="hidden" id="live<?php echo $i;?>" value="<?php echo $data['live'];?>">
+								<?php echo $live;?>
+							</td>
+							<td><input type="text" id="url<?php echo $i;?>" value="<?php echo $data['url']; ?>"  class="form-control"></td>
+							<td><input type="text" id="uname<?php echo $i;?>" value="<?php echo $data['username']; ?>"  class="form-control"></td>
+							<td><input type="password" id="pwd<?php echo $i;?>" value="<?php echo $data['pwd']; ?>"  class="form-control"></td>
+							<td align="center">
+								<button type="button" class="btn btn-primary" save value="<?php echo $i;?>">SIMPAN</button>
+								<button type="button" class="btn btn-warning" gen value="<?php echo $i;?>">GENERATE TOKEN</button>
+							</td>
+						</form>
+					</tr>
+					<?php $i++;} ?>
+			</table>
+		</div>
+		<?php 
+			$ses_feeder = new Zend_Session_Namespace('ses_feeder');
+			if(!$ses_feeder->token){
+				$warna="danger";
+				$text="Anda belum memiliki token untuk mengakses halaman sinkronisasi lainnya, silakan generate token terlebih dahulu";
+			}else{
+				$warna="success";
+				$text="Anda sudah memiliki token untuk mengakses halaman sinkronisasi lainnya";
+			}
+			?>
+		<h5 class="callout callout-<?php echo $warna;?>">
+			<?php echo $text;?>
+			<ul>
+				<li>Token Saat ini : <?php echo $ses_feeder->token;?></li>
+				<li>ID SP (Satuan Pendidikan) : <?php echo $ses_feeder->id_sp;?></li>
+				<li>Lembaga : <?php echo $ses_feeder->nm_lemb;?></li>
+				<li>Saat ini Anda menggunakan WS : <?php echo $ses_feeder->url;?></li>
+			</ul>
+		</h5>
+	</div>
+	<?php if($this->ses_feeder=='1'){ ?>
+	<div class="box-header with-border">
+		<h3 class="box-title">Konfigurasi Kurikulum Tiap Prodi-Periode</h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm_kur">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Periode Akademik</label>
+				<div class="col-sm-4">
+					<select id="per" class="form-control select2" data-placeholder="pilih periode" name="akt" sel-2>
+						<?php foreach ($this->listPeriode as $dataPeriode) { ?>
+						<option value="<?php echo $dataPeriode['kd_periode']; ?>"><?php echo $dataPeriode['kd_periode']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Program Studi</label>
+				<div class="col-sm-4">
+					<select id="prd" class="form-control select2" data-placeholder="pilih program studi" name="prd" sel-2>
+						<?php foreach ($this->listProdi as $dataProdi) { ?>
+						<option value="<?php echo $dataProdi['kd_prodi']; ?>"><?php echo $dataProdi['kd_prodi']." : ".$dataProdi['nm_prodi']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Kurikulum (FEEDER)</label>
+				<div class="col-sm-4">
+					<select id="kur" class="form-control select2" data-placeholder="pilih kurikulum" name="kur" sel-2>
+						<?php foreach ($this->listKurFeeder as $dataKur) { ?>
+						<option value="<?php echo $dataKur['id_kurikulum']; ?>"><?php echo $dataKur['nama_kurikulum']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+				<button id="addkur" type="submit" class="btn btn-primary pull-right col-sm-2">Tambah</button>
+			</div>
+		</div>
+	</form>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbakt" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th width="5%">NO</th>
+						<th width="25%">PERIODE</th>
+						<th width="15%">PRODI</th>
+						<th>KURIKULUM FEEDER</th>
+						<th width="5%">AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listConfkur as $data) { ?>
+					<tr>
+						<td><?php echo $i; ?></td>
+						<td><?php echo $data['kd_periode']; ?></td>
+						<td><?php echo $data['kd_prodi']."-".$data['nm_prodi']; ?></td>
+						<td>
+							<?php
+								$kur="NOT FOUND DI FEEDER"; 
+								foreach ($this->listKurFeeder as $dtKurFeeder){
+									if($dtKurFeeder['id_kurikulum']==$data['id_kurikulum_sp']){
+										$kur=$dtKurFeeder['nama_kurikulum'];
+									}
+								} 
+							?>
+							<?php echo $kur; ?>
+						</td>
+						<td align="center">
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus kurikulum pada prodi dan periode ini ? <strong>','<?php echo $this->baseUrl;?>','/ajax4/delkurfeeder',new Array('<?php echo $data['kd_prodi'];?>','<?php echo $data['kd_periode'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+	<?php }?>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("[save]").on('click',(function() {
+	 x=$(this).val();
+	 ajaxSubmit("frm"+x,"<?php echo $this->baseUrl;?>","/ajax4/updwsconf?frm="+x,"/zzfconfig/index?new=","u");
+	  return false;
+	}));
+	$("[gen]").on('click',(function() {
+	 y=$(this).val();
+	 ajaxSubmit("frm"+y,"<?php echo $this->baseUrl;?>","/ajax4/gentoken?frm="+y,"/zzfconfig/index?new=","u");
+	  return false;
+	}));
+	$("#frm_kur").submit(function() {
+		 ajaxSubmit("frm_kur","<?php echo $this->baseUrl;?>","/ajax4/addkurfeeder","/zzfconfig/index?new=","u");
+		 return false;
+	});
+</script>

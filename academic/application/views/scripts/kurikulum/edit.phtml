@@ -1,0 +1,101 @@
+<div class="box box-info">
+  <div class="box-header with-border">
+    <h3 class="box-title">Data Kurikulum</h3>
+  </div>
+  <form class="form-horizontal" method="post" id="frm">
+    <div class="box-body">
+      <div class="col-md-6">
+      	<div class="form-group">
+          <label class="col-sm-4 control-label">Program Studi</label>
+          <div class="col-sm-8">
+            <select class="form-control" id="prd">
+              <option disabled selected value="">pilih program studi</option>
+              <?php foreach ($this->listProdi as $dt) { ?>
+                <?php
+                  if($dt['kd_prodi']==$this->kd_prodi){
+                    $selprd="selected";
+                  }else{
+                    $selprd="";
+                  }
+                ?> 
+                  <option value="<?php echo $dt['kd_prodi']?>" <?php echo $selprd;?>><?php echo $dt['nm_prodi']?></option>
+              <?php } ?>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-4 control-label">Kode Kurikulum</label>
+          <div class="col-sm-8">
+          <input type="hidden" id="id" value="<?php echo $this->id_kurikulum;?>">
+	        <input type="text" class="form-control" id="kd" placeholder="kode kurikulum" maxlength="5" value="<?php echo $this->kd_kurikulum;?>">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-4 control-label">Nama Kurikulum</label>
+          <div class="col-sm-8">
+	        <input type="text" class="form-control" id="nm" placeholder="nama kurikulum" maxlength="20" value="<?php echo $this->nm_kurikulum;?>">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-4 control-label">Periode Akd. Berlaku</label>
+          <div class="col-sm-8">
+            <select class="form-control" id="periode">
+              <option disabled selected value="">pilih periode akademik</option>
+              <?php foreach ($this->listPeriode as $dt) { ?>
+                <?php
+                    if($dt['kd_periode']==$this->kd_periode){
+                      $selper="selected";
+                    }else{
+                      $selper="";
+                    }
+                  ?> 
+                  <option value="<?php echo $dt['kd_periode']?>" <?php echo $selper;?> ><?php echo $dt['kd_periode']?></option>
+              <?php } ?>
+            </select>
+          </div>
+        </div>
+       </div>
+       <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-sm-4 control-label">Semester Normal</label>
+          <div class="col-sm-8">
+              <input type="number" class="form-control" id="smt" placeholder="semester normal" min="0" max="10" step="1" value="<?php echo $this->smt_normal;?>">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-4 control-label">SKS Lulus</label>
+          <div class="col-sm-8">
+              <input type="number" class="form-control" id="sks_l" placeholder="sks lulus" min="10" max="150" step="1" value="<?php echo $this->sks_l;?>">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-4 control-label">SKS MK Wajib</label>
+          <div class="col-sm-8">
+              <input type="number" class="form-control" id="sks_w" placeholder="sks wajib" min="10" max="150" step="1" value="<?php echo $this->sks_w;?>">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-4 control-label">SKS MK Pilihan</label>
+          <div class="col-sm-8">
+              <input type="number" class="form-control" id="sks_p" placeholder="sks pilihan" min="0" max="10" step="1" value="<?php echo $this->sks_p;?>">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="box-body">
+      <div class="box-footer col-sm-6">
+      	<button type="submit" class="btn btn-primary pull-right col-sm-4" id="btnsbm">Simpan</button>
+      </div>
+      <div class="box-footer col-sm-6">
+        <button type="reset" class="btn btn-default pull-left col-sm-4" id="btnres">Reset</button>
+      </div>
+    </div>
+  </form>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+  $("#frm").submit(function() {
+    ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/updkur","/kurikulum/detil?id=","u");
+    return false;
+  });
+</script>

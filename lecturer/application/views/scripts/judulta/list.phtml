@@ -1,0 +1,46 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Daftar Judul TA <?php echo $this->stat;?> Periode <?php echo $this->per;?> Prodi <?php echo $this->nm_prodi;?></h3>
+</div>
+<div class="inqbox-content">
+	<div class="inqbox-title border-top-info">
+		<button class="btn btn-warning" <?php echo $this->btn0;?> onclick="nav('<?php echo $this->baseUrl;?>/judulta/list')">Diajukan</button>
+		<button class="btn btn-success" <?php echo $this->btn1;?> onclick="nav('<?php echo $this->baseUrl;?>/judulta/list?st=1')">Disetujui</button>
+		<button class="btn btn-danger"  <?php echo $this->btn2;?> onclick="nav('<?php echo $this->baseUrl;?>/judulta/list?st=-1')">Ditolak</button>
+	</div>
+	<div class="table-responsive">
+		<table id="tbprd" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th width="5%">NO</th>
+					<th width="10%">NIM</th>
+					<th width="20%">NAMA</th>
+					<th width="20%">MATA KULIAH</th>
+					<th>JUDUL</th>
+					<th width="15%">AKSI</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;foreach ($this->listJudulTa as $data) { ?>
+				<?php if($data['status']==intval($this->st)){ ?>
+				<tr>
+					<td><?php echo $i; ?></td>
+					<td><?php echo $data['nim'];?></td>
+					<td><?php echo $data['nm_mhs']; ?></td>
+					<td><?php echo $data['nm_mk']; ?></td>
+					<td><?php echo $data['judul_ta']; ?></td>
+					<td align="center">
+						<?php if($data['status']==0){ ?>
+						<button type="button" class="btn btn-primary btn-xs" onclick="confirm('Apakah Anda yakin akan <strong>approve</strong> judul ini? ','<?php echo $this->baseUrl;?>','/ajax/appjudulta',new Array('<?php echo $data['id_judul_ta'];?>','1'))">Approve</button>
+						<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan <strong>reject</strong> judul ini? ','<?php echo $this->baseUrl;?>','/ajax/appjudulta',new Array('<?php echo $data['id_judul_ta'];?>','-1'))">Reject</button>						
+						<?php }else{ ?>
+						<button type="button" class="btn btn-primary btn-xs" onclick="confirm('Apakah Anda yakin akan <strong>membatalkan status</strong> judul ini? ','<?php echo $this->baseUrl;?>','/ajax/appjudulta',new Array('<?php echo $data['id_judul_ta'];?>','0'))">Batal</button>
+						<?php } ?>
+					</td>
+				</tr>
+				<?php $i++; } } ?>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,72 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Indeks Nilai</h3>
+	</div>
+	<div class="box-body">
+		<div class="col-md-6">
+			<div class="col-sm-4">Kode Range</div>
+			<div class="col-sm-8">: <?php echo $this->id;?></div>
+			<div class="col-sm-4">Nama Range Nilai</div>
+			<div class="col-sm-8">: <?php echo $this->nm;?></div>
+			<div class="col-sm-4">Nilai Tunda</div>
+			<div class="col-sm-8">: <?php echo $this->ind_t;?></div>
+		</div>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Indeks Nilai</label>
+				<input type="hidden" id="id_hdr" value="<?php echo $this->id;?>">
+				<div class="col-sm-4">
+					<select class="form-control" id="indeks">
+						<option disabled selected value="">pilih indeks</option>
+						<?php foreach ($this->listInd as $dataInd) {?>
+						<option value="<?php echo $dataInd['id_indeks'];?>"><?php echo $dataInd['indeks']." (".$dataInd['bobot'].")";?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nilai Minimal ( &le; )</label>
+				<div class="col-sm-4">
+					<input type="number" class="form-control" id="nilai" placeholder="nilai minimal (skala 100, 2 desimal)" min="0" max="100" step="0.05">
+				</div>
+			</div>
+		</div>
+		<div class="box-body">
+			<div class="box-footer col-sm-6">
+				<button type="submit" class="btn btn-primary pull-right col-sm-2" id="btnsbm">Tambah</button>
+				<button type="reset" class="btn btn-default pull-left col-sm-2" id="btnres">Reset</button>
+			</div>
+		</div>
+	</form>
+	<div class="box-body">
+		<div class="table-responsive col-sm-8">
+			<table id="tbkur" class="table table-bordered table-hover">
+				<tr>
+					<th>No</th>
+					<th>Nilai Minimal</th>
+					<th>Indeks</th>
+					<th width="15%">Aksi</th>
+				</tr>
+				<?php $i=1; foreach ($this->listRangeDtl as $dtRange){ ?>
+				<tr>
+					<td><?php echo $i;?></td>
+					<td><?php echo $dtRange['nilai_min'];?></td>
+					<td align="center"><?php echo $dtRange['indeks'];?></td>
+					<td align="center">
+						<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus indeks nilai ini? <strong><?php echo str_replace("'", "\'", $dtRange['indeks']." nilai minimal : ".$dtRange['nilai_min']);?></strong>','<?php echo $this->baseUrl;?>','/ajax2/delrangedtl',new Array('<?php echo $dtRange['id_range_dtl'];?>'))"><i class="fa fa-remove"></i></button>
+					</td>
+				</tr>
+				<?php $i++;}?>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax2/insrangedtl","/rangenilai/detil?id=<?php echo $this->id;?>&new=","u");
+	  return false;
+	});
+</script>

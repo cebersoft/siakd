@@ -1,0 +1,70 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<div class="col-md-6">
+			<div class="col-sm-4">NIM</div>
+			<div class="col-sm-8">: <?php echo $this->nim;?></div>
+			<div class="col-sm-4">Nama Mahasiswa</div>
+			<div class="col-sm-8">: <?php echo $this->nm;?></div>
+		</div>
+		<div class="col-md-6">
+			<div class="col-sm-4">Program Studi/Angkatan</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prd."(".$this->kd_prd.") / ".$this->akt;?></div>
+			<div class="col-sm-4">Dosen Wali</div>
+			<div class="col-sm-8">: <?php echo $this->dw;?></div>
+		</div>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbkur" class="table table-bordered table-hover">
+				<?php foreach ($this->listPer as $dtPer){ ?>
+				<tr>
+					<th colspan="13"><strong>Periode Akademik <?php echo $dtPer;?></strong></th>
+				</tr>
+				<tr>
+					<th width="5%">No</th>
+					<th width="8%">Kode</th>
+					<th>Mata Kuliah</th>
+					<th width="10%">Kelas</th>
+					<th width="20%">Dosen</th>
+					<th width="7%">SKS Def</th>
+					<th width="7%">SKS Taken</th>
+					<th width="5%">Prtm</th>
+					<th width="5%">Hadir</th>
+					<th width="5%">Alpha</th>
+					<th width="5%">Sakit</th>
+					<th width="5%">Izin</th>
+					<th width="10%">Persentase</th>
+				</tr>
+				<?php $j=1;foreach ($this->listAbsensi as $dataAbs) { ?>
+				<?php if($dataAbs['kd_periode']==$dtPer){ ?>
+				<tr>
+					<td><?php echo $j;?></td>
+					<td><?php echo $dataAbs['kode_mk'];?></td>
+					<td><?php echo $dataAbs['nm_mk'];?></td>
+					<td><?php echo $dataAbs['nm_kelas'];?></td>				
+					<td><?php echo $dataAbs['nm_dosen'];?></td>
+					<?php $sks=$dataAbs['sks_tm']+$dataAbs['sks_prak']+$dataAbs['sks_prak_lap']+$dataAbs['sks_sim']; ?>
+					<td align="center"><?php echo $sks;?></td>
+					<?php $sks_taken=$sks-$dataAbs['sks_deducted']; ?>
+					<td align="center"><?php echo $sks_taken;?></td>
+					<td align="center"><?php echo $dataAbs['n_perkuliahan'];?></td>
+					<td align="center"><?php echo $dataAbs['n_hadir'];?></td>
+					<td align="center"><?php echo $dataAbs['n_alpha'];?></td>
+					<td align="center"><?php echo $dataAbs['n_sakit'];?></td>
+					<td align="center"><?php echo $dataAbs['n_izin'];?></td>
+					<?php 
+						if($dataAbs['n_perkuliahan']==0){
+							$persen="0";
+						}else{
+							$persen=number_format(($dataAbs['n_hadir']/$dataAbs['n_perkuliahan']*100),2,',','.');
+						}
+					?>
+					<td align="center"><?php echo $persen;?>%</td>
+				</tr>
+				<?php $j++; } ?>
+				<?php } ?>
+				<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>

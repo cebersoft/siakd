@@ -1,0 +1,311 @@
+<div class="row">
+	<div class="col-md-3">
+		<div class="box box-primary">
+			<div class="box-body box-profile">
+				<img id="picdsn" class="profile-user-img img-responsive img-rounded" src="<?php echo $this->baseUrl;?>/image/jpg?url=public/file/dsn/foto/<?php echo $this->kd_dosen;?>.jpg" alt="Foto Dosen" onerror="this.src='<?php echo $this->baseUrl;?>/image/jpg?url=public/file/dsn/foto/default.jpg'" style="width:150px;height:200px">
+				<h3 class="profile-username text-center"><?php echo $this->g_dpn." ".$this->nm_dosen." ".$this->g_blk; ?></h3>
+				<p class="text-muted text-center"><?php echo $this->nm_pt;?></p>
+				<ul class="list-group list-group-unbordered">
+					<li class="list-group-item">
+						<a class="fa fa-birthday-cake"></a><a class="pull-right"><?php echo $this->tempat_lahir.", ".$this->tanggal_lahir; ?></a>
+					</li>
+					<li class="list-group-item">
+						<a class="fa fa-map-marker"></a><a class="pull-right"><?php echo $this->kota_tinggal; ?></a>
+					</li>
+					<li class="list-group-item">
+						<a class="fa fa-venus-mars"></a><a class="pull-right"><?php echo $this->jk; ?></a>
+					</li>
+				</ul>
+				<form method="post" id="frm" enctype="multipart/form-data">
+					<div class="box-body">
+						<div class="form-group">
+							<input type="file" id="fotodsn" name="fotodsn" accept="image/jpeg" >
+						</div>
+						<button type="button" class="btn btn-primary btn-block" id="upload">Upload Foto Dosen</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title"></h3>
+			</div>
+			<div class="box-body">
+				<strong><i class="fa fa-map-marker margin-r-5"></i> Alamat</strong>
+				<p class="text-muted"><?php echo $this->alamat;?></p>
+				<hr>
+				<strong><i class="fa fa-file-text-o margin-r-5"></i> Catatan :</strong>
+				<p>DOSEN <?php echo strtoupper($this->nm_pt);?></p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="nav-tabs-custom">
+			<ul class="nav nav-tabs">
+				<li class="<?php echo $this->tab_akd;?>"><a href="#histori" data-toggle="tab">Data Akademik</a></li>
+				<li><a href="#pribadi" data-toggle="tab">Profil</a></li>
+				<?php if($this->menuPend=='t'){ ?>
+				<li class="<?php echo $this->tab_pd;?>"><a href="#pendidikan" data-toggle="tab">Riwayat Pendidikan</a></li>
+				<?php }?>
+				<li><a href="#syst" data-toggle="tab">System</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="<?php echo $this->tab_akd;?> tab-pane" id="histori">
+					<div class="box-body">
+						<div class="box-header with-border">
+							<h3 class="box-title">Data Akademik</h3>
+						</div>
+						<div class="box-body">
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th style="">Data</th>
+										<th>Keterangan</th>
+									</tr>
+								</thead>
+								<tr>
+									<th>Kode Dosen</th>
+									<td><?php echo $this->kd_dosen;?></td>
+								</tr>
+								<tr>
+									<th>Status Dosen</th>
+									<td><?php echo $this->aktif;?></td>
+								</tr>
+								<tr>
+									<th>Dosen Homebase ?</th>
+									<td><?php echo $this->a_hb;?></td>
+								</tr>
+								<tr>
+									<th>Dosen Wali ?</th>
+									<td><?php echo $this->a_dw;?></td>
+								</tr>
+								<tr>
+									<th>NIDN</th>
+									<td><?php echo $this->nidn;?></td>
+								</tr>
+								<tr>
+									<th>Kelompok Dosen</th>
+									<td><?php echo $this->kategori_dosen;?></td>
+								</tr>
+								<tr>
+									<th>Jabatan Dosen</th>
+									<td><?php echo $this->jab;?></td>
+								</tr>
+								<tr>
+									<th>Pangkat Dosen</th>
+									<td><?php echo $this->pang;?></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="pribadi">
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">Data Pribadi</h3>
+						</div>
+						<div class="box-body">
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th style="">Data</th>
+										<th>Keterangan</th>
+									</tr>
+								</thead>
+								<tr>
+									<th>Nama Lengkap</th>
+									<td><?php echo $this->nm_dosen; ?></td>
+								</tr>
+								<tr>
+									<th>Gelar Depan - Gelar Belakang</th>
+									<td><?php echo $this->g_dpn; ?> - <?php echo $this->g_dpn; ?></td>
+								</tr>
+								<tr>
+									<th>Tempat, Tanggal Lahir</th>
+									<td><?php echo $this->tempat_lahir.", ".strtoupper($this->tanggal_lahir); ?></td>
+								</tr>
+								<tr>
+									<th>Jenis Kelamin</th>
+									<td><?php echo $this->jk; ?></td>
+								</tr>
+								<tr>
+									<th>Agama</th>
+									<td><?php echo $this->agm; ?></td>
+								</tr>
+								<tr>
+									<th>Kewarganegaraan</th>
+									<td><?php echo $this->kwn; ?></td>
+								</tr>
+								<tr>
+									<th>N.I.K</th>
+									<td><?php echo $this->nik;?></td>
+								</tr>
+								<tr>
+									<th>Alamat</th>
+									<td><?php echo $this->alamat.", ".$this->kota_tinggal;?></td>
+								</tr>
+								<tr>
+									<th>Kontak</th>
+									<td><?php echo $this->kontak;?></td>
+								</tr>
+								<tr>
+									<th>Email Kampus</th>
+									<td><?php echo $this->email_k;?></td>
+								</tr>
+								<tr>
+									<th>Email Lain</th>
+									<td><?php echo $this->email_l;?></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="<?php echo $this->tab_pd;?> tab-pane" id="pendidikan">
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">Riwayat Pendidikan Dosen</h3>
+						</div>
+						<form class="form-horizontal" method="post" id="fpend">
+							<div class="box-body">
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="hidden" id="kd" value="<?php echo $this->kd_dosen;?>">
+										<label class="col-sm-4 control-label">Jenjang Pendidikan</label>
+										<div class="col-sm-8">
+											<select class="form-control" id="jenjang">
+												<option disabled selected>pilih jenjang</option>
+												<?php foreach ($this->listJenjang as $dt) { ?>
+												<option value="<?php echo $dt['id_jenjang']?>"><?php echo $dt['nm_jenjang']?></option>
+												<?php } ?>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Tahun Masuk</label>
+										<div class="col-sm-8">
+											<input type="number" class="form-control" id="thnmsk" placeholder="tahun masuk" min="1950" step="1">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Tahun Lulus</label>
+										<div class="col-sm-8">
+											<input type="number" class="form-control" id="thnlls" placeholder="tahun lulus" min="1950" step="1">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Institusi</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="inst" placeholder="institusi">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Jurusan</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="jur" placeholder="jurusan">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label">Catatan Pendidikan</label>
+										<div class="col-sm-8">
+											<textarea class="form-control" rows="3" placeholder="catatan pendidikan" id="cttn"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="box-body">
+								<div class="box-footer col-sm-12">
+									<button type="submit" class="btn btn-primary pull-right col-sm-2" id="btnsbm">Tambah</button>
+									<button type="reset" class="btn btn-default pull-left col-sm-2" id="btnres">Reset</button>
+								</div>
+							</div>
+						</form>
+						<div class="table-responsive">
+							<table id="tbpend" class="table table-bordered table-hover" style="width:1000px">
+								<thead>
+									<tr>
+										<th width="10%">JENJANG</th>
+										<th width="15%">WAKTU PENDIDIKAN</th>
+										<th width="20%">INSTITUSI</th>
+										<th width="20%">JURUSAN</th>
+										<th>CATATAN PENDIDIKAN</th>
+										<th width="10%">AKSI</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php foreach ($this->listPendDosen as $dtPend) { ?>
+									<tr>
+										<td><?php echo $dtPend['nm_jenjang'];?></td>
+										<td><?php echo $dtPend['tahun_masuk']."-".$dtPend['tahun_lulus'];?></td>
+										<td><?php echo $dtPend['institusi'];?></td>
+										<td><?php echo $dtPend['jurusan'];?></td>
+										<td><?php echo $dtPend['catatan'];?></td>
+										<td align="center">
+											<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus riwayat pendidikan dosen ini? <strong><?php echo str_replace("'", "\'", $dtPend['nm_dosen']);?></strong>','<?php echo $this->baseUrl;?>','/ajax/delpdsn',new Array('<?php echo $dtPend['id_pend_dosen'];?>'))"><i class="fa fa-remove"></i></button>
+										</td>
+									</tr>
+									<?php }?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="syst">
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">Profiling Lecturer Portal System</h3>
+						</div>
+						<table id="example1" class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>USERNAME/KODE DOSEN</th>
+									<th>STATUS PORTAL</th>
+									<th>STATUS PASSWORD</th>
+									<th>RESET PASSWORD = KODE DOSEN</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><?php echo $this->uname; ?></td>
+									<?php 
+										if($this->sys_a=='t'){
+										  $sys_stat="AKTIF";
+										}else{
+										  $sys_stat="TIDAK AKTIF";
+										}
+										?>
+									<td><?php echo $sys_stat; ?></td>
+									<?php 
+										if($this->pwd==md5($this->uname)){ 
+										  $pwd_stat= "=KODE DOSEN";
+										}else{
+										  $pwd_stat= "CHANGED";
+										}
+										?>
+									<td><?php echo $pwd_stat; ?></td>
+									<?php  if($this->pwd!=md5($this->uname)){ ?>
+									<td><button class="btn btn-danger btn-block" onclick="confirm('Apakah anda yakin akan mereset password menjadi kode dosen (username) ?','<?php echo $this->baseUrl;?>','/ajax/resetpwddsn',new Array('<?php echo $this->uname;?>'))"><b>RESET</b></button></td>
+									<?php }else{ ?>
+									<td></td>
+									<?php }?>
+								</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$('#upload').on('click', function() {
+	  ajaxUpload('fotodsn','<?php echo $this->baseUrl;?>','/ajax/upldsnpic?id=<?php echo $this->kd_dosen;?>','picdsn','/image/jpg?url=public/file/dsn/foto/<?php echo $this->kd_dosen;?>.jpg');
+	});
+</script>
+<script>
+	$("#fpend").submit(function() {
+	  ajaxSubmit("fpend","<?php echo $this->baseUrl;?>","/ajax/inspdsn","/dosen/detil?id=<?php echo $this->kd_dosen;?>&pd=","u");
+	  return false;
+	});
+</script>

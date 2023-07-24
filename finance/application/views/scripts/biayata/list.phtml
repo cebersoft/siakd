@@ -1,0 +1,122 @@
+<div>
+	<form class="form-horizontal" role="form" id="frm">
+		<div class="form-group">
+			<input type="hidden" id="akt" value="<?php echo $this->akt;?>">
+			<input type="hidden" id="prd" value="<?php echo $this->prd;?>">
+			<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Komponen Biaya</label>
+			<div class="col-sm-9">
+				<select class="col-xs-10 col-sm-5" id="komp">
+					<option value="" disabled="disabled" selected="selected">pilih komponen biaya</option>
+					<?php foreach ($this->listKompBiaya as $dtKomp){?>
+					<?php if($dtKomp[biaya_ta]=='t'){?>
+					<option value="<?php echo $dtKomp['id_komp'];?>"><?php echo $dtKomp['nm_komp']?></option>
+					<?php }?>
+					<?php }?>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Parameter</label>
+			<div class="col-sm-9">
+				<select class="col-xs-10 col-sm-5" id="par">
+					<option value="" disabled="disabled" selected="selected">pilih parameter biaya</option>
+					<?php foreach ($this->listParam as $dtParam){?>
+					<option value="<?php echo $dtParam['id_param'];?>">
+						<?php echo $dtParam['nm_param'];?>
+					</option>
+					<?php }?>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Indikator Parameter Lebih Dari (&gt;)</label>
+			<div class="col-sm-9">
+				<input type="number" id="minval" class="col-xs-10 col-sm-5" placeholder="indikator" min="0" max="20" step="1">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Periode Akademik Berlaku</label>
+			<div class="col-sm-9">
+				<select class="col-xs-10 col-sm-5" id="per">
+					<option value="" disabled="disabled" selected="selected">pilih periode</option>
+					<?php foreach ($this->listPeriode as $dtPer){?>
+					<option value="<?php echo $dtPer['kd_periode'];?>">
+						<?php echo $dtPer['kd_periode'];?>
+					</option>
+					<?php }?>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Nominal</label>
+			<div class="col-sm-9">
+				<input type="number" id="nom" class="col-xs-10 col-sm-5" placeholder="nominal" min="1" max="10000000000" step="0.01">
+			</div>
+		</div>
+		<!-- 
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Interval Perbaruan (Semester)</label>
+			<div class="col-sm-9">
+				<input type="number" id="intval" class="col-xs-10 col-sm-5" placeholder="interval (dalam semester)" min="1" max="20" step="1">
+			</div>
+		</div>
+		 -->
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right" for="form-field-1">Paket Biaya</label>
+			<div class="col-sm-9">
+				<select class="col-xs-10 col-sm-5" id="pkt">
+					<option value="" disabled="disabled" selected="selected">pilih paket biaya</option>
+					<?php foreach ($this->listPaketBiaya as $dtPaket){?>
+					<option value="<?php echo $dtPaket['id_paket'];?>">
+						<?php echo $dtPaket['nm_paket'];?>
+					</option>
+					<?php }?>
+				</select>
+			</div>
+		</div>
+		<div class="clearfix form-actions">
+			<div class="col-md-offset-3 col-md-9">
+				<button class="btn btn-info" type="submit" sb><i class="ace-icon fa fa-check bigger-110"></i>Submit</button>
+				&nbsp; &nbsp; &nbsp;
+				<button class="btn" type="reset" id="reset"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+			</div>
+		</div>
+	</form>
+</div>
+<div>
+	<table class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<th class="center" width="5%">No</th>
+				<th class="center">Komponen Biaya</th>
+				<th class="center" width="20%">Parameter - Indikator Biaya</th>
+				<th class="center" width="12%">Periode Akademik Berlaku</th>
+				<th class="center" width="12%">Nominal</th>
+				<th class="center" width="15%">Paket Biaya</th>
+				<th class="center" width="5%">Aksi</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php $i=1;foreach ($this->listFormTA as $dtFormula) { ?>
+			<tr>
+				<td class="center"><?php echo $i;?></td>
+				<td><?php echo $dtFormula['nm_komp'];?></td>
+				<td class="center"><?php echo $dtFormula['nm_param'];?> &gt; <?php echo $dtFormula['min_value'];?></td>
+				<td class="center"><?php echo $dtFormula['kd_periode_berlaku'];?></td>
+				<td align="right"><?php echo number_format($dtFormula['nominal'],2,',','.');?></td>
+				<td class="center"><?php echo $dtFormula['nm_paket'];?></td>
+				<td class="center">
+					<a class="red" onclick="confirm('Apakah Anda yakin akan menghapus komponen biaya ini ? <strong><?php echo str_replace("'", "\'", $dtFormula['nm_komp']);?></strong>','<?php echo $this->baseUrl;?>','/ajax/delformulabiayata',new Array('<?php echo $dtFormula['id_angkatan'];?>','<?php echo $dtFormula['kd_prodi'];?>','<?php echo $dtFormula['id_komp'];?>','<?php echo $dtFormula['kd_periode_berlaku'];?>'))"><i class="ace-icon fa fa-trash-o bigger-130"></i></a>
+				</td>
+			</tr>
+			<?php $i++;}?>
+		</tbody>
+	</table>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("[sb]").on('click',(function() {
+	 ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/insformulabiayata","/biayata/list?new=","u");
+	 return false;
+	}));
+</script>

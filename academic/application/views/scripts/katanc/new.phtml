@@ -1,0 +1,28 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Kategori Pengumuman</h3>
+	</div>
+	<div class="box-body">
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="box-body">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Kategori Pengumuman</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="announcement_kategori" placeholder="Kategori Pengumuman" maxlength="50">
+					</div>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+					<button type="submit" class="btn btn-primary pull-right col-sm-2">Simpan</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/katanc/ains","/katanc/index?new=","i");
+	  return false;
+	});
+</script>

@@ -1,0 +1,150 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Daftar Perkuliahan</h3>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbkul" class="table table-bordered table-hover">
+				<tr>
+					<th>No</th>
+					<th>Hari / Tanggal</th>
+					<th>Info</th>
+					<th width="250px">Materi</th>
+					<th>Media Yang Digunakan</th>
+					<th>Kejadian selama Perkuliahan</th>
+					<th>Absensi</th>
+				</tr>
+				<?php $i=1;foreach ($this->listKbm as $dataKbm){ ?>
+				<?php $info ="Tempat : ".$dataKbm['tempat']."<br>Waktu : ".$dataKbm['start_time_fmt']."-".$dataKbm['end_time_fmt'] ?>
+				<tr>
+					<td><?php echo $i;?></td>
+					<td><?php echo $dataKbm['hari'].", ".$dataKbm['tgl_kuliah_fmt'] ?></td>
+					<td align="center"><span data-toggle="tooltip" data-original-title="<?php echo $info;?>" data-html="true"><button class="btn btn-primary btn-xs"><i class="fa fa-info"></i></button></span></td>
+					<td><?php echo $dataKbm['materi'] ?></td>
+					<td><?php echo $dataKbm['media'] ?></td>
+					<td><?php echo $dataKbm['kejadian'] ?></td>
+					<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/absensi/index?id=<?php echo $dataKbm['id_perkuliahan'];?>')"><i class="fa fa-eye"></i></button></td>
+				</tr>
+				<?php $i++;} ?>
+			</table>
+		</div>
+	</div>
+	<div class="box-header with-border">
+		<h3 class="box-title">Daftar Presensi Mahasiswa</h3>
+	</div>
+	<div class="box-body">
+		<div class="col-md-6">
+			<div class="col-sm-4">Program Studi</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+			<div class="col-sm-4">Periode Akademik</div>
+			<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+			<div class="col-sm-4">Nama Kelas</div>
+			<div class="col-sm-8">: <?php echo $this->nm_kelas." (".$this->jns_kelas.")";?></div>
+			<div class="col-sm-4">Dosen</div>
+			<div class="col-sm-8">: <?php echo $this->nm_dsn;?></div>
+			<div class="col-sm-4">Mata Kuliah</div>
+			<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+		</div>
+		<div class="col-md-6">
+			<div class="col-sm-4">Hari/Tanggal</div>
+			<div class="col-sm-8">: <?php echo $this->hari.", ".$this->tgl;?></div>
+			<div class="col-sm-4">Waktu</div>
+			<div class="col-sm-8">: <?php echo $this->start."-".$this->end;?></div>
+			<div class="col-sm-4">Tempat</div>
+			<div class="col-sm-8">: <?php echo $this->tempat;?></div>
+			<div class="col-sm-12"><a class="btn btn-success" onclick="confirm('Apakah anda yakin akan mengubah semua status kehadiran menjadi hadir?','<?php echo $this->baseUrl;?>','/ajax3/updabsmass',new Array('<?php echo $this->id_perkuliahan;?>','1'))">Set Semua Hadir</a></div>
+		</div>
+	</div>
+	<div class="box-body">
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="box-body">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Mahasiswa</label>
+					<div class="col-sm-4">
+						<input type="hidden" id="id_perk" value=<?php echo $this->id_perkuliahan;?>>
+						<select class="form-control" id="nim">
+							<option disabled selected value="">pilih mahasiswa</option>
+							<?php $nKul=0;foreach ($this->listKuliah as $dt) { ?>
+							<?php if($dt['approved']=='t'){?>
+							<option value="<?php echo $dt['nim']?>"><?php echo $dt['nm_mhs']." (".$dt['id_angkatan'].")"?></option>
+							<?php $nKul++;}?>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Status Kehadiran</label>
+					<div class="col-sm-4">
+						<select class="form-control" id="stat_hdr">
+							<option disabled selected value="">pilih kehadiran</option>
+							<?php foreach ($this->listStatHdr as $dtStatHdr) { ?>
+							<option value="<?php echo $dtStatHdr['id_hadir'];?>"><?php echo $dtStatHdr['ket'];?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+					<button type="submit" class="btn btn-primary pull-right col-sm-2">Tambah</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbabs" class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th width="5%">NO</th>
+						<th width="15%">NIM</th>
+						<th>NAMA</th>
+						<th width="10%">ANGKATAN</th>
+						<th width="10%">KEHADIRAN</th>
+						<th width="20%">UBAH KEHADIRAN</th>
+						<th width="5%%">HAPUS</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $n=1;foreach ($this->listAbsensi as $dataAbsensi){ ?>
+					<tr>
+						<td><?php echo $n;?></td>
+						<td><?php echo $dataAbsensi['nim'] ?></td>
+						<td><?php echo $dataAbsensi['nm_mhs'] ?></td>
+						<td align="center"><?php echo $dataAbsensi['id_angkatan'] ?></td>
+						<td align="center"><?php echo $dataAbsensi['ket'] ?></td>
+						<td align="center">
+							<?php
+								$stat=array();
+								foreach ($this->listStatHdr as $statHdr) {
+									if(($statHdr['id_hadir']!=$dataAbsensi['id_hadir'])and($statHdr['id_hadir']!=0)){
+										$stat['ket'][]=$statHdr['ket'];
+										$stat['id'][]=$statHdr['id_hadir'];
+									}
+								}
+								?>
+							<?php $i=0;foreach ($stat['id'] as $dtStat) { ?>
+							<button type="button" class="btn btn-primary btn-xs" onclick="confirm('Anda akan mengubah status kehadiran <strong><?php echo str_replace("'", "\'", $dataAbsensi['nm_mhs'])?></strong> menjadi <strong><?php echo $stat['ket'][$i];?></strong>','<?php echo $this->baseUrl;?>','/ajax3/updabs',new Array('<?php echo $dataAbsensi['id_perkuliahan'];?>','<?php echo $dataAbsensi['nim'];?>','<?php echo $stat['id'][$i];?>'))"><?php echo $stat['ket'][$i];?></button>&nbsp;&nbsp;
+							<?php $i++;} ?>
+						</td>
+						<td align="center">
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus status kehadiran mahasiswa ini? <strong><?php echo str_replace("'", "\'", $dataAbsensi['nm_mhs']);?></strong>','<?php echo $this->baseUrl;?>','/ajax3/delabs',new Array('<?php echo $dataAbsensi['id_perkuliahan'];?>','<?php echo $dataAbsensi['nim'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php $n++;} ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="/public/js/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","","/ajax3/insabs","/absensi/index?id=<?php echo $this->id_perkuliahan;?>&new=","u");
+	  return false;
+	});
+</script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbabs',false,false,true,false,false,false);});</script>

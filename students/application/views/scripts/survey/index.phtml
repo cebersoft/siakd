@@ -1,0 +1,117 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-content">
+	<div class="alert alert-info">
+		Pengisian kuisioner ini dapat dilakukan dengan klik pada tombol <a class="label label-primary">ISI KUISIONER</a>
+		<br>Tombol akan menghilang jika seluruh pertanyaan yang diajukan telah terisi semua.
+		<br>Terima kasih atas partisipasi Anda, telah mengisi kuisioner ini.
+	</div>
+</div>
+<div class="inqbox-title border-top-danger">
+	 <h5>Kuisioner Tenaga Kependidikan</h5>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbdwl" class="table table-bordered table-hover">
+			<thead align="center">
+			<tr>
+				<th width="8%">No</th>
+				<th>Kuisioner</th>
+				<th>Periode</th>
+				<th width="12%">Question</th>
+				<th width="12%">Diisi</th>
+				<th width="12%">Aksi</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php $n=1;foreach ($this->listSurveyGen as $dtSurveyGen){?>
+			<tr>
+				<td><?php echo $n;?></td>
+				<td><?php echo $dtSurveyGen['keterangan'];?></td>
+				<td align="center"><?php echo $dtSurveyGen['kd_periode'];?></td>
+				<td align="center"><?php echo $dtSurveyGen['n_qui1'];?></td>
+				<td align="center">
+					<?php 
+						$n_answer=0;
+						foreach ($this->listKuisionerAns as $dtKuisionerAns){
+							if($dtKuisionerAns['id_qui0']==$dtSurveyGen['id_qui0']){
+								$n_answer=$dtKuisionerAns['n_qui1_ans'];
+							}
+						}
+					?>
+					<?php echo $n_answer;?>
+				</td>
+				<td align="center">
+					<?php if($n_answer!=$dtSurveyGen['n_qui1']){?>
+					<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/survey/detil1?id=<?php echo $dtSurveyGen['id_qui0'];?>')">ISI KUISIONER</button>
+					<?php }?>
+				</td>
+			</tr>
+			<?php $n++;}?>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="inqbox-title border-top-warning">
+	 <h5>Kuisioner Tenaga Pendidik</h5>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbdwl" class="table table-bordered table-hover">
+			<thead align="center">
+			<tr>
+				<th width="8%">No</th>
+				<th>Kuisioner</th>
+				<th>Periode</th>
+				<th width="12%">Question</th>
+				<th width="12%">Diisi</th>
+				<th width="12%">Aksi</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php $n=1;foreach ($this->listSurveyKul as $dtSurveyKul){?>
+			<tr>
+				<td><?php echo $n;?></td>
+				<td><?php echo $dtSurveyKul['keterangan'];?></td>
+				<td align="center"><?php echo $dtSurveyKul['kd_periode'];?></td>
+				<td align="center"><?php echo $dtSurveyKul['n_qui1'];?></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<?php $m=1;foreach ($this->listKuliah as $dtKuliah){?>
+			<tr>
+				<td colspan="3">
+					<strong>
+						<?php echo $m;?>)
+					</strong> 
+					<?php echo $dtKuliah['nm_dosen'];?> (<?php echo $dtKuliah['nm_mk'];?> Kelas : <?php echo $dtKuliah['nm_kelas'];?>)
+				</td>
+				<td align="center"><?php echo $dtSurveyKul['n_qui1'];?></td>
+				<td align="center">
+					<?php 
+						$n_answer_kul=0;
+						foreach ($this->listKuisionerAnsKul as $dtKuisionerAnsKul){
+							if(($dtKuisionerAnsKul['id_qui0']==$dtSurveyKul['id_qui0'])and($dtKuisionerAnsKul['kd_kuliah']==$dtKuliah['kd_kuliah'])){
+								$n_answer_kul=$dtKuisionerAnsKul['n_qui1_ans'];
+							}
+						}
+					?>
+					<?php echo $n_answer_kul;?>
+				</td>
+				<td>
+					<?php if($n_answer_kul!=$dtSurveyKul['n_qui1']){?>
+					<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/survey/detil2?id=<?php echo $dtSurveyKul['id_qui0'];?>&kul=<?php echo $dtKuliah['kd_kuliah'];?>')">ISI KUISIONER</button>
+					<?php }?>
+				</td>
+			</tr>
+			<?php $m++;}?>
+			<?php $n++;}?>
+			</tbody>
+		</table>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.tableTools.min.js"></script>

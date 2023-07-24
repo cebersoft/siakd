@@ -1,0 +1,95 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Data Quiz</h3>
+</div>
+<div class="inqbox-content">
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-sm-2">Minggu</div>
+			<div class="col-sm-10">: <?php echo $this->minggu;?></div>
+			<div class="col-sm-2">Nama Quiz</div>
+			<div class="col-sm-10">: <?php echo $this->nm;?></div>
+			<div class="col-sm-2">Tanggal</div>
+			<div class="col-sm-10">: <?php echo $this->tgl;?></div>
+			<div class="col-sm-2">Waktu Mulai</div>
+			<div class="col-sm-10">: <?php echo $this->time1;?></div>
+			<div class="col-sm-2">Waktu Selesai</div>
+			<div class="col-sm-10">: <?php echo $this->time2;?></div>
+			<div class="col-sm-2">Kontributor</div>
+			<div class="col-sm-10">: <?php echo $this->nm_dosen;?></div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Nomor Soal </label>
+					<div class="col-sm-10">
+						<input type="hidden" id="id_quiz0" value="<?php echo $this->id_quiz0;?>">
+						<input type="number" class="form-control" step="1" id="ord" placeholder="nomor soal">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Soal </label>
+					<div class="col-sm-10">
+						<textarea id="quest" class="form-control" placeholder="soal" rows="8"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="box-footer col-sm-6">
+					<button type="submit" class="btn btn-primary pull-right col-sm-4" id="btnsbm">Tambah</button>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-4" id="btnres">Reset</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="table-responsive">
+		<table id="tbkls" class="table table-bordered table-hover">
+			<thead align="center">
+				<tr>
+					<th width="5%">NO</th>
+					<th>SOAL</th>
+					<th width="8%">URUTAN</th>
+					<th width="8%">PILIHAN</th>
+					<th width="8%">JAWABAN</th>
+					<th width="10%">AKSI</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $i=1;foreach ($this->listSoal as $dataQuiz1) { ?>
+				<tr>
+					<td><?php echo $i; ?></td>
+					<td><?php echo $dataQuiz1['question']; ?></td>
+					<td align="center"><?php echo $dataQuiz1['urutan']; ?></td>
+					<td align="center"><button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/quiz/index3?id=<?php echo $dataQuiz1['id_quiz1'];?>')"><?php echo $dataQuiz1['n_quiz2'];?></button></td>
+					<td align="center"><?php echo $dataQuiz1['alfabet_jawaban'];?></td>
+					<td align="center">
+						<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus data ini? ','<?php echo $this->baseUrl;?>','/ajax/delquiz1',new Array('<?php echo $dataQuiz1['id_quiz1'];?>'))"><i class="fa fa-remove"></i></button>
+					</td>
+				</tr>
+				<?php $i++; } ?>
+		</table>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/insquiz1","/quiz/index2?id=<?php echo $this->id_quiz0;?>&new=","u");
+	  return false;
+});
+</script>
+<script>
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            var scrollpos = localStorage.getItem('scrollpos');
+            if (scrollpos) window.scrollTo(0, scrollpos);
+        });
+
+        window.onbeforeunload = function(e) {
+            localStorage.setItem('scrollpos', window.scrollY);
+        };
+</script>

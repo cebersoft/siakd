@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<div class="box  box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Akses User</h3>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbmenu" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>KODE AKSES</th>
+						<th>AKSES MENU</th>
+						<th>URL</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listMenu as $dataMenu) { ?>
+					<tr>
+						<td><?php echo $dataMenu['id']; ?></td>
+						<td><?php echo $dataMenu['nama_menu']; ?></td>
+						<td><?php echo $dataMenu['url']; ?></td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbmenu',true,true,true,true,true,false);});</script>

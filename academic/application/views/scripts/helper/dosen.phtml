@@ -1,0 +1,54 @@
+<?php echo $this->render('helper/function.phtml');?>
+<div class="box box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbdsn" class="table table-bordered table-hover" style="cursor: pointer;">
+				<thead align="center">
+					<tr>
+						<th>NAMA DOSEN</th>
+						<th>JENIS KELAMIN</th>
+						<th>KODE</th>
+						<th>KATEGORI</th>
+						<th>HOMEBASE ?</th>
+						<th>NIDN</th>
+						<th>STATUS</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listDsn as $dataDsn) { ?>
+					<tr onclick="insVal('<?php echo $this->readyCaller;?>', new Array('<?php echo escQuoteJS($dataDsn['kd_dosen']);?>','<?php echo escQuoteJS($dataDsn['nm_dosen']);?>'))">
+						<td><?php echo $dataDsn['nm_dosen']; ?></td>
+						<?php 
+							if($dataDsn['jenis_kelamin']=='L'){
+								$jk="LAKI-LAKI";
+							}else{
+								$jk="PEREMPUAN";
+							}
+							?>
+						<td align="center"><?php echo $jk; ?></td>
+						<td><?php echo $dataDsn['kd_dosen']; ?></td>
+						<td align="center"><?php echo $dataDsn['kategori_dosen']; ?></td>
+						<?php 
+							if($dataDsn['a_dosen_homebase']=='t'){
+								$a_hb="YA";
+							}else{
+								$a_hb="TIDAK";
+							}
+							?>
+						<td align="center"><?php echo $a_hb; ?></td>
+						<td><?php echo $dataDsn['nidn']; ?></td>
+						<?php 
+							if($dataDsn['aktif']=='t'){
+								$stat="AKTIF";
+							}else{
+								$stat="TIDAK AKTIF";
+							}
+							?>
+						<td align="center"><?php echo $stat; ?></td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script>$(function () {tabel('tbdsn',true,true,true,true,true,false);});</script>

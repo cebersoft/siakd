@@ -1,0 +1,108 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Filter Periode Akademik</h3>
+</div>
+<div class="inqbox-content">
+	<form id="frm" class="form-horizontal">
+		<div class="form-group">
+			<div class="col-sm-4">
+				<select id="sel_per" class="form-control">
+					<option value="" disabled="disabled" selected="selected">pilih periode akademik</option>
+					<?php foreach ($this->listPer as $dtPer){?>
+					<?php 
+						$per="";
+						if($dtPer['kd_periode']==$this->per){
+							$per="selected";
+						}
+					?>
+					<option value="<?php echo $dtPer['kd_periode'];?>" <?php echo $per;?> ><?php echo $dtPer['kd_periode'];?></option>
+					<?php }?>
+				</select>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="inqbox-content">
+	<h5 class="alert alert-info">
+		<i class="icon fa fa-info-circle"></i>
+		<ul>
+			<li>Untuk kelas praktikum, tugas dan diskusi ada pada tabel kelompok praktikum</li>
+		</ul>
+	</h5>
+	<div class="table-responsive">
+		<table id="tbkur" class="table table-bordered table-hover">
+			<tr>
+				<th colspan="12"><strong>Daftar Kuliah (KRS) Periode Akademik <?php echo $this->per;?></strong></th>
+			</tr>
+			<tr>
+				<th>No</th>
+				<th>Kode</th>
+				<th>Mata Kuliah</th>
+				<th>Dosen</th>
+				<th>Kelas</th>
+				<th width="10%">Materi</th>
+				<th width="10%">Tugas</th>
+				<th width="10%">Diskusi</th>
+				<th width="10%">Quiz</th>
+			</tr>
+			<?php $j=1; foreach ($this->listKuliah as $data) { ?>
+			<tr>
+				<td><?php echo $j;?></td>
+				<td><?php echo $data['kode_mk'];?></td>
+				<td><?php echo $data['nm_mk'];?></td>
+				<td><?php echo $data['nm_dosen'];?></td>
+				<td align="center"><?php echo $data['nm_kelas'];?></td>
+				<td align="center"><a onclick="nav('<?php echo $this->baseUrl;?>/lms/materi?id=<?php echo $data['kd_kuliah'];?>')" class="btn btn-success btn-sm"><?php echo $data['n_bahan_ajar'];?></a></td>
+				<?php if(($data['a_teori']=='f')and($data['a_ta']=='f')){?>
+				<td align="center">Kelompok</td><td align="center">Kelompok</td>
+				<?php }else{ ?>
+				<td align="center"><a onclick="nav('<?php echo $this->baseUrl;?>/lms/tugas?id=<?php echo $data['kd_kuliah'];?>&a=p')" class="btn btn-primary btn-sm"><?php echo $data['n_tugas'];?></a></td>
+				<td align="center"><a onclick="nav('<?php echo $this->baseUrl;?>/lms/diskusi?id=<?php echo $data['kd_kuliah'];?>&a=p')" class="btn btn-warning btn-sm"><?php echo $data['n_diskusi'];?></a></td>
+				<td align="center"><a onclick="nav('<?php echo $this->baseUrl;?>/lms/quiz?id=<?php echo $data['kd_kuliah'];?>&a=p')" class="btn btn-danger btn-sm"><?php echo $data['n_quiz'];?></a></td>
+				<?php } ?>
+			</tr>
+			<?php $j++; } ?>
+		</table>
+	</div>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbkur" class="table table-bordered table-hover">
+			<tr>
+				<th colspan="12"><strong>Daftar Kelompok Praktikum Periode Akademik <?php echo $this->per;?></strong></th>
+			</tr>
+			<tr>
+				<th>No</th>
+				<th>Kode</th>
+				<th>Praktikum</th>
+				<th>Dosen</th>
+				<th>Kelompok</th>
+				<th width="10%">Tugas</th>
+				<th width="10%">Diskusi</th>
+			</tr>
+			<?php $j=1; foreach ($this->listPraktikum as $data) { ?>
+			<tr>
+				<td><?php echo $j;?></td>
+				<td><?php echo $data['kode_mk'];?></td>
+				<td><?php echo $data['nm_mk'];?></td>
+				<td><?php echo $data['nm_dosen'];?></td>
+				<td align="center"><?php echo $data['nm_kelompok'];?></td>
+				<?php if(($data['a_teori']=='f')and($data['a_ta']=='f')){?>
+				<td align="center"><a onclick="nav('<?php echo $this->baseUrl;?>/lms/tugas?id=<?php echo $data['kd_kuliah'];?>&a=k')" class="btn btn-primary btn-sm"><?php echo $data['n_tugas'];?></a></td>
+				<td align="center"><a onclick="nav('<?php echo $this->baseUrl;?>/lms/diskusi?id=<?php echo $data['kd_kuliah'];?>&a=k')" class="btn btn-warning btn-sm"><?php echo $data['n_diskusi'];?></a></td>
+				<?php }else{ ?>
+				<td></td><td></td>
+				<?php } ?>
+			</tr>
+			<?php $j++; } ?>
+		</table>
+	</div>
+</div>
+<script>
+	$('#sel_per').on('change',(function() {
+		per=$('#sel_per').val();
+		nav('<?php echo $this->baseUrl;?>/lms/index?id='+per);
+	}))
+</script>

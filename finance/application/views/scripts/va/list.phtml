@@ -1,0 +1,45 @@
+<div class="table-header">
+	Daftar Nomor Virtual Account
+</div>
+<div>
+	<table id="tbl" class="table table-striped table-bordered table-hover">
+		<thead align="center">
+			<tr>
+				<th>NO.VA</th>
+				<th>BANK</th>
+				<th>STATUS</th>
+				<th>AKSI</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php $i=1;foreach ($this->listVa as $data) { ?>
+			<tr>
+				<td><?php echo $data['no_va']; ?></td>
+				<td><?php echo $data['nm_bank']." (Rek : ".$data['no_rek'].")"; ?></td>
+				<?php 
+					if($data['available']=='f'){
+						$book="BOOKED";
+						$warna="warning";
+					}else{
+						$book="AVAILABLE";
+						$warna="success";
+					}
+				?>
+				<td align="center"><span class="label label-<?php echo $warna;?>"><?php echo $book;?></span></td>
+				<td align="center">
+					<?php if($data['available']=='t'){?>
+					<button type="button" class="btn btn-warning btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/va/edit?id=<?php echo $data['no_va'];?>')"><i class="fa fa-pencil"></i></button>
+					<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus nomor ini ? <strong><?php echo str_replace("'", "\'", $data['no_va']);?></strong>','<?php echo $this->baseUrl;?>','/va/adel',new Array('<?php echo $data['no_va'];?>'))"><i class="fa fa-remove"></i></button>
+					<?php }?>
+				</td>
+			</tr>
+			<?php $i++; } ?>
+	</table>
+</div>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/tabel.js"></script>
+<script>
+	$(function(){tabel('tbl')});
+</script>

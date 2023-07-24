@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/assets/css/chosen.min.css" />
+<form class="form-horizontal" role="form" id="frm">
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1">No.Virtual Account</label>
+		<div class="col-sm-9">
+			<input type="text" class="col-xs-10 col-sm-5" id="no" placeholder="no virtual account" maxlength="100">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Bank </label>
+		<div class="col-sm-9">
+			<select id="bank" multiple="multiple" class="chosen-select col-xs-10 col-sm-5" data-placeholder="pilih bank" name="bank">
+				<?php foreach($this->listBank as $dtBank){?>
+				<option value="<?php echo $dtBank['id_bank'];?>"><?php echo $dtBank['nm_bank']." (Rek : ".$dtBank['no_rek'].")";?></option>
+				<?php }?>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Status </label>
+		<div class="col-sm-9">
+			<select id="available" multiple="multiple" class="chosen-select col-xs-10 col-sm-5" data-placeholder="pilih status" name="available">
+				<option value="t">AVAILABLE</option>
+				<option value="f">BOOKED</option>
+			</select>
+		</div>
+	</div>
+	<div class="clearfix form-actions">
+		<div class="col-md-offset-3 col-md-9">
+			<button class="btn btn-info" type="submit"><i class="ace-icon fa fa-search bigger-110"></i>Search</button>
+			&nbsp; &nbsp; &nbsp;
+			<button class="btn" type="reset"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+		</div>
+	</div>
+</form>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/chosen.jquery.min.js"></script>
+<script type="text/javascript">$('.chosen-select').chosen({allow_single_deselect:true});</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/alert.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $("#frm").submit(function() {
+	  	ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/va/ashow","/va/list","s");
+	    return false;
+	  });
+	});
+</script>

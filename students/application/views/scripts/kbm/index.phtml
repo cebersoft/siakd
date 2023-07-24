@@ -1,0 +1,69 @@
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="<?php echo $this->baseUrl;?>/public/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="inqbox-title border-top-danger">
+	<h3 class="box-title">Filter Periode Akademik</h3>
+</div>
+<div class="inqbox-content">
+	<form id="frm" class="form-horizontal">
+		<div class="form-group">
+			<div class="col-sm-4">
+				<select id="sel_per" class="form-control">
+					<option value="" disabled="disabled" selected="selected">pilih periode akademik</option>
+					<?php foreach ($this->listPer as $dtPer){?>
+					<?php 
+						$per="";
+						if($dtPer['kd_periode']==$this->per){
+							$per="selected";
+						}
+					?>
+					<option value="<?php echo $dtPer['kd_periode'];?>" <?php echo $per;?> ><?php echo $dtPer['kd_periode'];?></option>
+					<?php }?>
+				</select>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbkur" class="table table-bordered table-hover">
+			<tr>
+				<th colspan="12"><strong>Periode Akademik <?php echo $this->per;?></strong></th>
+			</tr>
+			<tr>
+				<th>No</th>
+				<th>Kode</th>
+				<th>Mata Kuliah</th>
+				<th>Dosen</th>
+				<th width="10%">SKS Default</th>
+				<th width="10%">SKS Diambil</th>
+				<th>Kehadiran</th>
+				<th>Download Materi</th>
+			</tr>
+			<?php $j=1; foreach ($this->listKuliah as $data) { ?>
+			<tr>
+				<td><?php echo $j;?></td>
+				<td><?php echo $data['kode_mk'];?></td>
+				<td><?php echo $data['nm_mk'];?></td>
+				<td><?php echo $data['nm_dosen'];?></td>
+				<?php $sks=$data['sks_tm']+$data['sks_prak']+$data['sks_prak_lap']+$data['sks_sim']; ?>
+				<td align="center"><?php echo $sks;?></td>
+				<?php $sks_taken=$sks-$data['sks_deducted']; ?>
+				<td align="center"><?php echo $sks_taken;?></td>
+				<td align="center">
+					<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/kbm/absensi?kd=<?php echo $data['kd_paket_kelas']; ?>')"><i class="fa fa-list"></i></button>
+				</td>
+				<td align="center">
+					<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl?>/kbm/materi?kd=<?php echo $data['kd_kelas']; ?>')"><i class="fa fa-folder-open"></i></button>
+				</td>
+			</tr>
+			<?php $j++; } ?>
+		</table>
+	</div>
+</div>
+<script>
+	$('#sel_per').on('change',(function() {
+		per=$('#sel_per').val();
+		nav('<?php echo $this->baseUrl;?>/kbm/index?id='+per);
+	}))
+</script>

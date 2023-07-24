@@ -1,0 +1,98 @@
+<div class="table-header">
+Laporan Kewajiban TA
+</div>
+<div>
+<table id="tbl" class="table table-striped table-bordered table-hover" width="<?php echo 1500+(count($this->listKompInterval)*100)?>px">
+<thead>
+<tr>
+<th class="center" width="50px%" rowspan="3">NIM</th>
+<th class="center" rowspan="3" width="100px">Nama</th>
+<th class="center" width="80px" rowspan="3">Prodi/Angkatan</th>
+<th class="center" colspan="<?php echo count($this->listKompInterval)*2;?>">Komponen Biaya</th>
+<th class="center" width="50px" rowspan="3">Total Biaya</th>
+<th class="center" width="50px" rowspan="3">Pembayaran</th>
+<th class="center" width="50px" rowspan="3">Tunggakan</th>
+</tr>
+<tr>
+<?php if(count($this->listKompInterval)>0){?>
+				<?php foreach ($this->listKompInterval as $dtKomp){?>
+				<?php
+					$arrKomp=explode("||", $dtKomp);
+					$id_komp=$arrKomp[0];
+					$nm_komp=$arrKomp[1];
+				?>
+				<th class="center" width="100px" colspan="2">
+					<?php echo $nm_komp;?>
+				</th>
+				<?php }}else{?>
+				<th></th>
+				<?php }?>
+			</tr>
+			<tr>
+				<?php if(count($this->listKompInterval)>0){?>
+				<?php foreach ($this->listKompInterval as $dtKomp){?>
+				<th class="center" width="50px">Kewajiban</th>
+				<th class="center" width="50px">Bayar</th>
+				<?php }}else{?>
+				<th></th>
+				<?php }?>
+			</tr>
+		</thead>
+		<tbody>
+			<?php $i=1;foreach ($this->listMhsReg as $dtMhsReg){?>
+			<?php 
+				$arrDtMhsReg=explode("||", $dtMhsReg);
+				$nim=$arrDtMhsReg[0];
+				$nm=$arrDtMhsReg[1];
+				$akt=$arrDtMhsReg[2];
+				$prd=$arrDtMhsReg[3];
+			?>
+			<tr>
+				<td><?php echo $nim;?></td>
+				<td><?php echo $nm;?></td>
+				<td class="center"><?php echo $prd."/".$akt;?></td>
+				<?php 
+				$nomKomp=0;
+				$totNomKomp=0;
+				$totNomAlocate=0;
+				if(count($this->listKompInterval)>0){
+				foreach ($this->listKompInterval as $dtKomp){ ?>
+				<?php
+					$arrKomp=explode("||", $dtKomp);
+					$id_komp=$arrKomp[0];
+					foreach ($this->listBiayaInterval as $dtMhsBiaya){
+						if(($dtMhsBiaya['nim']==$nim)and($dtMhsBiaya['id_komp']==$id_komp)){
+							$nomKomp=number_format($dtMhsBiaya['nominal'],2,',','.');
+							$totNomKomp=$totNomKomp+$dtMhsBiaya['nominal'];
+						}
+					}
+					$nomAlocate[$id_komp]=0;
+					foreach ($this->listBayar as $dtBayar) {
+						if(($dtBayar['nim']==$nim)and($dtBayar['id_komp_alocate']==$id_komp)){;
+							$nomAlocate[$id_komp]=$nomAlocate[$id_komp]+$dtBayar['nominal_alocate'];
+							$totNomAlocate=$totNomAlocate+$nomAlocate[$id_komp];
+						}
+					}
+				?>
+				<td align="right"><?php echo $nomKomp;?></td>
+				<td align="right"><?php echo number_format($nomAlocate[$id_komp],2,',','.');?></td>	
+				<?php }}else{?>
+				<td></td>
+				<?php }?>
+				<td align="right"><?php echo number_format($totNomKomp,2,',','.');?></td>
+				<td align="right"><?php echo number_format($totNomAlocate,2,',','.');?></td>
+				<td align="right"><?php echo number_format($totNomKomp-$totNomAlocate,2,',','.');?></td>
+			</tr>
+			<?php $i++;}?>
+		</tbody>
+	</table>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#tbl').DataTable( {
+        "scrollX": true
+    } );
+} );
+</script>

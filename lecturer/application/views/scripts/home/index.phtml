@@ -1,0 +1,105 @@
+<div class="row">
+	<div class="col-lg-12">
+		<div class="inqbox float-e-margins">
+			<div class="inqbox-title border-top-danger">
+				<h5>Inbox Perwalian <?php echo $this->per;?>
+			</div>
+			<div class="inqbox-content">
+					<div class="table-responsive">
+						<table id="tbl" class="table table-bordered table-hover">
+							<thead align="center">
+								<tr>
+									<th width="20%">TANGGAL/WAKTU</th>
+									<th width="30%">MAHASISWA</th>
+									<th>PESAN</th>
+									<th width="8%">REPLY</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php $i=1;foreach ($this->listPerwalian as $data) { ?>
+								<?php if($data['asal_feedback']=='M'){?>
+								<tr>
+									<td><?php echo $data['tanggal_posting']."&nbsp;&nbsp;".$data['waktu_posting']; ?></td>
+									<td><?php echo $data['sender']."(".$data['nim'].")"; ?></td>
+									<td><?php echo $data['isi_feedback']; ?></td>
+									<td align="center">
+										<button class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl; ?>/perwalian/new?nim=<?php echo $data['nim']?>&per=<?php echo $data['kd_periode']?>&src=home')"><i class="fa fa-reply"></i></button>
+									</td>
+								</tr>
+								<?php }?>
+								<?php $i++; } ?>
+						</table>
+					</div>			
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-6">
+		<div class="inqbox float-e-margins">
+			<div class="inqbox-title border-top-danger">
+				<h5>Kalender Akademik <?php echo $this->per;?><small class="m-l-sm">Academic Calendar</small></h5>
+			</div>
+			<div class="inqbox-content">
+				<div class="panel panel-info">
+					<div class="table-responsive">
+						<table id="tbakt" class="table table-bordered table-hover">
+							<thead align="center">
+								<tr>
+									<th width="40%">TANGGAL</th>
+									<th>AGENDA AKADEMIK</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php $i=1;foreach ($this->listKalender as $data) { ?>
+								<tr>
+									<td><?php echo $data['start_date_fmt']." s/d ".$data['end_date_fmt']; ?></td>
+									<td><?php echo $data['deskripsi']; ?></td>
+								</tr>
+								<?php $i++; } ?>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6">
+		<div class="inqbox float-e-margins">
+			<div class="inqbox-title border-top-danger">
+				<h5>Visi dan Misi <small class="m-l-sm">Vision and Mission</small></h5>
+				<div class="inqbox-tools">
+					<a class="collapse-link">
+						<i class="fa fa-chevron-up"></i>
+					</a>
+				</div>
+			</div>
+			<div class="inqbox-content">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						VISI
+					</div>
+					<div class="panel-body" align="center">
+						<i><?php echo $this->visi;?></i>
+					</div>
+				</div>
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						MISI
+					</div>
+					<div class="panel-body">
+						<?php echo $this->misi;?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.responsive.js">
+</script><script src="<?php echo $this->baseUrl;?>/public/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script>
+$('#tbl').dataTable({
+    responsive: true
+});
+</script>

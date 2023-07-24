@@ -1,0 +1,77 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<div class="col-md-6">
+			<div class="col-sm-4">NIM</div>
+			<div class="col-sm-8">: <?php echo $this->nim;?></div>
+			<div class="col-sm-4">Nama Mahasiswa</div>
+			<div class="col-sm-8">: <?php echo $this->nm;?></div>
+		</div>
+		<div class="col-md-6">
+			<div class="col-sm-4">Program Studi/Angkatan</div>
+			<div class="col-sm-8">: <?php echo $this->nm_prd."(".$this->kd_prd.") / ".$this->akt;?></div>
+			<div class="col-sm-4">Dosen Wali</div>
+			<div class="col-sm-8">: <?php echo $this->dw;?></div>
+		</div>
+	</div>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbkur" class="table table-bordered table-hover">
+				<?php foreach ($this->listPer as $dtPer){ ?>
+				<tr>
+					<th colspan="12"><strong>Periode Akademik <?php echo $dtPer;?></strong></th>
+				</tr>
+				<tr>
+					<th>No</th>
+					<th>Kode</th>
+					<th>Mata Kuliah</th>
+					<th>SKS Default</th>
+					<th>SKS Diambil</th>
+					<th>Nilai</th>
+					<th>Angka Mutu</th>
+					<th>SKS x AM</th>
+					<th>Status</th>
+				</tr>
+				<?php $j=1; $sks_total=0;$km_total=0;foreach ($this->listNilai as $dataNilai) { ?>
+				<?php if($dataNilai['kd_periode']==$dtPer){ ?>
+				<?php $arrIndeks=explode('/', $dataNilai['index']); ?>
+				<tr>
+					<td><?php echo $j;?></td>
+					<td><?php echo $dataNilai['kode_mk'];?></td>
+					<td><?php echo $dataNilai['nm_mk'];?></td>
+					<?php $sks=$dataNilai['sks_tm']+$dataNilai['sks_prak']+$dataNilai['sks_prak_lap']+$dataNilai['sks_sim']; ?>
+					<td align="center"><?php echo $sks;?></td>
+					<?php $sks_taken=$sks-$dataNilai['sks_deducted']; ?>
+					<td align="center"><?php echo $sks_taken;?></td>
+					<td align="center"><?php echo $arrIndeks[0];?></td>
+					<td align="center"><?php echo floatval($arrIndeks[1]);?></td>
+					<?php $km=floatval(($sks-$dataNilai['sks_deducted'])*$arrIndeks[1]); ?>
+					<td align="center"><?php echo $km;?></td>
+					<?php 
+						if($dataNilai['status']==0){
+							$st="BELUM FIX";
+						}elseif ($dataNilai['status']==1){
+							$st="FIX";
+						}else{
+							$st="TUNDA";
+						}
+					?>
+					<td align="center"><?php echo $st;?></td>
+				</tr>
+				<?php
+					$km_total=$km_total+$km;
+					$sks_total=$sks_total+$sks_taken;
+					$ips=number_format($km_total/$sks_total,2,',','.');
+					$j++;
+				} ?>
+				<?php } ?>
+				<tr>
+					<td colspan="4"><strong>IPS : <?php echo $ips;?></strong></td>
+					<td align="center"><strong><?php echo $sks_total;?></strong></td>
+					<td colspan="2"></td>
+					<td align="center"><strong><?php echo $km_total;?></strong></td>
+				</tr>
+				<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>

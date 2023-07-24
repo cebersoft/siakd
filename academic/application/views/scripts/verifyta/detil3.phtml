@@ -1,0 +1,120 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.min.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Daftar Pengajuan TA</h3>
+	</div>
+	<div class="box-body">
+		<div class="box-body">
+			<div class="col-md-6">
+				<div class="col-sm-4">Program Studi</div>
+				<div class="col-sm-8">: <?php echo $this->nm_prodi;?></div>
+				<div class="col-sm-4">Periode Akademik</div>
+				<div class="col-sm-8">: <?php echo $this->kd_per;?></div>
+				<div class="col-sm-4">Nama Kelas</div>
+				<div class="col-sm-8">: <?php echo $this->nm_kelas." (".$this->jns_kelas.")";?></div>
+				<div class="col-sm-4">Dosen</div>
+				<div class="col-sm-8">: <?php echo $this->nm_dsn;?></div>
+				<div class="col-sm-4">Mata Kuliah</div>
+				<div class="col-sm-8">: <?php echo $this->nm_mk." (".$this->kd_mk.") - ".$this->sks." SKS";?></div>
+			</div>
+		</div>
+		<div id="frmreg" style="display:none;">
+        	<form class="form-horizontal" method="post" id="frm_o">
+        		<div class="box-body">
+        			<div class="form-group">
+        				<label class="col-sm-4 control-label">Approval </label>
+        				<div class="col-sm-8">
+        					<input type="text" id="id_prp_o" style="display:none;">
+        					<select id="stat_o" class="form-control">
+        						<option value="1" >APPROVE</option>
+        						<option value="-1">REJECT</option>
+        					</select>
+        				</div>
+        			</div>
+        			<div class="form-group">
+        				<label class="col-sm-4 control-label">Catatan </label>
+        				<div class="col-sm-8">
+        					<input type="text" id="ket_o" class="form-control">
+        				</div>
+        			</div>
+        			<div class="box-footer">
+        				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+        				<button type="submit" id="sb" class="btn btn-primary pull-right col-sm-2">Submit</button>
+        			</div>
+        		</div>
+        	</form>
+        	</div>
+		<div class="table-responsive">
+			<table id="tbnilai" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th style="width:5%">NO</th>
+						<th style="width:10%">NIM</th>
+						<th style="width:18%">NAMA</th>
+						<th style="width:12%">PEMBIMBING</th>
+						<th>PERIHAL</th>
+						<th style="width:12%">APPROVER</th>
+						<th style="width:10%">STATUS</th>
+						<th style="width:10%">LEMBAR PENGESAHAN</th>
+						<th style="width:10%">LOG APPROVED</th>
+						<th style="width:12%">AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=0;$x=1;foreach ($this->listPrp as $data) { ?>
+					<?php if (($data['sistem']=='SIA')and($data['bagian']=='Portofolio')){ ?>
+					<tr>
+						<td><?php echo $x; ?></td>
+						<td><?php echo $data['nim']?></a></td>
+						<td><?php echo $data['nm_mhs']; ?></td>
+						<td><?php echo $data['nm_dosen_pemb1']."<br>".$data['nm_dosen_pemb2']; ?></td>
+						<td><?php echo $data['perihal']; ?></td>
+						<td align="center"><?php echo $data['bagian']; ?></td>
+						<td align="center"><?php echo $data['approved']; ?></td>
+						<?php 
+            						$arrFile=explode(".",$data['nm_doc']);
+        	    					$ext=end($arrFile);
+	            				?>
+						<td align="center"><a class="btn btn-success btn-xs" href="<?php echo $this->baseUrl;?>/image/anyfile?url=public/file/ta/<?php echo $data['id_prp_ujian_ta0'].".".$ext?>&newname=<?php echo $data['nm_doc'];?>"><i class="fa fa-download">&nbsp;</i>Download</a></td>
+						<td align="center"><?php echo $data['approver']."(".$data['tanggal'].") Note : ".$data['note']; ?></td>
+						<td align="center">
+							<?php if(($data['approved']=='APPROVED')or($data['approved']=='REJECTED')){?>
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan membatalkan approval data ini? ','<?php echo $this->baseUrl;?>','/ajax3/verifytacancel',new Array('<?php echo $data['id_prp_ujian_ta1_approver'];?>'))">Cancel</button>
+							<?php }else{?>
+							<?php if($data['approved']=='PENDING'){?>
+							<button type="button" class="btn btn-success btn-xs" value="<?php echo $data['id_prp_ujian_ta1_approver'];?>" reg>Approval</button>
+							<?php }?>
+							<?php }?>
+						</td>
+					</tr>
+					<?php $i++;$x++; } } ?>
+					<input type="hidden" id="x" value="<?php echo $x;?>">
+			</table>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("[reg]").on('click',(function() {
+	 x=$(this).val();
+	 $("#myModal").modal('show');
+	 form=$("#frmreg").html();
+	 $("#myModal").find('.modal-body').html("Silakan isi status approval <br>"+form);
+	 $("#myModal").find("#frm_o").attr('id','frm');
+	 $("#myModal").find("#id_prp_o").attr('id','id_prp');
+	 $("#myModal").find("#stat_o").attr('id','stat');
+	 $("#myModal").find("#sb").attr('id','sb1');
+	 $("#myModal").find("#ket_o").attr('id','ket');
+	 $("#sb1").on('click',(function() {
+	 		$('#id_prp_o').val(x);
+	 		$('#stat_o').val($("#myModal").find('#stat').val());
+	 		$('#ket_o').val($("#myModal").find('#ket').val());
+	   		ajaxSubmit("frm_o","<?php echo $this->baseUrl;?>","/ajax3/verifyta","/verifyta/detil3?id=<?php echo $this->kd_paket;?>&new=","u");
+	   		return false;
+	 }));
+	 return false;
+	}));
+</script>

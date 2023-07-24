@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/dist/css/AdminLTE.min.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Filter </h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Kategori Dosen</label>
+				<div class="col-sm-4">
+					<select id="kat" class="form-control select2" multiple="multiple" data-placeholder="pilih kategori dosen" name="kat">
+						<?php foreach ($this->listKatDosen as $dataKat) { ?>
+						<option value="<?php echo $dataKat['id_kat_dosen']; ?>"><?php echo $dataKat['kategori_dosen']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Status Dosen</label>
+				<div class="col-sm-4">
+					<select id="stat" class="form-control select2" multiple="multiple" data-placeholder="pilih status dosen" name="stat">
+						<option value="t">Aktif</option>
+						<option value="f">Tidak Aktif</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Dosen Homebase ?</label>
+				<div class="col-sm-4">
+					<select id="a_hb" class="form-control select2" multiple="multiple" data-placeholder="dosen homebase" name="a_hb">
+						<option value="t">Ya</option>
+						<option value="f">Tidak</option>
+					</select>
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="submit" class="btn btn-info pull-right col-sm-2">Search</button>
+			</div>
+		</div>
+	</form>
+</div>
+<!-- jQuery 2.2.0 -->
+<script src="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.full.min.js"></script>
+<script>
+	$("#kat").select2();
+	$("#stat").select2();
+	$("#a_hb").select2();
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $("#frm").submit(function() {
+	    ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/showdsn","/dosen/list","s");
+	    return false;
+	  });
+	});
+</script>

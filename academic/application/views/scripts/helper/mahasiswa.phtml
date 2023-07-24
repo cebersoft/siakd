@@ -1,0 +1,38 @@
+<?php echo $this->render('helper/function.phtml');?>
+<div class="box box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbmhs" class="table table-bordered table-hover" style="cursor: pointer;">
+				<thead align="center">
+					<tr>
+						<th>NIM</th>
+						<th>NAMA MAHASISWA</th>
+						<th>ANGKATAN</th>
+						<th>PROGRAM STUDI</th>
+						<th>MASUK</th>
+						<th>STATUS</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->listMhs as $dataMhs) { ?>
+					<tr onclick="insVal('<?php echo $this->readyCaller;?>', new Array('<?php echo escQuoteJS($dataMhs['nim']);?>','<?php echo escQuoteJS($dataMhs['nm_mhs']);?>'))">
+						<td><?php echo $dataMhs['nim']; ?></td>
+						<td><?php echo $dataMhs['nm_mhs']; ?></td>
+						<td align="center"><?php echo $dataMhs['id_angkatan']; ?></td>
+						<td><?php echo $dataMhs['nm_prodi']; ?></td>
+						<?php 
+							if($dataMhs['jns_masuk']==1){
+								$status_msk="BARU";
+							}else{
+								$status_msk="PINDAHAN";
+							}
+							?>
+						<td align="center"><?php echo $status_msk; ?></td>
+						<td align="center"><?php echo $dataMhs['status_mhs']; ?></td>
+					</tr>
+					<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script>$(function () {tabel('tbmhs',true,true,true,true,true,false);});</script>

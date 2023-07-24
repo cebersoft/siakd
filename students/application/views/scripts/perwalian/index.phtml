@@ -1,0 +1,65 @@
+<div class="inqbox-title border-top-danger">
+	 <h5>Form Feedback Perwalian</h5>
+</div>
+<div class="inqbox-content">
+	<?php if($this->allowReg==1){?>
+		<form method="post" id="frm" class="form-horizontal"> 
+			<div class="form-group">
+ 				<label class="col-sm-2 control-label">Periode Akademik</label>
+ 				<label class="col-sm-4"><?php echo $this->per;?></label>
+ 			</div>
+ 			<div class="form-group">
+ 				<label class="col-sm-2 control-label">Isi Feedback</label>
+ 				<div class="col-sm-4">
+ 					<input type="text" id="per" value="<?php echo $this->per;?>" style="display:none;">
+ 					<input type="text" id="dw" value="<?php echo $this->dw;?>" style="display:none;">
+ 					<input type="text" id="nm_mhs" value="<?php echo $this->nm_mhs;?>" style="display:none;">
+					<textarea rows="6" cols="300" class="form-control" id="isi"></textarea>
+ 				</div>
+ 			</div>
+ 			<div class="form-group">
+ 				<div class="col-sm-4 col-sm-offset-2">
+ 					<button class="btn btn-white" type="reset">Batal</button>
+ 					<button class="btn btn-primary" type="submit">Posting</button>
+ 				</div>
+ 			</div>
+		</form>
+	<?php }else{?>
+	<div class="alert alert-warning">
+		Saat ini (<strong><?php echo date("d F Y") ?></strong>) tidak dalam jadwal <strong>Perwalian</strong>
+	</div>
+	<?php }?>
+</div>
+<div class="inqbox-content">
+	<?php foreach ($this->listPerwalian as $dtPerwalian){ ?>
+	<div class="social-feed-separated">
+		<div class="social-avatar">
+			<a href="#">
+				<?php if($dtPerwalian['asal_feedback']=='M'){?>
+				<img alt="image" src="<?php echo $this->baseUrl;?>/image/png?url=public/file/mhs/foto/<?php echo $this->idmhs;?>.jpg" alt="Foto Mahasiswa" onerror="this.src='<?php echo $this->baseUrl;?>/image/png?url=public/file/mhs/foto/default.jpg'">
+				<?php }else{?>
+				<img alt="image" src="<?php echo $this->baseUrl;?>/image/png?url=public/file/dsn/foto/<?php echo $this->kd_dw;?>.jpg" alt="Foto Dosen" onerror="this.src='<?php echo $this->baseUrl;?>/image/png?url=public/file/dsn/foto/default.jpg'">
+				<?php }?>
+			</a>
+		</div>
+		<div class="social-feed-box">
+			<div class="social-avatar">
+				<a><?php echo $dtPerwalian['sender']." &gt; ".$dtPerwalian['receiver']?></a>
+				<small class="text-muted"><?php echo $dtPerwalian['waktu_posting'];?> - <?php echo $dtPerwalian['tanggal_posting_fmt']?></small>
+			</div>
+			<div class="social-body">
+				<p>
+					<?php echo $dtPerwalian['isi_feedback'];?>
+				</p>
+			</div>
+		</div>
+	</div>
+	<?php } ?>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/custom/form.js"></script>
+<script>
+	$("#frm").submit(function() {
+	  ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax/inspwl","/perwalian/index?new=","u");
+	  return false;
+	});
+</script>

@@ -1,0 +1,104 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="<?php echo $this->baseUrl;?>/public/dist/css/AdminLTE.min.css">
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Kepala Program Studi</h3>
+	</div>
+	<div class="box-body">
+		<form class="form-horizontal" method="post" id="frm">
+			<div class="box-body">
+                		<div class="form-group">
+					<label class="col-sm-2 control-label">Tanggal Mulai *</label>
+					<div class="col-sm-4">
+						<input type="hidden" id="prd" value="<?php echo $this->kd;?>">
+						<input type="text" class="form-control" id="tgl" placeholder="tanggal mulai" readonly>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Kaprodi *</label>
+					<div class="col-sm-4">
+						<select class="form-control select2" id="dsn" sel-2>
+							<option disabled selected value="">pilih kaprodi</option>
+							<?php foreach ($this->listDosenAktif as $dt) { ?>
+							<option value="<?php echo $dt['kd_dosen']?>"><?php echo $dt['nm_dosen']?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Tanda Tangan *</label>
+					<div class="col-sm-4">
+						<input type="file" class="form-control" id="file2" name="file2" accept="image/png" required="required">
+					</div>
+				</div>
+				<div class="box-footer col-sm-6">
+					<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+					<button type="submit" class="btn btn-primary pull-right col-sm-2">Tambah</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="box box-info">
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbroom" class="table table-bordered table-hover">
+				<thead align="center">
+					<tr>
+						<th>NAMA</th>
+						<th width="18%">TANGGAL MULAI</th>
+						<th width="18%">TANDA TANGAN</th>
+                        			<th width="5%">AKSI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $i=1;foreach ($this->listKaprodi as $data) { ?>
+					<tr>
+						<td><?php echo $data['nm_dosen']; ?></td>
+						<td><?php echo $data['tgl_mulai_fmt']; ?></td>
+						<td align="center">
+							<img id="picttd" class="profile-user-img img-responsive img-rounded" src="<?php echo $this->baseUrl;?>/image/png?url=public/file/dsn/ttd/<?php echo $data['kd_dosen'];?>.png" alt="Foto Mahasiswa" onerror="this.src='<?php echo $this->baseUrl;?>/image/jpg?url=public/file/dsn/foto/default.jpg'" style="width:80px;height:80px">
+						</td>
+						<td align="center">
+							<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus kaprodi ini ? <strong><?php echo str_replace("'", "\'", $data['nm_dosen']);?></strong>','<?php echo $this->baseUrl;?>','/ajax4/delkaprodi',new Array('<?php echo $data['id_kaprodi'];?>','<?php echo $data['kd_dosen'];?>'))"><i class="fa fa-remove"></i></button>
+						</td>
+					</tr>
+					<?php $i++; } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl?>/public/plugins/daterangepicker/moment.min.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/timepicker/bootstrap-timepicker.js"></script>
+<script>
+	$(function () {
+	  $('#tgl').daterangepicker({singleDatePicker:true,format:'DD MMMM YYYY'});
+	  $(".timepicker").timepicker({
+	    showInputs: false,
+	    showMeridian:false,
+	    minuteStep:5
+	  });
+	});
+</script>
+<script src="<?php echo $this->baseUrl;?>/public/plugins/select2/select2.full.min.js"></script>
+<script>
+	$("#dsn").select2({
+	  placeholder: "pilih kaprodi"
+	});
+</script>
+<!-- DataTables -->
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->baseUrl?>/public/js/tabel.js"></script>
+<script>$(function () {tabel('tbroom',true,true,true,true,true,false);});</script>
+<!-- Form Action -->
+<script src="<?php echo $this->baseUrl;?>/public/js/form2.js"></script>
+<script>
+	$("#frm").submit(function() {
+		ajaxSubmitUpload("frm",["file2"],"","/ajax4/inskaprodi","/prodi/detil3?kd=<?php echo $this->kd;?>&new=","u");
+	  	return false;
+	});
+</script>

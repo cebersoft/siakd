@@ -1,0 +1,188 @@
+<div class="row">
+	<div class="col-md-12">
+		<div class="nav-tabs-custom">
+			<ul class="nav nav-tabs">
+				<li class="<?php echo $this->tab_1;?>"><a href="#statMasuk" data-toggle="tab">Status Masuk</a></li>
+				<li><a href="#statMhs" data-toggle="tab">Status Keaktifan</a></li>
+				<li class="<?php echo $this->tab_3;?>"><a href="#statReg" data-toggle="tab">Status Her-Registrasi/Periode</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="<?php echo $this->tab_1;?> tab-pane" id="statMasuk">
+					<div class="box-body">
+						<div class="box-header with-border">
+							<h3 class="box-title">Status Masuk Mahasiswa</h3>
+						</div>
+						<form class="form-horizontal" method="post" id="frm_sm">
+							<div class="box-body">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Kode Status</label>
+									<div class="col-sm-4">
+										<input type="number" class="form-control" id="id_stat" placeholder="kode status masuk (angka)" min="0" max="99">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Nama Status Masuk</label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" id="nm_stat" placeholder="nama status masuk" maxlength="15">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Jalur Masuk</label>
+									<div class="col-sm-4">
+										<select class="form-control" id="jns">
+											<option disabled selected value="">pilih jalur masuk mahasiswa</option>
+											<?php foreach ($this->listJnsMsk as $dtJnsMsk) { ?>
+											<option value="<?php echo $dtJnsMsk['jns_masuk']?>"><?php echo $dtJnsMsk['ket_masuk']?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+								<div class="box-footer col-sm-6">
+									<button type="submit" class="btn btn-primary pull-right col-sm-2" id="btnsbm">Tambah</button>
+									<button type="reset" class="btn btn-default pull-left col-sm-2" id="btnres">Reset</button>
+								</div>
+							</div>
+						</form>
+						<div class="box-body">
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th>Kode</th>
+										<th>Status</th>
+										<th>Keterangan Masuk</th>
+										<th>Aksi</th>
+									</tr>
+								</thead>
+								<?php foreach ($this->listStatMsk as $dtStatMsk){ ?>
+								<tr>
+									<td><?php echo $dtStatMsk['id_stat_masuk']?></td>
+									<td><?php echo $dtStatMsk['nm_stat_masuk']?></td>
+									<td><?php echo $dtStatMsk['ket_masuk'];?></td>
+									<td align="center">
+										<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus status masuk ini? <strong><?php echo str_replace("'", "\'", $dtStatMsk['nm_stat_masuk']);?></strong>','<?php echo $this->baseUrl;?>','/ajax2/delstatmsk',new Array('<?php echo $dtStatMsk['id_stat_masuk'];?>'))"><i class="fa fa-remove"></i></button>
+									</td>
+								</tr>
+								<?php } ?>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="statMhs">
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">Status Keaktifan Mahasiswa</h3>
+						</div>
+						<div class="box-body">
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th>Kode Status</th>
+										<th>Keterangan</th>
+									</tr>
+								</thead>
+								<?php foreach ($this->listStatMhs as $dtStatMhs){ ?>
+								<tr>
+									<td><?php echo $dtStatMhs['id_stat_mhs']?></td>
+									<td><?php echo $dtStatMhs['status_mhs'];?></td>
+								</tr>
+								<?php } ?>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="<?php echo $this->tab_3;?> tab-pane" id="statReg">
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">Status Her-Registrasi/Periode</h3>
+						</div>
+						<form class="form-horizontal" method="post" id="frm_sr">
+							<div class="box-body">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Kode Status</label>
+									<div class="col-sm-4">
+										<input type="number" class="form-control" id="id_stat_reg" placeholder="kode status her-registrasi (angka)" min="0" max="99">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Nama Status Her-Registrasi</label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" id="nm_stat_reg" placeholder="nama status her-registrasi" maxlength="15">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Status Keaktifan</label>
+									<div class="col-sm-4">
+										<select class="form-control" id="stat_akt">
+											<option disabled selected value="">pilih status keaktifan mahasiswa</option>
+											<?php foreach ($this->listStatMhs as $dtStatMhs) { ?>
+											<option value="<?php echo $dtStatMhs['id_stat_mhs']?>"><?php echo $dtStatMhs['status_mhs']?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Bisa KRS ?</label>
+									<div class="col-sm-4">
+										<select class="form-control" id="krs">
+											<option disabled selected value="">bisa krs?</option>
+											<option value="t">YA</option>
+											<option value="f">TIDAK</option>
+										</select>
+									</div>
+								</div>
+								<div class="box-footer col-sm-6">
+									<button type="submit" class="btn btn-primary pull-right col-sm-2" id="btnsbm">Tambah</button>
+									<button type="reset" class="btn btn-default pull-left col-sm-2" id="btnres">Reset</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="box-body">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Kode</th>
+									<th>Status Registrasi</th>
+									<th>Status Keaktifan</th>
+									<th>Bisa KRS?</th>
+									<th>Aksi</th>
+								</tr>
+							</thead>
+							<?php foreach ($this->listStatReg as $dtStatReg){ ?>
+							<?php 
+								if($dtStatReg['krs']=='t'){
+									$krs="YA";
+								}else{
+									$krs="TIDAK";
+								}
+							?>
+							<tr>
+								<td><?php echo $dtStatReg['kd_status_reg']?></td>
+								<td><?php echo $dtStatReg['status_reg']?></td>
+								<td><?php echo $dtStatReg['status_mhs'];?></td>
+								<td><?php echo $krs;?></td>
+								<td align="center">
+									<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus status her-registrasi ini? <strong><?php echo str_replace("'", "\'", $dtStatReg['status_reg']);?></strong>','<?php echo $this->baseUrl;?>','/ajax2/delstatreg',new Array('<?php echo $dtStatReg['kd_status_reg'];?>'))"><i class="fa fa-remove"></i></button>
+								</td>
+							</tr>
+							<?php } ?>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script>
+	$("#frm_sm").submit(function() {
+	  ajaxSubmit("frm_sm","<?php echo $this->baseUrl;?>","/ajax2/insstatmsk","/status/index?tab=1&new=","u");
+	  return false;
+	});
+</script>
+<script>
+	$("#frm_sr").submit(function() {
+	  ajaxSubmit("frm_sr","<?php echo $this->baseUrl;?>","/ajax2/insstatreg","/status/index?tab=3&new=","u");
+	  return false;
+	});
+</script>

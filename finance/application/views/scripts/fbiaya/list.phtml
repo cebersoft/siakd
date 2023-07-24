@@ -1,0 +1,46 @@
+<div class="tabbable">
+	<ul class="nav nav-tabs padding-18">
+		<?php $i=1;foreach ($this->listStatMsk as $dtStatMsk){?>
+			<?php $active=array();$active[$this->nTab]="active"?>
+			<li class="<?php echo $active[$i];?>">
+				<a data-toggle="tab" href="#<?php echo $dtStatMsk['id_stat_masuk'];?>">
+					<?php echo $dtStatMsk['nm_stat_masuk'];?>
+				</a>
+			</li>
+		<?php $i++;}?>
+	</ul>
+	<div class="tab-content no-border padding-24">
+		<?php $i=1;foreach ($this->listStatMsk as $dtStatMsk){?>		
+		<div id="<?php echo $dtStatMsk['id_stat_masuk'];?>" class="tab-pane in <?php echo $active[$i];?>">
+			<h4>Periode Biaya Mahasiswa <?php echo $dtStatMsk['nm_stat_masuk'];?></h4>
+			<?php foreach ($this->listGel as $dtGel){ ?>
+			<div class="table-header">Gelombang Masuk : <?php echo $dtGel['nm_gelombang'];?></div>
+			<table class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<th class="center" width="5%">No</th>
+						<th class="center">Periode Akademik</th>
+						<th class="center" width="30%">Status Registrasi</th>
+						<th class="center" width="15%">Komponen Biaya</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $j=1;foreach ($this->listFBiayaGrup as $dtBiaya){?>
+					<?php if(($dtBiaya['id_gelombang']==$dtGel['id_gelombang'])and($dtBiaya['id_stat_masuk']==$dtStatMsk['id_stat_masuk'])){ ?>
+					<tr>
+						<td class="center"><?php echo $j;?></td>
+						<td><?php echo $dtBiaya['kd_periode'];?></td>
+						<td class="center"><?php echo $dtBiaya['status_reg']." (".$dtBiaya['status_mhs'].")";?></td>
+						<td class="center">
+							<button type="button" class="btn btn-primary btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/fbiaya/detil?akt=<?php echo $this->akt;?>&prd=<?php echo $this->prd;?>&sm=<?php echo $dtBiaya['id_stat_masuk'];?>&gel=<?php echo $dtBiaya['id_gelombang'];?>&per=<?php echo $dtBiaya['kd_periode'];?>&reg=<?php echo $dtBiaya['kd_status_reg'];?>')"><i class="fa fa-eye"></i></button>
+						</td>
+					</tr>
+					<?php $j++;}?>
+					<?php }?>
+				</tbody>
+			</table>
+			<?php }?>
+		</div>
+		<?php $i++;}?>
+	</div>
+</div>

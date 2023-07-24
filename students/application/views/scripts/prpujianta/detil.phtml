@@ -1,0 +1,29 @@
+<div class="inqbox-title border-top-danger">
+	 <h5>Detil Verifikasi <?php echo $this->nm_mk;?></h5>
+</div>
+<div class="inqbox-content">
+	<div class="table-responsive">
+		<table id="tbkur" class="table table-bordered table-hover">
+			<tr>
+				<th width="5%">No</th>
+				<th>Perihal</th>
+				<th width="12%">Bagian</th>
+				<th width="10%">Status</th>
+				<th width="15%">Approver</th>
+				<th width="15%">Note</th>
+				<th width="12%">Tanggal Ver</th>
+			</tr>
+			<?php $j=1; foreach ($this->listDetil as $data) { ?>
+			<tr>
+				<td><?php echo $j;?></td>
+				<td><?php echo $data['perihal'];?></td>
+				<td><?php echo $data['bagian'];?></td>
+				<td align="center"><?php echo $data['approved'];?></td>
+				<td><?php echo $data['approver'];?></td>
+				<td><?php echo $data['note'];?></td>
+				<td><?php echo $data['tanggal'];?></td>
+			</tr>
+			<?php $j++; } ?>
+		</table>
+	</div>
+</div>

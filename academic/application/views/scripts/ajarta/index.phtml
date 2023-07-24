@@ -1,0 +1,109 @@
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">Data Mata Kuliah TA tiap Prodi dan Kurikulum</h3>
+	</div>
+	<form class="form-horizontal" method="post" id="frm">
+		<div class="box-body">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Dosen</label>
+				<div class="col-sm-4">
+					<select id="kd_dsn" class="form-control" name="kd_dsn">
+						<?php foreach ($this->listDosenTA as $dataDsnTA) { ?>
+						<option value="<?php echo $dataDsnTA['kd_dosen']; ?>"><?php echo $dataDsnTA['nm_dosen']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Program Studi</label>
+				<div class="col-sm-4">
+					<select id="prd" class="form-control" name="prd">
+						<option value="" disabled selected>pilih program studi</option>
+						<?php foreach ($this->listProdi as $dataProdi) { ?>
+						<option value="<?php echo $dataProdi['kd_prodi']; ?>"><?php echo $dataProdi['kd_prodi']." : ".$dataProdi['nm_prodi']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Kurikulum</label>
+				<div class="col-sm-4">
+					<input type="text" id="id_kur" style="display: none;">
+					<input type="text" class="form-control" id="nm_kur" placeholder="klik untuk pilih kurikulum dari prodi di atas" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/kurikulum',new Array('id_kur','nm_kur'),new Array('prd'))">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Kode Mata Kuliah TA</label>
+				<div class="col-sm-4">
+					<input type="text" id="id_mk_kur" style="display: none;">
+					<input type="text" class="form-control" id="kd_mk" placeholder="klik untuk pilih mata kuliah TA dari kurikulum di atas" readonly onclick="hbox('<?php echo $this->baseUrl;?>','helper/matkulkurikulum?ta=1',new Array('id_mk_kur','kd_mk','nm_mk','sks'),new Array('id_kur'))">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nama Mata Kuliah TA</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="nm_mk" placeholder="terisi otomatis dari pilihan mata kuliah" readonly>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">SKS</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="sks" placeholder="terisi otomatis dari pilihan mata kuliah" readonly>
+				</div>
+			</div>
+			<div class="box-footer col-sm-6">
+				<button type="reset" class="btn btn-default pull-left col-sm-2">Reset</button>
+				<button type="submit" class="btn btn-primary pull-right col-sm-2">Tambah</button>
+			</div>
+		</div>
+	</form>
+	<div class="box-body">
+		<div class="table-responsive">
+			<table id="tbajar" class="table table-bordered table-hover">
+				<?php foreach ($this->arr_prd as $dt_prd){ ?>
+				<tr>
+					<th colspan="6"><strong>Program Studi <?php echo $dt_prd['nm_prd']."(".$dt_prd['kd_prd'].")";?></strong></th>
+				</tr>
+				<tr>
+					<th>No</th>
+					<th>Kode Mata Kuliah</th>
+					<th>Nama Mata Kuliah</th>
+					<th>SKS</th>
+					<th>Kurikulum</th>
+					<th>Verifikator</th>
+					<th>Aksi</th>
+				</tr>
+				<?php $j=1; $sks_total=0;foreach ($this->listAjar as $dataMk) { ?>
+				<?php if($dataMk['kd_prodi_kur']==$dt_prd['kd_prd']){ ?>
+				<tr>
+					<td><?php echo $j;?></td>
+					<td><?php echo $dataMk['kode_mk'];?></td>
+					<td><?php echo $dataMk['nm_mk'];?></td>
+					<td><?php echo ($dataMk['sks_tm']+$dataMk['sks_prak']+$dataMk['sks_prak_lap']+$dataMk['sks_sim']);?></td>
+					<td><?php echo $dataMk['nm_kurikulum'];?></td>
+					<td align="center">
+						<button type="button" class="btn btn-info btn-xs" onclick="nav('<?php echo $this->baseUrl;?>/ajarta/approverta?id=<?php echo $dataMk['id_mk_kurikulum'];?>')"><i class="fa fa-list"></i></button>
+					</td>
+					<td align="center">
+						<button type="button" class="btn btn-danger btn-xs" onclick="confirm('Apakah Anda yakin akan menghapus mata kuliah TA ini? <strong><?php echo str_replace("'", "\'", $dataMk['nm_mk']);?></strong>','<?php echo $this->baseUrl;?>','/ajax3/delajarta',new Array('<?php echo $dataMk['id_ajar'];?>'))"><i class="fa fa-remove"></i></button>
+					</td>
+				</tr>
+				<?php $j++;} ?>
+				<?php } ?>
+				<tr>
+					<th colspan="6"></th>
+				</tr>
+				<?php } ?>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->baseUrl;?>/public/js/form.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $("#frm").submit(function() {
+	    ajaxSubmit("frm","<?php echo $this->baseUrl;?>","/ajax3/insajarta","/ajarta/index?new=","u");
+	    return false;
+	  });
+	});
+</script>
